@@ -8,103 +8,44 @@ import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import EmployeeModal from "../modal/employee-add-modal";
-import EmployeeUpdateModal from "../modal/employee-update-modal";
+import FarmerUpdateModal from "../modal/farmers-update-modal";
+import FiberUpdateModal from "../modal/fiber-update-modal";
 
 const rows = [
   {
     id: 1,
-    lastName: "Kalbo",
-    firstName: "Jude",
-    middleName: "Panot",
-    birthday: "10/20/1990",
-    mobileNumber: "09523852567",
-    email: "Judekalbo123@gmail.com",
-    sex: "Male",
+    name: "Kalbo",
+    grade: "Jude",
+    price: "Panot",
   },
   {
     id: 2,
-    lastName: "Hernandez",
-    firstName: "Ray",
-    middleName: "Wang od",
-    birthday: "10/20/1901",
-    mobileNumber: "09425643543",
-    email: "Raymapagmahal27@gmail.com",
-    sex: "Male",
+    name: "Hernandez",
+    grade: "Ray",
+    price: "Wang od",
   },
   {
     id: 3,
-    lastName: "Villanueva",
-    firstName: "Christian",
-    middleName: "Reid",
-    birthday: "10/20/2000",
-    mobileNumber: "09545232123",
-    email: "Christian123@gmail.com",
-    sex: "Male",
+    name: "Villanueva",
+    grade: "Christian",
+    price: "Reid",
   },
   {
     id: 4,
-    lastName: "Romera",
-    firstName: "Mattcha",
-    middleName: "Pokwan",
-    birthday: "10/20/1990",
-    mobileNumber: "09523852567",
-    email: "BaklaAko69@gmail.com",
-    sex: "Female",
+    name: "Romera",
+    grade: "Mattcha",
+    price: "Pokwan",
   },
   {
     id: 5,
-    lastName: "Ancajas",
+    name: "Ancajas",
     firstName: "Jc",
-    middleName: "Padilla",
-    birthday: "10/20/2000",
-    mobileNumber: "09523852567",
-    email: "JcPogi07@gmail.com",
-    sex: "Male",
-  },
-  {
-    id: 6,
-    lastName: "Melisandre",
-    firstName: "Edith",
-    middleName: "Smith",
-    birthday: "10/20/1990",
-    mobileNumber: "09523852567",
-    email: "JcPogi07@gmail.com",
-    sex: "Female",
-  },
-  {
-    id: 7,
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    middleName: "Karding",
-    birthday: "10/20/1990",
-    mobileNumber: "09523852567",
-    email: "JcPogi07@gmail.com",
-    sex: "Male",
-  },
-  {
-    id: 8,
-    lastName: "Frances",
-    firstName: "Rossini",
-    middleName: "Panot",
-    birthday: "10/20/1990",
-    mobileNumber: "09523852567",
-    email: "JcPogi07@gmail.com",
-    sex: "Male",
-  },
-  {
-    id: 9,
-    lastName: "Roxie",
-    firstName: "Harvey",
-    middleName: "Curtis",
-    birthday: "10/20/1990",
-    mobileNumber: "09523852567",
-    email: "JcPogi07@gmail.com",
-    sex: "Male",
+    grade: "Padilla",
+    price: "10/20/2000",
   },
 ];
 
-export default function EmployeeData() {
+export default function FiberData() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -113,10 +54,9 @@ export default function EmployeeData() {
   const UpdateHandleClose = () => setSelected(null);
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "Firstname", width: 130 },
-    { field: "middleName", headerName: "Middlename", width: 130 },
-    { field: "lastName", headerName: "Lastname", width: 130 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "number", width: 150 },
+    { field: "name", headerName: "Name", width: 130 },
+    { field: "grade", headerName: "Grade", width: 130 },
+    { field: "price", headerName: "Price", width: 130 },
     {
       field: "actions",
       type: "actions",
@@ -130,7 +70,7 @@ export default function EmployeeData() {
           label="Update"
         />,
         <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
-        <EmployeeUpdateModal
+        <FarmerUpdateModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}
           selected={params}
@@ -138,14 +78,15 @@ export default function EmployeeData() {
       ],
     },
   ]);
+
   return (
     <MDBox>
-      <EmployeeModal open={open} onClose={handleClose} />
+      <FiberUpdateModal open={open} onClose={handleClose} />
       <Grid container>
         <Grid item xs={6} sx={{ p: 1 }}>
           <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
             <AddIcon sx={{ mr: 1 }} />
-            Add Employee
+            add
           </MDButton>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>

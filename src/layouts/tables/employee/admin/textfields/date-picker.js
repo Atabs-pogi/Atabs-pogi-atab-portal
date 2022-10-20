@@ -3,14 +3,20 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import MDBox from "components/MDBox";
 
-export default function TextFieldDatePicker(props) {
+export default function TextFieldDatePicker() {
+  const [value, setValue] = React.useState(null);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <MDBox sx={{ textAlign: "center", display: "Inline-block", mr: 2, mt: 2, width: 185 }}>
-        <DatePicker {...props} renderInput={(params) => <TextField {...params} />} />
-      </MDBox>
+      <DatePicker
+        label="Birthday"
+        value={value}
+        onChange={(newValue) => {
+          setValue(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} fullWidth sx={{ pr: 7 }} />}
+      />
     </LocalizationProvider>
   );
 }

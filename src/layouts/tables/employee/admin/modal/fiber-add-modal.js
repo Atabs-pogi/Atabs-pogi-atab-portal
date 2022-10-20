@@ -10,7 +10,7 @@ import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import TextFieldDatePicker from "../textfields/date-picker";
 
-export default function FarmerUpdateModal({ selected, open, onClose }) {
+export default function FiberModal({ open, onClose }) {
   const handleClose = () => {
     onClose?.();
   };
@@ -32,55 +32,48 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                   <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
                 </MDBox>
                 <div className="textfields">
-                  <Typography variant="h3" component="h2" sx={{ fontSize: 18, mr: 2 }}>
-                    Farmer Information
+                  <Typography variant="h3" component="h2" sx={{ fontSize: 18 }}>
+                    Fiber Information
                   </Typography>
                   <TextField
                     id="outlined-basic"
                     label="Lastname"
                     variant="outlined"
                     sx={{ mr: 2, mt: 2 }}
-                    defaultValue={selected?.row?.lastName}
                   />
                   <TextField
                     id="outlined-basic"
                     label="Firstname"
                     variant="outlined"
                     sx={{ mr: 2, mt: 2 }}
-                    defaultValue={selected?.row?.firstName}
                   />
                   <TextField
                     id="outlined-basic"
                     label="Middlename (Optional)"
                     variant="outlined"
                     sx={{ mr: 2, mt: 2 }}
-                    defaultValue={selected?.row?.middleName}
                   />
                   <TextField
                     id="outlined-basic"
                     label="Mobile Number"
                     variant="outlined"
                     sx={{ mr: 2, mt: 2 }}
-                    defaultValue={selected?.row?.mobileNumber}
-                  />
-                  <TextFieldDatePicker label="Birthday" value={selected?.row?.birthday} />
-                  <TextField
-                    id="outlined-basic"
-                    label="Sex"
-                    variant="outlined"
-                    sx={{ mr: 2, mt: 2 }}
-                    defaultValue={selected?.row?.sex}
                   />
                   <TextField
                     id="outlined-basic"
                     label="Email (Required)"
                     variant="outlined"
-                    sx={{ mr: 2, mt: 2, width: 220 }}
-                    defaultValue={selected?.row?.email}
+                    sx={{ mr: 2, mt: 2 }}
                   />
-
+                  <TextField
+                    id="outlined-basic"
+                    label="Sex"
+                    variant="outlined"
+                    sx={{ mr: 2, mt: 2 }}
+                  />
+                  <TextFieldDatePicker />
                   <Box>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 18, mt: 4, mr: 2 }}>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 18, mt: 4 }}>
                       Farmer Address
                     </Typography>
                     <TextField
@@ -114,8 +107,12 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                       sx={{ mr: 2, mt: 2 }}
                     />
                     <MDBox sx={{ textAlign: "center" }}>
-                      <MDButton variant="contained" color="info" sx={{ mr: 2, mt: 5, width: 200 }}>
-                        Update
+                      <MDButton
+                        variant="contained"
+                        color="success"
+                        sx={{ mr: 2, mt: 5, width: 200 }}
+                      >
+                        Add
                       </MDButton>
                     </MDBox>
                   </Box>
@@ -129,16 +126,13 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
   );
 }
 
-FarmerUpdateModal.defaultProps = {
+FiberModal.defaultProps = {
   open: false,
   onClose: () => {},
-  selected: null,
 };
 
 // Typechecking props of the MDAlert
-FarmerUpdateModal.propTypes = {
+FiberModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  selected: PropTypes.object,
 };

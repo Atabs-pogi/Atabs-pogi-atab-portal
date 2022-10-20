@@ -10,7 +10,7 @@ import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import TextFieldDatePicker from "../textfields/date-picker";
 
-export default function FarmerUpdateModal({ selected, open, onClose }) {
+export default function FiberUpdateModal({ selected, open, onClose }) {
   const handleClose = () => {
     onClose?.();
   };
@@ -129,14 +129,14 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
   );
 }
 
-FarmerUpdateModal.defaultProps = {
+FiberUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
   selected: null,
 };
 
 // Typechecking props of the MDAlert
-FarmerUpdateModal.propTypes = {
+FiberUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types

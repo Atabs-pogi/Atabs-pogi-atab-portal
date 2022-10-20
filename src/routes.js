@@ -37,7 +37,6 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
@@ -50,6 +49,7 @@ import GrassIcon from "@mui/icons-material/Grass";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
+import FiberTable from "layouts/tables/employee/admin/fiber";
 
 const cashierRoutes = [
   {
@@ -107,11 +107,11 @@ const registrationRoutes = [
   },
   {
     type: "collapse",
-    name: "Fibers",
-    key: "fibers",
+    name: "Fiber",
+    key: "fiber",
     icon: <StorefrontIcon fontSize="small">table_view</StorefrontIcon>,
-    route: "/fibers",
-    component: <Tables />,
+    route: "/fiber",
+    component: <FiberTable />,
   },
 ].map((route) => ({ ...route, role: ["admin"] }));
 

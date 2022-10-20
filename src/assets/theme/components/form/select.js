@@ -35,13 +35,13 @@ const select = {
 
     selectMenu: {
       background: "none",
-      height: "none",
+      height: "24px",
       minHeight: "none",
       overflow: "unset",
     },
 
     icon: {
-      display: "none",
+      display: "flex",
     },
   },
 };

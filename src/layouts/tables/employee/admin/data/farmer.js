@@ -9,6 +9,7 @@ import MDButton from "components/MDButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FarmerUpdateModal from "../modal/farmers-update-modal";
+import FarmerModal from "../modal/farmer-add-modal";
 
 const rows = [
   {
@@ -111,6 +112,11 @@ export default function FarmerData() {
   const [selected, setSelected] = React.useState(null);
   const UpdateHandleClose = () => setSelected(null);
   const columns = React.useMemo(() => [
+    { field: "id", headerName: "ID" },
+    { field: "firstName", headerName: "Firstname", width: 130 },
+    { field: "middleName", headerName: "Middlename", width: 130 },
+    { field: "lastName", headerName: "Lastname", width: 130 },
+    { field: "mobileNumber", headerName: "Mobile Number", type: "number", width: 150 },
     {
       field: "actions",
       type: "actions",
@@ -131,24 +137,16 @@ export default function FarmerData() {
         />,
       ],
     },
-    { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "Firstname", width: 130 },
-    { field: "middleName", headerName: "Middlename", width: 130 },
-    { field: "lastName", headerName: "Lastname", width: 130 },
-    { field: "birthday", headerName: "Birthday", width: 130 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "number", width: 150 },
-    { field: "email", headerName: "Email", width: 300 },
-    { field: "sex", headerName: "Sex", width: 130 },
   ]);
 
   return (
     <MDBox>
-      <FarmerUpdateModal open={open} onClose={handleClose} />
+      <FarmerModal open={open} onClose={handleClose} />
       <Grid container>
         <Grid item xs={6} sx={{ p: 1 }}>
           <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
             <AddIcon sx={{ mr: 1 }} />
-            add
+            Add Farmer
           </MDButton>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>

@@ -23,7 +23,7 @@ const svgIcon = {
 
   styleOverrides: {
     fontSizeInherit: {
-      fontSize: "inherit !important",
+      fontSize: "inherit",
     },
 
     fontSizeSmall: {
