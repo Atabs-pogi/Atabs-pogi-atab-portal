@@ -5,13 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function SelectRole() {
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+export default function SelectRole(props) {
   return (
     <Box sx={{ pr: 7 }}>
       <FormControl fullWidth>
@@ -19,14 +13,13 @@ export default function SelectRole() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
           label="Age"
-          onChange={handleChange}
           sx={{ py: 1.5 }}
+          {...props}
         >
-          <MenuItem value={10}>Admin</MenuItem>
-          <MenuItem value={20}>Cashier</MenuItem>
-          <MenuItem value={30}>POS</MenuItem>
+          <MenuItem value="Admin">Admin</MenuItem>
+          <MenuItem value="Cashier">Cashier</MenuItem>
+          <MenuItem value="POS">POS</MenuItem>
         </Select>
       </FormControl>
     </Box>

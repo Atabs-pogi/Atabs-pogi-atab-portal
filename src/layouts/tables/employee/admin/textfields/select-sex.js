@@ -5,13 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function SelectSex() {
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+export default function SelectSex(props) {
   return (
     <Box sx={{ pr: 7 }}>
       <FormControl fullWidth>
@@ -19,13 +13,12 @@ export default function SelectSex() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
-          onChange={handleChange}
+          label="Sex"
           sx={{ py: 1.5 }}
+          {...props}
         >
-          <MenuItem value={10}>Male</MenuItem>
-          <MenuItem value={20}>Female</MenuItem>
+          <MenuItem value="Male">Male</MenuItem>
+          <MenuItem value="Female">Female</MenuItem>
         </Select>
       </FormControl>
     </Box>

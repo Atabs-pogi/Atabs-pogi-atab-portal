@@ -99,6 +99,7 @@ export default function EmployeeModal({ open, onClose }) {
                           label="Mobile Number"
                           variant="outlined"
                           fullWidth
+                          type="number"
                           sx={{ mt: 2, pr: 7 }}
                           InputProps={{
                             startAdornment: (
@@ -127,7 +128,7 @@ export default function EmployeeModal({ open, onClose }) {
                         <TextFieldDatePicker />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectRole sx={{ fontSize: 40 }} />
+                        <SelectRole />
                       </Grid>
                     </Grid>
                   </MDBox>

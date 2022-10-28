@@ -3,49 +3,107 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
-import "./index.css";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import FarmerUpdateModal from "../modal/farmers-update-modal";
+import FiberModal from "../modal/fiber-add-modal";
 import FiberUpdateModal from "../modal/fiber-update-modal";
 
 const rows = [
   {
     id: 1,
-    name: "Kalbo",
-    grade: "Jude",
-    price: "Panot",
+    lastName: "Kalbo",
+    firstName: "Jude",
+    middleName: "Panot",
+    birthday: "10/20/1990",
+    mobileNumber: "9523852567",
+    email: "Judekalbo123@gmail.com",
+    sex: "Male",
   },
   {
     id: 2,
-    name: "Hernandez",
-    grade: "Ray",
-    price: "Wang od",
+    lastName: "Hernandez",
+    firstName: "Ray",
+    middleName: "Wang od",
+    birthday: "10/20/1901",
+    mobileNumber: "9425643543",
+    email: "Raymapagmahal27@gmail.com",
+    sex: "Male",
   },
   {
     id: 3,
-    name: "Villanueva",
-    grade: "Christian",
-    price: "Reid",
+    lastName: "Villanueva",
+    firstName: "Christian",
+    middleName: "Reid",
+    birthday: "10/20/2000",
+    mobileNumber: "9545232123",
+    email: "Christian123@gmail.com",
+    sex: "Male",
   },
   {
     id: 4,
-    name: "Romera",
-    grade: "Mattcha",
-    price: "Pokwan",
+    lastName: "Romera",
+    firstName: "Mattcha",
+    middleName: "Pokwan",
+    birthday: "10/20/1990",
+    mobileNumber: "9523852567",
+    email: "BaklaAko69@gmail.com",
+    sex: "Female",
   },
   {
     id: 5,
-    name: "Ancajas",
+    lastName: "Ancajas",
     firstName: "Jc",
-    grade: "Padilla",
-    price: "10/20/2000",
+    middleName: "Padilla",
+    birthday: "10/20/2000",
+    mobileNumber: "9523852567",
+    email: "JcPogi07@gmail.com",
+    sex: "Male",
+  },
+  {
+    id: 6,
+    lastName: "Melisandre",
+    firstName: "Edith",
+    middleName: "Smith",
+    birthday: "10/20/1990",
+    mobileNumber: "9523852567",
+    email: "JcPogi07@gmail.com",
+    sex: "Female",
+  },
+  {
+    id: 7,
+    lastName: "Clifford",
+    firstName: "Ferrara",
+    middleName: "Karding",
+    birthday: "10/20/1990",
+    mobileNumber: "9523852567",
+    email: "JcPogi07@gmail.com",
+    sex: "Male",
+  },
+  {
+    id: 8,
+    lastName: "Frances",
+    firstName: "Rossini",
+    middleName: "Panot",
+    birthday: "10/20/1990",
+    mobileNumber: "9523852567",
+    email: "JcPogi07@gmail.com",
+    sex: "Male",
+  },
+  {
+    id: 9,
+    lastName: "Roxie",
+    firstName: "Harvey",
+    middleName: "Curtis",
+    birthday: "10/20/1990",
+    mobileNumber: "9523852567",
+    email: "JcPogi07@gmail.com",
+    sex: "Male",
   },
 ];
 
-export default function FiberData() {
+export default function EmployeeData() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -54,9 +112,10 @@ export default function FiberData() {
   const UpdateHandleClose = () => setSelected(null);
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID" },
-    { field: "name", headerName: "Name", width: 130 },
-    { field: "grade", headerName: "Grade", width: 130 },
-    { field: "price", headerName: "Price", width: 130 },
+    { field: "firstName", headerName: "Firstname", width: 130 },
+    { field: "middleName", headerName: "Middlename", width: 130 },
+    { field: "lastName", headerName: "Lastname", width: 130 },
+    { field: "mobileNumber", headerName: "Mobile Number", type: "number", width: 150 },
     {
       field: "actions",
       type: "actions",
@@ -70,7 +129,7 @@ export default function FiberData() {
           label="Update"
         />,
         <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
-        <FarmerUpdateModal
+        <FiberUpdateModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}
           selected={params}
@@ -78,15 +137,14 @@ export default function FiberData() {
       ],
     },
   ]);
-
   return (
     <MDBox>
-      <FiberUpdateModal open={open} onClose={handleClose} />
+      <FiberModal open={open} onClose={handleClose} />
       <Grid container>
         <Grid item xs={6} sx={{ p: 1 }}>
           <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
             <AddIcon sx={{ mr: 1 }} />
-            add
+            Add Fiber
           </MDButton>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>

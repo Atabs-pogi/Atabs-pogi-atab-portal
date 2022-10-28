@@ -128,7 +128,7 @@ export default function FarmerModal({ open, onClose }) {
                         <TextFieldDatePicker />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectRole sx={{ fontSize: 40 }} />
+                        <SelectRole />
                       </Grid>
                     </Grid>
                   </MDBox>

@@ -3,7 +3,6 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
-import "./index.css";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,7 +17,7 @@ const rows = [
     firstName: "Jude",
     middleName: "Panot",
     birthday: "10/20/1990",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "Judekalbo123@gmail.com",
     sex: "Male",
   },
@@ -28,7 +27,7 @@ const rows = [
     firstName: "Ray",
     middleName: "Wang od",
     birthday: "10/20/1901",
-    mobileNumber: "09425643543",
+    mobileNumber: "9425643543",
     email: "Raymapagmahal27@gmail.com",
     sex: "Male",
   },
@@ -38,7 +37,7 @@ const rows = [
     firstName: "Christian",
     middleName: "Reid",
     birthday: "10/20/2000",
-    mobileNumber: "09545232123",
+    mobileNumber: "9545232123",
     email: "Christian123@gmail.com",
     sex: "Male",
   },
@@ -48,7 +47,7 @@ const rows = [
     firstName: "Mattcha",
     middleName: "Pokwan",
     birthday: "10/20/1990",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "BaklaAko69@gmail.com",
     sex: "Female",
   },
@@ -58,7 +57,7 @@ const rows = [
     firstName: "Jc",
     middleName: "Padilla",
     birthday: "10/20/2000",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "JcPogi07@gmail.com",
     sex: "Male",
   },
@@ -68,7 +67,7 @@ const rows = [
     firstName: "Edith",
     middleName: "Smith",
     birthday: "10/20/1990",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "JcPogi07@gmail.com",
     sex: "Female",
   },
@@ -78,7 +77,7 @@ const rows = [
     firstName: "Ferrara",
     middleName: "Karding",
     birthday: "10/20/1990",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "JcPogi07@gmail.com",
     sex: "Male",
   },
@@ -88,7 +87,7 @@ const rows = [
     firstName: "Rossini",
     middleName: "Panot",
     birthday: "10/20/1990",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "JcPogi07@gmail.com",
     sex: "Male",
   },
@@ -98,7 +97,7 @@ const rows = [
     firstName: "Harvey",
     middleName: "Curtis",
     birthday: "10/20/1990",
-    mobileNumber: "09523852567",
+    mobileNumber: "9523852567",
     email: "JcPogi07@gmail.com",
     sex: "Male",
   },
