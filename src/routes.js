@@ -45,11 +45,13 @@ import SignIn from "layouts/authentication/sign-in";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
+import Payroll from "layouts/tables/employee/payroll/payroll";
 import BadgeIcon from "@mui/icons-material/Badge";
 import GrassIcon from "@mui/icons-material/Grass";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const cashierRoutes = [
   {
@@ -66,6 +68,22 @@ const cashierRoutes = [
     component: <EmployeeTable />,
   },
 ].map((route) => ({ ...route, role: ["cashier"] }));
+
+const payrollRoutes = [
+  {
+    type: "title",
+    title: "Payroll",
+    key: "payroll",
+  },
+  {
+    type: "collapse",
+    name: "Payroll",
+    key: "Payroll",
+    icon: <AttachMoneyIcon fontSize="small">table-view</AttachMoneyIcon>,
+    route: "/payroll",
+    component: <Payroll />,
+  },
+].map((route) => ({ ...route, role: ["payroll"] }));
 
 const posRoutes = [
   {
@@ -128,6 +146,7 @@ const routes = [
     type: "divider",
     key: "divider",
   },
+  ...payrollRoutes,
   ...cashierRoutes,
   ...posRoutes,
   ...registrationRoutes,
