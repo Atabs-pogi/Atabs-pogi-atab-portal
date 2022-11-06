@@ -65,7 +65,11 @@ const cashierRoutes = [
     route: "/cashier",
     component: <EmployeeTable />,
   },
-].map((route) => ({ ...route, role: ["cashier"] }));
+  {
+    type: "divider",
+    key: "divider",
+  },
+].map((route) => ({ ...route, role: ["cashier", "superAdmin"] }));
 
 const posRoutes = [
   {
@@ -81,9 +85,21 @@ const posRoutes = [
     route: "/sales",
     component: <EmployeeTable />,
   },
-].map((route) => ({ ...route, role: ["pos"] }));
+  {
+    type: "divider",
+    key: "divider1",
+  },
+].map((route) => ({ ...route, role: ["pos", "superAdmin"] }));
 
-const registrationRoutes = [
+const adminRoutes = [
+  {
+    type: "collapse",
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
+  },
   {
     type: "title",
     title: "Registration",
@@ -113,28 +129,16 @@ const registrationRoutes = [
     route: "/fiber",
     component: <FiberTable />,
   },
-].map((route) => ({ ...route, role: ["admin"] }));
-
-const routes = [
-  {
-    type: "collapse",
-    name: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-  {
-    type: "divider",
-    key: "divider",
-  },
-  ...cashierRoutes,
-  ...posRoutes,
-  ...registrationRoutes,
   {
     type: "divider",
     key: "divider2",
   },
+].map((route) => ({ ...route, role: ["admin", "superAdmin"] }));
+
+const routes = [
+  ...adminRoutes,
+  ...cashierRoutes,
+  ...posRoutes,
   {
     type: "collapse",
     name: "Notifications",

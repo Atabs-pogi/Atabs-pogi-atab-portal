@@ -5,7 +5,6 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FiberModal from "../modal/fiber-add-modal";
 import FiberUpdateModal from "../modal/fiber-update-modal";
@@ -128,7 +127,6 @@ export default function EmployeeData() {
           onClick={() => setSelected(params)}
           label="Update"
         />,
-        <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
         <FiberUpdateModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}

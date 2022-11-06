@@ -5,7 +5,6 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FarmerUpdateModal from "../modal/farmers-update-modal";
 import FarmerModal from "../modal/farmer-add-modal";
@@ -128,7 +127,6 @@ export default function FarmerData() {
           onClick={() => setSelected(params)}
           label="Update"
         />,
-        <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
         <FarmerUpdateModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}
