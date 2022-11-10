@@ -1,0 +1,21 @@
+.center-scan-btn {
+    text-align: center;
+}
+
+.center-scan-btn > .scan-btn {
+    color: #fff;
+    background-color: gray;
+    padding: 15px 40px;
+    border-radius: 10px;
+}
+
+.center-submit-btn {
+    text-align: center;
+}
+
+.center-submit-btn > .submit-btn {
+    color: #fff;
+    background-color: #2f2f2f;
+    padding: 15px 40px;
+    border-radius: 10px;
+}
