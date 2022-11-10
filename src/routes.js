@@ -50,6 +50,7 @@ import GrassIcon from "@mui/icons-material/Grass";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
+import POS from "layouts/tables/pos/pos";
 
 const cashierRoutes = [
   {
@@ -79,7 +80,7 @@ const posRoutes = [
     key: "sales",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/sales",
-    component: <EmployeeTable />,
+    component: <POS />,
   },
 ].map((route) => ({ ...route, role: ["pos"] }));
 

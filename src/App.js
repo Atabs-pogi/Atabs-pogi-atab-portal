@@ -98,7 +98,7 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const role = "admin";
+  const role = "pos";
 
   const filteredRoutes = routes.filter(
     (route) => !(route.role?.length && !route.role?.includes(role))
