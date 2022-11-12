@@ -73,7 +73,7 @@ export default function FiberUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={selected?.row?.lastName}
+                          defaultValue={selected?.lastName}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -83,7 +83,7 @@ export default function FiberUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={selected?.row?.firstName}
+                          defaultValue={selected?.firstName}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -93,7 +93,7 @@ export default function FiberUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={selected?.row?.middleName}
+                          defaultValue={selected?.middleName}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -104,7 +104,7 @@ export default function FiberUpdateModal({ selected, open, onClose }) {
                           fullWidth
                           type="number"
                           sx={{ mt: 2, pr: 7 }}
-                          defaultValue={selected?.row?.mobileNumber}
+                          defaultValue={selected?.mobileNumber}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -127,17 +127,17 @@ export default function FiberUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
-                          defaultValue={selected?.row?.email}
+                          defaultValue={selected?.email}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectSex value={selected?.row?.sex} />
+                        <SelectSex value={selected?.sex} />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <TextFieldDatePicker value={selected?.row?.birthday} />
+                        <TextFieldDatePicker value={selected?.birthday} />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectRole value={selected?.row?.role} />
+                        <SelectRole value={selected?.role} />
                       </Grid>
                     </Grid>
                   </MDBox>

@@ -14,13 +14,37 @@ import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import employeeImg from "assets/images/small-logos/employee1.jpg";
+import employeeService from "services/employee-service";
 import TextFieldDatePicker from "../textfields/date-picker";
 import SelectSex from "../textfields/select-sex";
 import SelectRole from "../textfields/select-role";
 
-export default function EmployeeModal({ open, onClose }) {
+export default function EmployeeModal({ open, onClose, onSuccess }) {
+  const [employee, setEmployee] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
   const handleClose = () => {
     onClose?.();
+  };
+
+  const handleSave = () => {
+    setError("");
+    setLoading(true);
+    const newEmployee = {
+      ...employee,
+      mobileNumber: parseInt(employee?.mobileNumber, 10),
+    };
+    employeeService
+      .addEmployee(newEmployee)
+      .then(() => {
+        onSuccess?.();
+      })
+      .catch((err) => {
+        setError(err?.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <Modal
@@ -72,6 +96,11 @@ export default function EmployeeModal({ open, onClose }) {
                           label="Lastname"
                           variant="outlined"
                           fullWidth
+                          defaultValue={employee.lastName}
+                          disabled={loading}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, lastName: evt.target.value })
+                          }
                           sx={{ pr: 7 }}
                         />
                       </Grid>
@@ -81,6 +110,11 @@ export default function EmployeeModal({ open, onClose }) {
                           label="Firstname"
                           variant="outlined"
                           fullWidth
+                          disabled={loading}
+                          defaultValue={employee.firstName}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, firstName: evt.target.value })
+                          }
                           sx={{ pr: 7 }}
                         />
                       </Grid>
@@ -90,6 +124,11 @@ export default function EmployeeModal({ open, onClose }) {
                           label="Middlename (Optional)"
                           variant="outlined"
                           fullWidth
+                          disabled={loading}
+                          defaultValue={employee.middleName}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, middleName: evt.target.value })
+                          }
                           sx={{ pr: 7 }}
                         />
                       </Grid>
@@ -99,6 +138,11 @@ export default function EmployeeModal({ open, onClose }) {
                           label="Mobile Number"
                           variant="outlined"
                           fullWidth
+                          disabled={loading}
+                          defaultValue={employee.mobileNumber}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, mobileNumber: evt.target.value })
+                          }
                           type="number"
                           sx={{ mt: 2, pr: 7 }}
                           InputProps={{
@@ -118,17 +162,32 @@ export default function EmployeeModal({ open, onClose }) {
                           label="Email (Required)"
                           variant="outlined"
                           fullWidth
+                          disabled={loading}
+                          defaultValue={employee.email}
+                          onChange={(evt) => setEmployee({ ...employee, email: evt.target.value })}
                           sx={{ mt: 2, pr: 7 }}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectSex />
+                        <SelectSex
+                          disabled={loading}
+                          value={employee.sex}
+                          onChange={(evt) => setEmployee({ ...employee, sex: evt.target.value })}
+                        />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <TextFieldDatePicker />
+                        <TextFieldDatePicker
+                          disabled={loading}
+                          value={employee.birthday}
+                          onChange={(evt) => setEmployee({ ...employee, birthday: evt })}
+                        />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectRole />
+                        <SelectRole
+                          disabled={loading}
+                          value={employee.role}
+                          onChange={(evt) => setEmployee({ ...employee, role: evt.target.value })}
+                        />
                       </Grid>
                     </Grid>
                   </MDBox>
@@ -187,12 +246,14 @@ export default function EmployeeModal({ open, onClose }) {
                       </Grid>
                     </Grid>
                   </MDBox>
+                  {error}
                   {open && (
                     <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
                       <MDButton
                         variant="contained"
                         color="success"
                         sx={{ mr: 2, mt: 5, width: 80 }}
+                        onClick={handleSave}
                       >
                         Save
                       </MDButton>
@@ -219,9 +280,11 @@ export default function EmployeeModal({ open, onClose }) {
 EmployeeModal.defaultProps = {
   open: false,
   onClose: () => {},
+  onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
 EmployeeModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
+  onSuccess: PropTypes.func,
 };

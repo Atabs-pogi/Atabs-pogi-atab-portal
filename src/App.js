@@ -43,11 +43,8 @@ import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
-// Material Dashboard 2 React routes
-import routes from "routes";
-
-// Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import routes, { defaultRoute } from "routes";
 
 // Images
 
@@ -98,7 +95,7 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const role = "pos";
+  const role = "superAdmin";
 
   const filteredRoutes = routes.filter(
     (route) => !(route.role?.length && !route.role?.includes(role))
@@ -184,7 +181,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(filteredRoutes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<Navigate to={defaultRoute[role]} />} />
       </Routes>
     </ThemeProvider>
   );
