@@ -27,7 +27,7 @@ function searchEmployee(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/employee/getEmployees`, search)
+        .get(`${BASE_URL}/employee/search`, { params: { name: search } })
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);

@@ -20,7 +20,9 @@ import EmployeeService from "../../../../../services/employee-service";
 import TextFieldDatePicker from "../textfields/date-picker";
 
 export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess }) {
-  const [employee, setEmployee] = React.useState(selected);
+  const { address: selectedAddress, ...selectedEmployee } = selected;
+  const [employee, setEmployee] = React.useState(selectedEmployee);
+  const [address, setAddress] = React.useState(selectedAddress);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -36,6 +38,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
     };
     EmployeeService.updateEmployee(newEmployee)
       .then(() => {
+        setAddress({});
+        setEmployee({});
         onSuccess?.();
       })
       .catch((err) => {
@@ -204,6 +208,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.houseNo}
+                          onChange={(evt) => setAddress({ ...address, houseNo: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -213,6 +219,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.unit}
+                          onChange={(evt) => setAddress({ ...address, unit: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -222,6 +230,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.barangay}
+                          onChange={(evt) => setAddress({ ...address, barangay: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -231,6 +241,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
+                          defaultValue={address?.city}
+                          onChange={(evt) => setAddress({ ...address, city: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -240,6 +252,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
+                          defaultValue={address?.province}
+                          onChange={(evt) => setAddress({ ...address, province: evt.target.value })}
                         />
                       </Grid>
                     </Grid>

@@ -31,6 +31,7 @@ export default function EmployeeData() {
         setLoading(false);
       });
   };
+
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID" },
     { field: "firstName", headerName: "Firstname", width: 130 },

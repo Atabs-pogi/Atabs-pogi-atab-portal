@@ -21,6 +21,7 @@ import SelectRole from "../textfields/select-role";
 
 export default function EmployeeModal({ open, onClose, onSuccess }) {
   const [employee, setEmployee] = React.useState({});
+  const [address, setAddress] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -32,11 +33,13 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
     setLoading(true);
     const newEmployee = {
       ...employee,
-      mobileNumber: parseInt(employee?.mobileNumber, 10),
+      address,
     };
     employeeService
       .addEmployee(newEmployee)
       .then(() => {
+        setAddress({});
+        setEmployee({});
         onSuccess?.();
       })
       .catch((err) => {
@@ -96,7 +99,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           label="Lastname"
                           variant="outlined"
                           fullWidth
-                          defaultValue={employee.lastName}
+                          defaultValue={employee?.lastName}
                           disabled={loading}
                           onChange={(evt) =>
                             setEmployee({ ...employee, lastName: evt.target.value })
@@ -111,7 +114,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           disabled={loading}
-                          defaultValue={employee.firstName}
+                          defaultValue={employee?.firstName}
                           onChange={(evt) =>
                             setEmployee({ ...employee, firstName: evt.target.value })
                           }
@@ -125,7 +128,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           disabled={loading}
-                          defaultValue={employee.middleName}
+                          defaultValue={employee?.middleName}
                           onChange={(evt) =>
                             setEmployee({ ...employee, middleName: evt.target.value })
                           }
@@ -139,7 +142,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           disabled={loading}
-                          defaultValue={employee.mobileNumber}
+                          defaultValue={employee?.mobileNumber}
                           onChange={(evt) =>
                             setEmployee({ ...employee, mobileNumber: evt.target.value })
                           }
@@ -163,7 +166,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           disabled={loading}
-                          defaultValue={employee.email}
+                          defaultValue={employee?.email}
                           onChange={(evt) => setEmployee({ ...employee, email: evt.target.value })}
                           sx={{ mt: 2, pr: 7 }}
                         />
@@ -171,21 +174,21 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                       <Grid item xs={4} mt={2}>
                         <SelectSex
                           disabled={loading}
-                          value={employee.sex}
+                          value={employee?.sex}
                           onChange={(evt) => setEmployee({ ...employee, sex: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
                         <TextFieldDatePicker
                           disabled={loading}
-                          value={employee.birthday}
+                          value={employee?.birthday}
                           onChange={(evt) => setEmployee({ ...employee, birthday: evt })}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
                         <SelectRole
                           disabled={loading}
-                          value={employee.role}
+                          value={employee?.role}
                           onChange={(evt) => setEmployee({ ...employee, role: evt.target.value })}
                         />
                       </Grid>
@@ -206,6 +209,8 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.houseNo}
+                          onChange={(evt) => setAddress({ ...address, houseNo: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -215,6 +220,8 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.unit}
+                          onChange={(evt) => setAddress({ ...address, unit: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -224,6 +231,8 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.barangay}
+                          onChange={(evt) => setAddress({ ...address, barangay: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -233,6 +242,8 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
+                          defaultValue={address?.city}
+                          onChange={(evt) => setAddress({ ...address, city: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -242,6 +253,8 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
+                          defaultValue={address?.province}
+                          onChange={(evt) => setAddress({ ...address, province: evt.target.value })}
                         />
                       </Grid>
                     </Grid>
