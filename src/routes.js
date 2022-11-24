@@ -12,6 +12,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
+import AccountTable from "layouts/tables/employee/admin/account-role";
 
 const cashierRoutes = [
   {
@@ -62,6 +63,10 @@ const adminRoutes = [
     component: <Dashboard />,
   },
   {
+    type: "divider",
+    key: "divider1",
+  },
+  {
     type: "title",
     title: "Registration",
     key: "registration",
@@ -89,6 +94,14 @@ const adminRoutes = [
     icon: <StorefrontIcon fontSize="small">table_view</StorefrontIcon>,
     route: "/fiber",
     component: <FiberTable />,
+  },
+  {
+    type: "collapse",
+    name: "Account - Role",
+    key: "account",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/account",
+    component: <AccountTable />,
   },
   {
     type: "divider",

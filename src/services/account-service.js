@@ -5,8 +5,8 @@ const DEFAULT_DELAY = 1000;
 
 const BASE_URL = "http://localhost:8080";
 
-function getFarmer(id) {
-  return axios.get(`${BASE_URL}/farmer/getFarmer/${id}`);
+function authenticate(account) {
+  return axios.post(`${BASE_URL}/login/authenticate`, account);
   // return new Promise((resolve) => {
   //   setTimeout(() => {
   //     resolve({
@@ -23,11 +23,29 @@ function getFarmer(id) {
   // });
 }
 
-function searchFarmer(search = "") {
+function getAccount(id) {
+  return axios.get(`${BASE_URL}/account/getAccount/${id}`);
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve({
+  //       id,
+  //       lastName: "Roxie",
+  //       firstName: "Harvey",
+  //       middleName: "Curtis",
+  //       birthday: "10/20/1990",
+  //       mobileNumber: "9523852567",
+  //       email: "JcPogi07@gmail.com",
+  //       sex: "Male",
+  //     });
+  //   }, DEFAULT_DELAY);
+  // });
+}
+
+function searchAccount(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/farmer/search`, { params: { name: search } })
+        .get(`${BASE_URL}/account/search`, { params: { name: search } })
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -36,8 +54,8 @@ function searchFarmer(search = "") {
   });
 }
 
-function addFarmer(farmer) {
-  return axios.post(`${BASE_URL}/farmer/addFarmer`, farmer);
+function addAccount(account) {
+  return axios.post(`${BASE_URL}/account/addAccount`, account);
   // return new Promise((resolve) => {
   //   setTimeout(() => {
   //     resolve({
@@ -48,8 +66,8 @@ function addFarmer(farmer) {
   // });
 }
 
-function updateFarmer(farmer) {
-  return axios.put(`${BASE_URL}/farmer/updateFarmer`, farmer);
+function updateAccount(account) {
+  return axios.put(`${BASE_URL}/account/updateAccount`, account);
   // return new Promise((resolve, reject) => {
   //   setTimeout(() => {
   //     // resolve({
@@ -60,4 +78,4 @@ function updateFarmer(farmer) {
   // });
 }
 
-export default { getFarmer, searchFarmer, addFarmer, updateFarmer };
+export default { getAccount, searchAccount, addAccount, updateAccount, authenticate };

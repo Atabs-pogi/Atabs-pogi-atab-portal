@@ -24,11 +24,12 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Card } from "@mui/material";
-import FarmerData from "./data/farmer";
+import AccountData from "./data/account-role";
+// import EmployeeModal from "./modal/employee-modal";
 
 // Data
 
-function FarmerTable() {
+function AccountTable() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -36,7 +37,7 @@ function FarmerTable() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <FarmerData />
+              <AccountData />
             </Card>
           </Grid>
         </Grid>
@@ -46,4 +47,4 @@ function FarmerTable() {
   );
 }
 
-export default FarmerTable;
+export default AccountTable;

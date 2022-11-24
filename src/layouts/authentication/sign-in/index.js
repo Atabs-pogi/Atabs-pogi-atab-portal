@@ -24,7 +24,7 @@ import Card from "@mui/material/Card";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 // import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
+// import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 
 // Authentication layout components
@@ -33,8 +33,52 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 // Images
 import bgImage from "assets/images/bg-sign-in.jpg";
 import doaLogo from "assets/images/small-logos/doa-logo.png";
+import { TextField } from "@mui/material";
+import { useFormik } from "formik";
+import React from "react";
+import accountService from "services/account-service";
+import { useNavigate } from "react-router-dom";
+import md5 from "md5";
+import { Schema } from "./schema";
 
 function Basic() {
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Schema,
+    onSubmit: (values, actions) => {
+      setLoading(true);
+      setError("");
+      const creds = {
+        username: formik?.values?.username,
+        password: md5(`${formik?.values?.password}jude`),
+      };
+      accountService
+        .authenticate(creds)
+        .then(() => {
+          navigate("/dashboard");
+        })
+        .catch((err) => {
+          let message = "";
+          if (err?.response?.status === 400) {
+            message = "Invalid Username / Password";
+          } else if (err?.response?.status === 500) {
+            message = "Internal Server Error";
+          }
+          setError(message || err?.message);
+        })
+        .finally(() => {
+          setLoading(false);
+          // PARA TANGGALIN ANG NAIIWANG PASSWORD KAPAG NAG LOGIN
+          actions?.resetForm({ values: { ...values, password: "" } });
+        });
+    },
+  });
   return (
     <BasicLayout image={bgImage}>
       <Card>
@@ -52,19 +96,44 @@ function Basic() {
           <MDBox component="img" src={doaLogo} alt="Logo" height="60px" />
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
-            <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
-            </MDBox>
-            <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="success" fullWidth>
-                sign in
-              </MDButton>
-            </MDBox>
-          </MDBox>
+          <form onSubmit={formik.handleSubmit} autoComplete="off">
+            <TextField
+              id="outlined-basic"
+              name="username"
+              label="Username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBLur}
+              error={formik.touched.username && Boolean(formik.errors.username)}
+              helperText={formik.touched.username && formik.errors.username}
+              variant="outlined"
+              disabled={loading}
+              fullWidth
+              sx={{
+                paddingBottom: 3,
+              }}
+            />
+            <TextField
+              id="outlined-password-input"
+              name="password"
+              label="Password"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBLur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              disabled={loading}
+              fullWidth
+              sx={{
+                paddingBottom: 3,
+              }}
+            />
+            {error}
+            <MDButton type="submit" name="login-btn" variant="contained" fullWidth color="success">
+              Login
+            </MDButton>
+          </form>
         </MDBox>
       </Card>
     </BasicLayout>

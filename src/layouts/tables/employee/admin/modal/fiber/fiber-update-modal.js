@@ -1,27 +1,41 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import {
-  Card,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
-import TextFieldDatePicker from "../textfields/date-picker";
-import SelectSex from "../textfields/select-sex";
-import SelectRole from "../textfields/select-role";
+import fiberService from "services/fiber-service";
 
-export default function FiberModal({ open, onClose }) {
+export default function FiberUpdateModal({ selected, open, onClose, onSuccess }) {
+  const [fiber, setFiber] = React.useState({ ...selected });
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
+
+  const handleSave = () => {
+    setError("");
+    setLoading(true);
+    const newFiber = {
+      ...fiber,
+    };
+    fiberService
+      .updateFiber(newFiber)
+      .then(() => {
+        setFiber({});
+        onSuccess?.();
+      })
+      .catch((err) => {
+        setError(err?.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <Modal
       keepMounted
@@ -61,7 +75,7 @@ export default function FiberModal({ open, onClose }) {
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Fiber Information
+                      Fiber Information ({fiber?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -69,73 +83,50 @@ export default function FiberModal({ open, onClose }) {
                       <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
-                          label="Lastname"
+                          label="Name"
+                          name="name"
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          disabled={loading}
+                          defaultValue={fiber?.name}
+                          onChange={(evt) => setFiber({ ...fiber, name: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
-                          label="Firstname"
+                          label="Grade"
+                          name="grade"
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          disabled={loading}
+                          defaultValue={fiber?.grade}
+                          onChange={(evt) => setFiber({ ...fiber, grade: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
-                          label="Middlename (Optional)"
+                          label="Price"
+                          name="price"
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={fiber?.price}
+                          onChange={(evt) => setFiber({ ...fiber, price: evt.target.value })}
                         />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Mobile Number"
-                          variant="outlined"
-                          fullWidth
-                          type="number"
-                          sx={{ mt: 2, pr: 7 }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Typography variant="h2" component="span" sx={{ fontSize: "15px" }}>
-                                  +63
-                                </Typography>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Email (Required)"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mt: 2, pr: 7 }}
-                        />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <SelectSex />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <TextFieldDatePicker />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <SelectRole />
                       </Grid>
                     </Grid>
                   </MDBox>
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
+                  {/* ERROR MESSAGE */}
+                  {error}
                   {open && (
                     <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
                       <MDButton
+                        onClick={handleSave}
                         variant="contained"
                         color="success"
                         sx={{ mr: 2, mt: 5, width: 80 }}
@@ -162,12 +153,17 @@ export default function FiberModal({ open, onClose }) {
   );
 }
 
-FiberModal.defaultProps = {
+FiberUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
+  onSuccess: () => {},
+  selected: null,
 };
 // Typechecking props of the MDAlert
-FiberModal.propTypes = {
+FiberUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
+  onSuccess: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  selected: PropTypes.object,
 };

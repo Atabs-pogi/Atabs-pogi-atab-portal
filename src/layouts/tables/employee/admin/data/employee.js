@@ -6,9 +6,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import EmployeeModal from "../modal/employee-add-modal";
-import EmployeeUpdateModal from "../modal/employee-update-modal";
-import EmployeeService from "../../../../../services/employee-service";
+import EmployeeUpdateModal from "../modal/employee/employee-update-modal";
+import employeeService from "../../../../../services/employee-service";
+import EmployeeModal from "../modal/employee/employee-add-modal";
 
 export default function EmployeeData() {
   const [employees, setEmployees] = React.useState([]);
@@ -23,7 +23,8 @@ export default function EmployeeData() {
   const UpdateHandleClose = () => setSelected(null);
   const handleSearch = () => {
     setLoading(true);
-    EmployeeService.searchEmployee(search)
+    employeeService
+      .searchEmployee(search)
       .then((e) => {
         setEmployees(e);
       })

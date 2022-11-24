@@ -13,15 +13,14 @@ import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import employeeImg from "assets/images/small-logos/employee1.jpg";
-import SelectSex from "../textfields/select-sex";
-import SelectRole from "../textfields/select-role";
-import EmployeeService from "../../../../../services/employee-service";
-import TextFieldDatePicker from "../textfields/date-picker";
+import farmerImg from "assets/images/small-logos/farmer.jpg";
+import farmerService from "services/farmer-service";
+import SelectSex from "../../textfields/select-sex";
+import TextFieldDatePicker from "../../textfields/date-picker";
 
-export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess }) {
-  const { address: selectedAddress, ...selectedEmployee } = selected;
-  const [employee, setEmployee] = React.useState(selectedEmployee);
+export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }) {
+  const { address: selectedAddress, ...selectedFarmer } = selected;
+  const [farmer, setFarmer] = React.useState(selectedFarmer);
   const [address, setAddress] = React.useState(selectedAddress);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -32,14 +31,15 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
   const handleSave = () => {
     setError("");
     setLoading(true);
-    const newEmployee = {
-      ...employee,
-      mobileNumber: parseInt(employee?.mobileNumber, 10),
+    const newFarmer = {
+      ...farmer,
+      address,
     };
-    EmployeeService.updateEmployee(newEmployee)
+    farmerService
+      .updateFarmer(newFarmer)
       .then(() => {
         setAddress({});
-        setEmployee({});
+        setFarmer({});
         onSuccess?.();
       })
       .catch((err) => {
@@ -70,7 +70,7 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
             <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
               <MDBox
                 component="img"
-                src={employeeImg}
+                src={farmerImg}
                 alt="Logo"
                 height="100%"
                 width="20%"
@@ -89,7 +89,7 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Employee Information ({selected?.id})
+                      Farmer Information ({farmer?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -102,10 +102,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           fullWidth
                           sx={{ pr: 7 }}
                           disabled={loading}
-                          defaultValue={employee.lastName}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, lastName: evt.target.value })
-                          }
+                          defaultValue={farmer?.lastName}
+                          onChange={(evt) => setFarmer({ ...farmer, lastName: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -116,10 +114,8 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           fullWidth
                           sx={{ pr: 7 }}
                           disabled={loading}
-                          defaultValue={employee.firstName}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, firstName: evt.target.value })
-                          }
+                          defaultValue={farmer?.firstName}
+                          onChange={(evt) => setFarmer({ ...farmer, firstName: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -129,23 +125,22 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={employee.middleName}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, middleName: evt.target.value })
-                          }
+                          defaultValue={farmer?.middleName}
+                          onChange={(evt) => setFarmer({ ...farmer, middleName: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
                           label="Mobile Number"
+                          name="mobileNumber"
                           variant="outlined"
                           fullWidth
                           type="number"
                           sx={{ mt: 2, pr: 7 }}
-                          defaultValue={employee.mobileNumber}
+                          defaultValue={farmer?.mobileNumber}
                           onChange={(evt) =>
-                            setEmployee({ ...employee, mobileNumber: evt.target.value })
+                            setFarmer({ ...farmer, mobileNumber: evt.target.value })
                           }
                           InputProps={{
                             startAdornment: (
@@ -169,26 +164,22 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
-                          defaultValue={employee.email}
-                          onChange={(evt) => setEmployee({ ...employee, email: evt.target.value })}
+                          defaultValue={farmer?.email}
+                          onChange={(evt) => setFarmer({ ...farmer, email: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
                         <SelectSex
-                          value={employee.sex}
-                          onChange={(evt) => setEmployee({ ...employee, sex: evt.target.value })}
+                          name="sex"
+                          value={farmer?.sex}
+                          onChange={(evt) => setFarmer({ ...farmer, sex: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
                         <TextFieldDatePicker
-                          value={employee.birthday}
-                          onChange={(evt) => setEmployee({ ...employee, birthday: evt })}
-                        />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <SelectRole
-                          value={employee.role}
-                          onChange={(evt) => setEmployee({ ...employee, role: evt.target.value })}
+                          name="birthday"
+                          value={farmer?.birthday}
+                          onChange={(evt) => setFarmer({ ...farmer, birthday: evt })}
                         />
                       </Grid>
                     </Grid>
@@ -196,7 +187,7 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Employee Address
+                      Farmer Address
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -290,14 +281,14 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
   );
 }
 
-EmployeeUpdateModal.defaultProps = {
+FarmerUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
   selected: null,
   onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-EmployeeUpdateModal.propTypes = {
+FarmerUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types

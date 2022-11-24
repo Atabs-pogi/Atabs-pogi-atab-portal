@@ -15,9 +15,11 @@ import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import employeeImg from "assets/images/small-logos/employee1.jpg";
 import employeeService from "services/employee-service";
-import TextFieldDatePicker from "../textfields/date-picker";
-import SelectSex from "../textfields/select-sex";
-import SelectRole from "../textfields/select-role";
+import { useFormik } from "formik";
+import TextFieldDatePicker from "../../textfields/date-picker";
+import SelectSex from "../../textfields/select-sex";
+import SelectRole from "../../textfields/select-role";
+import EmpSchema from "../schema/employee-schema";
 
 export default function EmployeeModal({ open, onClose, onSuccess }) {
   const [employee, setEmployee] = React.useState({});
@@ -49,6 +51,14 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
         setLoading(false);
       });
   };
+
+  const formik = useFormik({
+    initialValues: {
+      lastName: "",
+    },
+    validationSchema: EmpSchema,
+    // onSubmit,
+  });
   return (
     <Modal
       keepMounted
@@ -94,18 +104,30 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
                     <Grid container spacing={0}>
                       <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Lastname"
-                          variant="outlined"
-                          fullWidth
-                          defaultValue={employee?.lastName}
-                          disabled={loading}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, lastName: evt.target.value })
-                          }
-                          sx={{ pr: 7 }}
-                        />
+                        <form onSubmit={formik.handleSubmit} autoComplete="off">
+                          <TextField
+                            id="outlined-basic"
+                            name="lastName"
+                            label="Lastname"
+                            value={formik.values.lastName}
+                            defaultValue={employee?.lastName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                            helperText={formik.touched.lastName && formik.errors.lastName}
+                            variant="outlined"
+                            fullWidth
+                          />
+                          <MDButton
+                            type="submit"
+                            name="login-btn"
+                            variant="contained"
+                            fullWidth
+                            color="success"
+                          >
+                            Login
+                          </MDButton>
+                        </form>
                       </Grid>
                       <Grid item xs={4}>
                         <TextField

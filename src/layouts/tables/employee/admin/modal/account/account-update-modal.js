@@ -13,15 +13,44 @@ import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import farmerImg from "assets/images/small-logos/farmer.jpg";
-import TextFieldDatePicker from "../textfields/date-picker";
-import SelectSex from "../textfields/select-sex";
-import SelectRole from "../textfields/select-role";
+import employeeImg from "assets/images/small-logos/employee1.jpg";
+import SelectSex from "../../textfields/select-sex";
+import SelectRole from "../../textfields/select-role";
+import TextFieldDatePicker from "../../textfields/date-picker";
+import employeeService from "../../../../../../services/employee-service";
 
-export default function FarmerUpdateModal({ selected, open, onClose }) {
+export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess }) {
+  const { address: selectedAddress, ...selectedEmployee } = selected;
+  const [employee, setEmployee] = React.useState(selectedEmployee);
+  const [address, setAddress] = React.useState(selectedAddress);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
+
+  const handleSave = () => {
+    setError("");
+    setLoading(true);
+    const newEmployee = {
+      ...employee,
+      address,
+    };
+    employeeService
+      .updateEmployee(newEmployee)
+      .then(() => {
+        setAddress({});
+        setEmployee({});
+        onSuccess?.();
+      })
+      .catch((err) => {
+        setError(err?.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <Modal
       keepMounted
@@ -42,7 +71,7 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
             <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
               <MDBox
                 component="img"
-                src={farmerImg}
+                src={employeeImg}
                 alt="Logo"
                 height="100%"
                 width="20%"
@@ -61,7 +90,7 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Farmer Information
+                      Employee Information ({employee?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -73,7 +102,11 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={selected?.lastName}
+                          disabled={loading}
+                          defaultValue={employee.lastName}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, lastName: evt.target.value })
+                          }
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -83,7 +116,11 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={selected?.firstName}
+                          disabled={loading}
+                          defaultValue={employee.firstName}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, firstName: evt.target.value })
+                          }
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -93,7 +130,10 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
-                          defaultValue={selected?.middleName}
+                          defaultValue={employee.middleName}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, middleName: evt.target.value })
+                          }
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -104,7 +144,10 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           fullWidth
                           type="number"
                           sx={{ mt: 2, pr: 7 }}
-                          defaultValue={selected?.mobileNumber}
+                          defaultValue={employee.mobileNumber}
+                          onChange={(evt) =>
+                            setEmployee({ ...employee, mobileNumber: evt.target.value })
+                          }
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -127,24 +170,34 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
-                          defaultValue={selected?.email}
+                          defaultValue={employee.email}
+                          onChange={(evt) => setEmployee({ ...employee, email: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectSex value={selected?.sex} />
+                        <SelectSex
+                          value={employee.sex}
+                          onChange={(evt) => setEmployee({ ...employee, sex: evt.target.value })}
+                        />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <TextFieldDatePicker value={selected?.birthday} />
+                        <TextFieldDatePicker
+                          value={employee.birthday}
+                          onChange={(evt) => setEmployee({ ...employee, birthday: evt })}
+                        />
                       </Grid>
                       <Grid item xs={4} mt={2}>
-                        <SelectRole value={selected?.role} />
+                        <SelectRole
+                          value={employee.role}
+                          onChange={(evt) => setEmployee({ ...employee, role: evt.target.value })}
+                        />
                       </Grid>
                     </Grid>
                   </MDBox>
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Farmer Address
+                      Employee Address
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -156,6 +209,8 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.houseNo}
+                          onChange={(evt) => setAddress({ ...address, houseNo: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -165,6 +220,8 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.unit}
+                          onChange={(evt) => setAddress({ ...address, unit: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -174,6 +231,8 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ pr: 7 }}
+                          defaultValue={address?.barangay}
+                          onChange={(evt) => setAddress({ ...address, barangay: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -183,6 +242,8 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
+                          defaultValue={address?.city}
+                          onChange={(evt) => setAddress({ ...address, city: evt.target.value })}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -192,13 +253,18 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
+                          defaultValue={address?.province}
+                          onChange={(evt) => setAddress({ ...address, province: evt.target.value })}
                         />
                       </Grid>
                     </Grid>
                   </MDBox>
+                  {/* ERROR MESSAGE */}
+                  {error}
                   {open && (
                     <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
                       <MDButton
+                        onClick={handleSave}
                         variant="contained"
                         color="success"
                         sx={{ mr: 2, mt: 5, width: 80 }}
@@ -225,15 +291,17 @@ export default function FarmerUpdateModal({ selected, open, onClose }) {
   );
 }
 
-FarmerUpdateModal.defaultProps = {
+EmployeeUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
   selected: null,
+  onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-FarmerUpdateModal.propTypes = {
+EmployeeUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
   selected: PropTypes.object,
+  onSuccess: PropTypes.func,
 };
