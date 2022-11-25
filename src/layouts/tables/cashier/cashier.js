@@ -3,18 +3,18 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import MDBox from "components/MDBox";
-import MDButton from "components/MDButton";
+// import MDButton from "components/MDButton";
 
 import Footer from "examples/Footer";
 
-import Table from "./table";
+import Table from "./TransactionsTable";
 import "./style.css";
 
 function Cashier() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox
+      {/* <MDBox
         px={4}
         py={4}
         className="center-scan-btn"
@@ -29,7 +29,7 @@ function Cashier() {
         <MDButton variant="contained" color="secondary" className="scan-btn">
           Scan Receipt
         </MDButton>
-      </MDBox>
+      </MDBox> */}
       <MDBox
         px={2}
         py={2}

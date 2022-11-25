@@ -1,52 +1,72 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 
 import MDBox from "components/MDBox";
 
-export default function BasicCard() {
+export default function ProductContainer() {
   function createRow(name, origprc) {
     return { name, origprc };
   }
 
-  const items = [createRow("Abaca", 10.01), createRow("Tuxy", 10), createRow("Fiber", 2)];
+  const items = [
+    createRow("Abaca", 10.01),
+    createRow("Tuxy", 10),
+    createRow("Fiber", 2),
+    createRow("Abaca", 10.01),
+    createRow("Tuxy", 10),
+    createRow("Fiber", 2),
+    createRow("Abaca", 10.01),
+    createRow("Tuxy", 10),
+    createRow("Fiber", 2),
+    createRow("Abaca", 10.01),
+    createRow("Tuxy", 10),
+    createRow("Fiber", 2),
+    createRow("Abaca", 10.01),
+    createRow("Tuxy", 10),
+    createRow("Fiber", 2),
+    createRow("Abaca", 10.01),
+    createRow("Tuxy", 10),
+    createRow("Fiber", 2),
+  ];
 
   return (
-    <Card
+    <MDBox
+      className="product-container"
       sx={{
         backgroundColor: "#fff",
         minHeight: "fit-content",
         height: "inherit",
-        width: "20vw",
+        width: "21vw",
         borderRadius: "20px",
         marginRight: "30px",
       }}
     >
-      <CardContent>
-        <Grid container>
+      <MDBox>
+        <Grid container mt={2} px={3}>
           <Grid
+            className="container-label"
             item
-            xs={6}
+            xs={5}
             sx={{
               p: 1,
             }}
           >
             <Typography
               sx={{
-                fontSize: 14,
+                fontSize: 16,
                 marginTop: "10px",
               }}
               gutterBottom
             >
-              Tuxy Fibers
+              Fibers
             </Typography>
           </Grid>
           <Grid
+            className="searchbox"
             item
-            xs={6}
+            xs={7}
             sx={{
               textAlign: "right",
             }}
@@ -69,14 +89,17 @@ export default function BasicCard() {
             />
           </Grid>
         </Grid>
-      </CardContent>
-      <CardContent>
+      </MDBox>
+      <MDBox>
         <MDBox
+          mx={4}
+          my={2}
           sx={{
             display: "block",
-            height: "32vw",
+            height: "33vw",
             textAlign: "center",
             border: "solid 1px #ccc",
+            overflowY: "scroll",
           }}
           className="products-container"
         >
@@ -103,7 +126,7 @@ export default function BasicCard() {
             </MDBox>
           ))}
         </MDBox>
-      </CardContent>
-    </Card>
+      </MDBox>
+    </MDBox>
   );
 }

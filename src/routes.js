@@ -51,6 +51,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
 import POS from "layouts/tables/pos/pos";
+import Cashier from "layouts/tables/cashier/cashier";
 
 const cashierRoutes = [
   {
@@ -64,7 +65,7 @@ const cashierRoutes = [
     key: "cashier",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/cashier",
-    component: <EmployeeTable />,
+    component: <Cashier />,
   },
 ].map((route) => ({ ...route, role: ["cashier"] }));
 

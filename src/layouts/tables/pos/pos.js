@@ -4,42 +4,52 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MDBox from "components/MDBox";
 
-import { Grid } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 
 import ProductConfig from "./productConfig";
-import ProductContainer from "./data/ProductContainer";
 import TransactionTable from "./transactionTable";
 
 import "./style.css";
+import axios from "axios";
+
+axios.get('')
 
 function POS() {
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox
-        sx={{
-          display: "flex",
-          margin: "auto",
-          marginBottom: "20px",
-        }}
-      >
-        <ProductContainer />
-
-        <MDBox>
-          <Grid
-            py={2}
-            px={2}
-            sx={{
-              height: "38vh",
-              width: "120vh",
-              borderRadius: "20px",
-              backgroundColor: "#fff",
-            }}
-          >
-            <ProductConfig />
+      <MDBox pb={1}>
+        <MDBox
+          sx={{
+            margin: "auto",
+            marginBottom: "20px",
+          }}
+        >
+          <Grid pb={2}>
+            <Card
+              py={2}
+              px={4}
+              sx={{
+                height: "34vh",
+                borderRadius: "20px",
+                backgroundColor: "#fff",
+              }}
+            >
+              <ProductConfig />
+            </Card>
           </Grid>
           <Grid>
-            <TransactionTable />
+            <Card
+              py={2}
+              px={2}
+              sx={{
+                borderRadius: "20px",
+                backgroundColor: "#fff",
+              }}
+            >
+              <TransactionTable />
+            </Card>
           </Grid>
         </MDBox>
       </MDBox>

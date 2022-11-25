@@ -48,15 +48,18 @@ const invoiceTotal = subtotal(rows);
 export default function SpanningTable() {
   return (
     <MDBox>
-      <TableContainer sx={{ minWidth: 700, width: "100%", margin: "auto" }} component={Paper}>
+      <TableContainer sx={{ width: "100%", margin: "auto" }} component={Paper}>
         <Grid
           item
-          xs={6}
           sx={{
-            width: "100%",
-            textAlign: "left",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            my: 1,
+            mx: 2,
           }}
         >
+          <Typography>Transaction 1</Typography>
           <TextField
             label="Search"
             InputProps={{
@@ -67,10 +70,6 @@ export default function SpanningTable() {
                   </IconButton>
                 </InputAdornment>
               ),
-            }}
-            sx={{
-              my: 1,
-              mx: 1,
             }}
           />
         </Grid>
@@ -121,9 +120,8 @@ export default function SpanningTable() {
           </Typography>
         </MDBox>
       </TableContainer>
-
       <Divider />
-      <MDBox className="center-submit-btn" sx={{ textAlign: "center", marginTop: "50px" }}>
+      <MDBox className="center-submit-btn">
         <MDButton variant="contained" color="dark" className="submit-btn">
           Release Payment
         </MDButton>
