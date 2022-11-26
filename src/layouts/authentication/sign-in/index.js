@@ -38,13 +38,15 @@ import { useFormik } from "formik";
 import React from "react";
 import accountService from "services/account-service";
 import { useNavigate } from "react-router-dom";
-import md5 from "md5";
+import { useUserContext } from "user-context/user-context";
 import { Schema } from "./schema";
 
 function Basic() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
+  const [user, userDispatch] = useUserContext();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -56,11 +58,13 @@ function Basic() {
       setError("");
       const creds = {
         username: formik?.values?.username,
-        password: md5(`${formik?.values?.password}jude`),
+        password: formik?.values?.password,
       };
       accountService
         .authenticate(creds)
-        .then(() => {
+        .then((info) => {
+          window.sessionStorage.setItem("currentUser", JSON.stringify(info));
+          userDispatch.login(info);
           navigate("/dashboard");
         })
         .catch((err) => {

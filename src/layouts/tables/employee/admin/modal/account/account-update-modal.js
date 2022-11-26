@@ -19,7 +19,7 @@ import SelectRole from "../../textfields/select-role";
 import TextFieldDatePicker from "../../textfields/date-picker";
 import employeeService from "../../../../../../services/employee-service";
 
-export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess }) {
+export default function AccountUpdateModal({ selected, open, onClose, onSuccess }) {
   const { address: selectedAddress, ...selectedEmployee } = selected;
   const [employee, setEmployee] = React.useState(selectedEmployee);
   const [address, setAddress] = React.useState(selectedAddress);
@@ -291,14 +291,14 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
   );
 }
 
-EmployeeUpdateModal.defaultProps = {
+AccountUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
   selected: null,
   onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-EmployeeUpdateModal.propTypes = {
+AccountUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types

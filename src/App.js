@@ -1,22 +1,7 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -45,6 +30,8 @@ import createCache from "@emotion/cache";
 
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 import routes, { defaultRoute } from "routes";
+import { useUserContext } from "user-context/user-context";
+import Basic from "layouts/authentication/sign-in";
 
 // Images
 
@@ -54,7 +41,8 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
-
+  const [user, userDispatch] = useUserContext();
+  const navigate = useNavigate();
   // Cache for the rtl
   useMemo(() => {
     const cacheRtl = createCache({
@@ -93,9 +81,19 @@ export default function App() {
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
+    if (pathname.startsWith("/dashboard") || pathname === "/") {
+      if (!user?.info?.role) {
+        let currentUser = window.sessionStorage.getItem("currentUser");
+        if (currentUser) {
+          currentUser = JSON.parse(currentUser);
+          userDispatch.login(currentUser);
+        } else {
+          navigate("/sign-in");
+        }
+      }
+    }
   }, [pathname]);
-
-  const role = "superAdmin";
+  const role = user?.info?.role;
 
   const filteredRoutes = routes.filter(
     (route) => !(route.role?.length && !route.role?.includes(role))
@@ -180,8 +178,9 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
+        <Route path="/sign-in" element={<Basic />} />
         {getRoutes(filteredRoutes)}
-        <Route path="*" element={<Navigate to={defaultRoute[role]} />} />
+        <Route path="*" element={<Navigate to={defaultRoute[role] || "/"} />} />
       </Routes>
     </ThemeProvider>
   );

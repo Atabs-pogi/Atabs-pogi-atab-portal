@@ -1,7 +1,6 @@
 import Dashboard from "layouts/dashboard";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -13,6 +12,7 @@ import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
 import AccountTable from "layouts/tables/employee/admin/account-role";
+import SignOut from "layouts/authentication/sign-out";
 
 const cashierRoutes = [
   {
@@ -32,7 +32,7 @@ const cashierRoutes = [
     type: "divider",
     key: "divider",
   },
-].map((route) => ({ ...route, role: ["cashier", "superAdmin"] }));
+].map((route) => ({ ...route, role: ["cashier", "superAdmin", "admin"] }));
 
 const posRoutes = [
   {
@@ -52,7 +52,7 @@ const posRoutes = [
     type: "divider",
     key: "divider1",
   },
-].map((route) => ({ ...route, role: ["pos", "superAdmin"] }));
+].map((route) => ({ ...route, role: ["pos", "superAdmin", "admin"] }));
 const adminRoutes = [
   {
     type: "collapse",
@@ -131,11 +131,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
+    name: "Sign Out",
+    key: "sign-out",
     icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
+    route: "/sign-out",
+    component: <SignOut />,
   },
 ];
 

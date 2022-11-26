@@ -24,7 +24,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Card } from "@mui/material";
-import AccountData from "./data/account-role";
+import AccountData from "./data/account";
 // import EmployeeModal from "./modal/employee-modal";
 
 // Data

@@ -6,12 +6,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import farmerService from "services/farmer-service";
-import FarmerModal from "../modal/farmer/farmer-add-modal";
-import FarmerUpdateModal from "../modal/farmer/farmers-update-modal";
+import accountService from "services/account-service";
+import AccountUpdateModal from "../modal/account/account-update-modal";
+import AccountModal from "../modal/account/account-add-modal";
 
 export default function AccountData() {
-  const [farmers, setFarmers] = React.useState([]);
+  const [accounts, setAccounts] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -23,10 +23,10 @@ export default function AccountData() {
   const UpdateHandleClose = () => setSelected(null);
   const handleSearch = () => {
     setLoading(true);
-    farmerService
-      .searchFarmer(search)
+    accountService
+      .searchAccounts(search)
       .then((e) => {
-        setFarmers(e);
+        setAccounts(e);
       })
       .finally(() => {
         setLoading(false);
@@ -35,10 +35,8 @@ export default function AccountData() {
 
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "Firstname", width: 130 },
-    { field: "middleName", headerName: "Middlename", width: 130 },
-    { field: "lastName", headerName: "Lastname", width: 130 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 150 },
+    { field: "username", headerName: "username", width: 130 },
+    { field: "role", headerName: "role", width: 130 },
     {
       field: "actions",
       type: "actions",
@@ -51,7 +49,7 @@ export default function AccountData() {
           onClick={() => setSelected(params.row)}
           label="Update"
         />,
-        <FarmerUpdateModal
+        <AccountUpdateModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}
           selected={params.row}
@@ -74,7 +72,7 @@ export default function AccountData() {
 
   return (
     <MDBox>
-      <FarmerModal
+      <AccountModal
         open={open}
         onClose={handleClose}
         onSuccess={() => {
@@ -86,7 +84,7 @@ export default function AccountData() {
         <Grid item xs={6} sx={{ p: 1 }}>
           <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
             <AddIcon sx={{ mr: 1 }} />
-            Add Farmer
+            Add Account
           </MDButton>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>
@@ -109,7 +107,7 @@ export default function AccountData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          rows={farmers}
+          rows={accounts}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[1]}

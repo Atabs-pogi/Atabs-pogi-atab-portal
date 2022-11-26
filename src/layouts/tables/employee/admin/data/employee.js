@@ -35,15 +35,15 @@ export default function EmployeeData() {
 
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "Firstname", width: 130 },
-    { field: "middleName", headerName: "Middlename", width: 130 },
-    { field: "lastName", headerName: "Lastname", width: 130 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 150 },
+    { field: "firstName", headerName: "Firstname", width: 210 },
+    { field: "middleName", headerName: "Middlename", width: 210 },
+    { field: "lastName", headerName: "Lastname", width: 210 },
+    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 210 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 130,
+      width: 210,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
