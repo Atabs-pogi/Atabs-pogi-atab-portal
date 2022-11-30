@@ -7,34 +7,52 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
 // import PayrollModal from "../modal/payrollModal";
-import CalculationPayrollModal from "./modal/TransactionsModal";
+import TransactionsModal from "./modal/TransactionsModal";
 // import EmployeeModal from "../modal/employee-add-modal";
 // import EmployeeUpdateModal from "../modal/employee-update-modal";
 
 const rows = [
   {
+    farmer_id: 2019101,
     id: 1,
+    datetime: "2022/11/26 11:30am",
     total: 100.99,
+    status: "Released",
   },
   {
+    farmer_id: 2019102,
     id: 2,
+    datetime: "2022/11/26 11:30am",
     total: 50.8,
+    status: "Released",
   },
   {
+    farmer_id: 2019103,
     id: 3,
+    datetime: "2022/11/26 11:30am",
     total: 36.55,
+    status: "Released",
   },
   {
+    farmer_id: 2019104,
     id: 4,
+    datetime: "2022/11/26 11:30am",
     total: 55.99,
+    status: "Released",
   },
   {
+    farmer_id: 2019105,
     id: 5,
+    datetime: "2022/11/26 11:30am",
     total: 99.1,
+    status: "Released",
   },
   {
+    farmer_id: 2019106,
     id: 6,
+    datetime: "2022/11/26 11:30am",
     total: 16.99,
+    status: "Released",
   },
 ];
 
@@ -57,19 +75,22 @@ export default function PayrollData() {
           onClick={() => setSelected(params)}
           label="View"
         />,
-        <CalculationPayrollModal
+        <TransactionsModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}
           selected={params}
         />,
       ],
     },
-    { field: "id", headerName: "Transaction Number", width: 400 },
-    { field: "total", headerName: "Total", width: 400 },
+    { field: "farmer_id", headerName: "Farmer ID", width: 200 },
+    { field: "id", headerName: "Transaction Number", width: 300 },
+    { field: "datetime", headerName: "Date&Time", width: 300 },
+    { field: "total", headerName: "Total", width: 300 },
+    { field: "status", headerName: "Status", width: 300 },
   ]);
   return (
     <MDBox>
-      <CalculationPayrollModal open={open} onClose={handleClose} />
+      <TransactionsModal open={open} onClose={handleClose} />
       <Grid container>
         <Grid
           item
@@ -93,7 +114,7 @@ export default function PayrollData() {
           />
         </Grid>
       </Grid>
-      <div style={{ height: 530, width: "100%" }}>
+      <div style={{ height: 500, width: "100%" }}>
         <DataGrid rows={rows} columns={columns} pageSize={10} rowsPerPageOptions={[1]} />
       </div>
     </MDBox>

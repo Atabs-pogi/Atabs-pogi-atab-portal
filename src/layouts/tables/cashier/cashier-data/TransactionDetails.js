@@ -21,29 +21,29 @@ function ccyFormat(num) {
   return `${num.toFixed(2)}`;
 }
 
-function priceRow(qty, unit) {
-  return qty * unit;
+function priceRow(weight, origprc) {
+  return weight * origprc;
 }
 
-function createRow(desc, origprc, weight) {
-  const price = priceRow(origprc, weight);
-  return { desc, origprc, weight, price };
+function createRow(name, grade, origprc, weight) {
+  const subtotal = priceRow(origprc, weight);
+  return { name, grade, origprc, weight, subtotal };
 }
 
-function subtotal(items) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+function total(items) {
+  return items.map(({ subtotal }) => subtotal).reduce((sum, i) => sum + i, 0);
 }
 
 const rows = [
-  createRow("Fiber 1", 10.01, 50, 1.15),
-  createRow("Fiber 2", 10, 45.99),
-  createRow("Fiber 3", 3, 17),
-  createRow("Fiber 4", 2, 17.99),
-  createRow("Fiber 5", 2, 17.99),
-  createRow("Fiber 6", 2, 17.99),
+  createRow("Fiber 1", "S1", 10.01, 50, 1.15),
+  createRow("Fiber 2", "S2", 10, 45.99),
+  createRow("Fiber 3", "S4", 3, 17),
+  createRow("Fiber 4", "S3", 2, 17.99),
+  createRow("Fiber 5", "S1", 2, 17.99),
+  createRow("Fiber 6", "S2", 2, 17.99),
 ];
 
-const invoiceTotal = subtotal(rows);
+const invoiceTotal = total(rows);
 
 export default function SpanningTable() {
   return (
@@ -93,6 +93,7 @@ export default function SpanningTable() {
             >
               <TableRow>
                 <TableCell>Product Name</TableCell>
+                <TableCell>Grade</TableCell>
                 <TableCell align="right">Original Price</TableCell>
                 <TableCell align="right">Weight</TableCell>
                 <TableCell align="right">Subtotal</TableCell>
@@ -101,11 +102,12 @@ export default function SpanningTable() {
 
             <TableBody>
               {rows.map((row) => (
-                <TableRow key={row.desc}>
-                  <TableCell>{row.desc}</TableCell>
+                <TableRow key={row.name}>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.grade}</TableCell>
                   <TableCell align="right">{row.origprc}</TableCell>
                   <TableCell align="right">{row.weight}</TableCell>
-                  <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+                  <TableCell align="right">{ccyFormat(row.subtotal)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

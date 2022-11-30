@@ -10,12 +10,8 @@ import ProductConfig from "./productConfig";
 import TransactionTable from "./transactionTable";
 
 import "./style.css";
-import axios from "axios";
-
-axios.get('')
 
 function POS() {
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

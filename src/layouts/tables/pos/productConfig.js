@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import {
   FormControl,
@@ -14,16 +14,88 @@ import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import "./style.css";
 
-function ProductConfig() {
-  const [fiberName, setFiber] = React.useState("");
+// import TransactionTable from "./transactionTable";
 
-  const handleChange = (event) => {
+import fiberServices from "../../../services/fiber-services";
+
+function ProductConfig() {
+  const [fibers, setFibers] = React.useState([]);
+
+  const [fiber, setFiber] = React.useState("");
+  const [weight, getWeight] = React.useState(0);
+  const [getPrice] = React.useState("");
+  const [OGprice, getOGPrice] = React.useState("");
+  const [grade, getGrade] = React.useState("");
+
+  const [dispTtl, getTotal] = React.useState("");
+
+  const [table, setTable] = React.useState([]);
+
+  const [bool, setBool] = React.useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/fiber/getFibers")
+      .then((response) => response.json())
+      .then((json) => setFibers(json));
+  }, []);
+  console.log(fibers);
+
+  // for filtering fibers and grades on drop down
+  const fibersName = [];
+  const fibersGrade = [];
+
+  fibers.map((data) => fibersName.push(data.name));
+  fibers.map((data) => fibersGrade.push(data.grade));
+
+  const uniqueName = [...new Set(fibersName)];
+  const uniqueGrade = [...new Set(fibersGrade)];
+  // -------------------------------------------
+
+  // fiber onChange
+  const handleFiber = (event) => {
     setFiber(event.target.value);
+    setBool(false);
   };
+
+  // Setting original price
+  function gettingOGPrice() {
+    fiberServices
+      .getOGPrice(fiber, grade)
+      .then((response) => response.json())
+      .then((json) => getOGPrice(json));
+  }
+  gettingOGPrice();
+
+  function CalculateTotal(kgweight, prc) {
+    return kgweight * prc;
+  }
+
+  function ccyFormat(num) {
+    return `${num.toFixed(2)}`;
+  }
+
+  // for Calculate Button
+  const Calculate = () => {
+    const newTotal = CalculateTotal(weight, OGprice);
+    getTotal(ccyFormat(newTotal));
+  };
+
+  // for Add to Table Button
+  const AddToTable = async () => {
+    if (fiber === "" || grade === "" || OGprice === 0 || weight === "") {
+      alert("Some fields are not initialized");
+    } else {
+      const subtotal = OGprice * weight;
+      setTable([fiber, grade, OGprice, weight, subtotal]);
+      setBool(true);
+    }
+  };
+  console.log(table);
 
   return (
     <MDBox
       className="item-process"
+      py={3}
       sx={{
         display: "flex",
         justifyContent: "space-between",
@@ -32,93 +104,124 @@ function ProductConfig() {
       }}
     >
       <Grid>
-        <Grid mb={4}>
-          <Typography
-            mb={2}
-            variant="h5"
-            component="h5"
-            className="item-labels"
-            sx={{ fontSize: "12px", color: "#aaa" }}
-          >
-            Specify the Fiber:
-          </Typography>
-          <FormControl fullWidth>
-            <InputLabel id="FiberDropDownLabel">Fiber Name</InputLabel>
-            <Select
-              labelId="FiberDropDownLabel"
-              id="FiberDropDownLabel"
-              value={fiberName}
-              label="Fiber Name"
-              onChange={handleChange}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "15px",
-                width: "200px",
-                height: "44px",
-              }}
-            >
-              <MenuItem value="Abaca">Abaca S1</MenuItem>
-              <MenuItem value="AbacaS2">Abaca S2</MenuItem>
-              <MenuItem value="AbacaS3">Abaca S3</MenuItem>
-              <MenuItem value="AbacaS4">Abaca S4</MenuItem>
-              <MenuItem value="TuxyS1">Tuxy S1</MenuItem>
-              <MenuItem value="TuxyS2">Tuxy S2</MenuItem>
-              <MenuItem value="TuxyS3">Tuxy S3</MenuItem>
-              <MenuItem value="TuxyS4">Tuxy S4</MenuItem>
-              <MenuItem value="FiberS1">Fiber S1</MenuItem>
-              <MenuItem value="FiberS2">Fiber S2</MenuItem>
-              <MenuItem value="FiberS3">Fiber S3</MenuItem>
-              <MenuItem value="FiberS4">Fiber S4</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
         <Grid>
-          <TextField
-            id="outlined-basic"
-            label="Grade"
-            variant="outlined"
-            value="S1"
-            readonly
-            sx={{ fontSize: "18px", width: "200px" }}
-          />
+          <Grid mb={4}>
+            <Typography
+              mb={1}
+              variant="h5"
+              component="h5"
+              className="item-labels"
+              sx={{ fontSize: "12px", color: "#aaa" }}
+            >
+              Specify Fiber:
+            </Typography>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Fiber</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={fiber}
+                label="Fiber"
+                onChange={handleFiber}
+                sx={{ py: 1.5 }}
+              >
+                {/* {(() => {
+                  if (fiber) {
+                    return alert(fiber);
+                  }
+                  return "";
+                })()} */}
+                {uniqueName.map((data) => (
+                  <MenuItem value={data}>{data}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid mb={4}>
+            <Typography
+              mb={1}
+              variant="h5"
+              component="h5"
+              className="item-labels"
+              sx={{ fontSize: "12px", color: "#aaa" }}
+            >
+              Specify Farmer:
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              label="Farmer's ID"
+              variant="outlined"
+              value="2019101"
+              readonly
+              sx={{ fontSize: "18px", width: "200px" }}
+            />
+          </Grid>
         </Grid>
       </Grid>
 
       <Divider orientation="vertical" flexItem />
 
       <Grid>
-        <Grid>
-          <Grid mb={4}>
-            <Typography
-              mb={2}
-              variant="h5"
-              component="h5"
-              className="item-labels"
-              sx={{ fontSize: "12px", color: "#aaa" }}
+        <Grid mb={4}>
+          <Typography
+            mb={1}
+            variant="h5"
+            component="h5"
+            className="item-labels"
+            sx={{ fontSize: "12px", color: "#aaa" }}
+          >
+            Specify Grade:
+          </Typography>
+          <FormControl fullWidth>
+            <InputLabel id="gradeSelectInput">Grade</InputLabel>
+            <Select
+              labelId="gradeSelect"
+              id="gradeSelect"
+              value={grade}
+              label="Grade"
+              disabled={bool}
+              onChange={(newValue) => getGrade(newValue.target.value)}
+              sx={{ py: 1.5 }}
             >
-              Specify the weight in kilogram:
-            </Typography>
-            <TextField
-              id="outlined-basic"
-              label="Weight (kg)"
-              variant="outlined"
-              sx={{ fontSize: "18px", width: "200px" }}
-            />
-          </Grid>
-          <Grid>
-            <TextField
-              id="outlined-basic"
-              label="Original Price"
-              variant="outlined"
-              value="10.01"
-              readonly
-              sx={{ fontSize: "18px", width: "200px" }}
-            />
-          </Grid>
+              {/* {fibersArray.map((fiber) => (
+                <MenuItem value={fiber.name}>{fiber.name}</MenuItem>
+              ))} */}
+              {/* {(() => {
+                  if (fiber) {
+                    return alert(fiber);
+                  }
+                  return "";
+                })()} */}
+              {uniqueGrade.map((data) => (
+                <MenuItem value={data}>{data}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid>
+          <Typography
+            mb={1}
+            variant="h5"
+            component="h5"
+            className="item-labels"
+            sx={{ fontSize: "12px", color: "#aaa" }}
+          >
+            Specify the weight in kilogram:
+          </Typography>
+          <TextField
+            id="weightSpecified"
+            label="Weight (kg)"
+            variant="outlined"
+            onChange={(newValue) => getWeight(newValue.target.value)}
+            sx={{ fontSize: "18px", width: "200px" }}
+          />
+        </Grid>
+
+        <Grid>
           <Grid sx={{ textAlign: "center" }}>
             <MDButton
+              onClick={Calculate}
               variant="contained"
               color="success"
               className="compute-btn"
@@ -143,7 +246,28 @@ function ProductConfig() {
       <Grid>
         <Grid mb={4}>
           <Typography
-            mb={2}
+            mb={1}
+            variant="h5"
+            component="h5"
+            className="item-labels"
+            sx={{ fontSize: "12px", color: "#aaa" }}
+          >
+            Fiber`s Original Price:
+          </Typography>
+          <TextField
+            id="origPrc"
+            label="Original Price"
+            variant="outlined"
+            value={OGprice}
+            onChange={(newValue) => getPrice(newValue.target.value)}
+            readonly
+            sx={{ fontSize: "18px", width: "200px" }}
+          />
+        </Grid>
+
+        <Grid>
+          <Typography
+            mb={1}
             variant="h5"
             component="h5"
             className="item-labels"
@@ -152,22 +276,22 @@ function ProductConfig() {
             Total Amount:
           </Typography>
           <TextField
-            id="outlined-basic"
+            id="total"
             label="Total"
             variant="outlined"
-            value="500.50"
+            value={dispTtl}
             sx={{ fontSize: "18px", width: "200px" }}
             readonly
           />
         </Grid>
-
-        <Divider sx={{ marginY: "52px" }} />
-        <Grid>
+        <Grid sx={{ textAlign: "center" }}>
           <MDButton
+            onClick={AddToTable}
             variant="contained"
             color="success"
             className="add-btn"
             sx={{
+              marginTop: "3vh",
               height: "45px",
               padding: "8px 30px",
               border: "solid 2px #ccc",

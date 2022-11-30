@@ -11,17 +11,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Typography } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 
+// import { fiber } from "./productConfig";
+// import ProductConfig from "./productConfig";
+
 function ccyFormat(num) {
   return `${num.toFixed(2)}`;
 }
 
-function priceRow(qty, unit) {
-  return qty * unit;
+function priceRow(origprc, Weight) {
+  return origprc * Weight;
 }
 
-function createRow(desc, grade, origprc, weight) {
-  const subtotal = priceRow(origprc, weight);
-  return { desc, grade, origprc, weight, subtotal };
+function createRow(name, Grade, origprc, Weight) {
+  const subtotal = priceRow(origprc, Weight);
+  return { name, Grade, origprc, Weight, subtotal };
 }
 
 function total(items) {
@@ -29,12 +32,11 @@ function total(items) {
 }
 
 const rows = [
-  createRow("Fiber 1", "S1", 10.01, 50, 1.15),
+  // createRow(fiber),
   createRow("Fiber 2", "S1", 10, 45.99),
   createRow("Fiber 3", "S1", 3, 17),
   createRow("Fiber 4", "S1", 2, 17.99),
   createRow("Fiber 5", "S1", 2, 17.99),
-  createRow("Fiber 6", "S1", 2, 17.99),
 ];
 
 const invoiceTotal = total(rows);
@@ -113,10 +115,10 @@ export default function SpanningTable() {
                   <TableCell align="center" className="item-action">
                     <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />
                   </TableCell>
-                  <TableCell>{row.desc}</TableCell>
-                  <TableCell align="right">{row.grade}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell align="right">{row.Grade}</TableCell>
                   <TableCell align="right">{row.origprc}</TableCell>
-                  <TableCell align="right">{row.weight}</TableCell>
+                  <TableCell align="right">{row.Weight}</TableCell>
                   <TableCell align="right">{ccyFormat(row.subtotal)}</TableCell>
                 </TableRow>
               ))}
