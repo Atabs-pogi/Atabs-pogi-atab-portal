@@ -1,50 +1,24 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import {
-  Card,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import posImg from "assets/images/small-logos/pos.jpg";
-import posService from "../../../../../../services/pos-service";
-import SelectGrade from "../../textfields/select-grade";
+import PosItem from "./viewing";
 
-export default function PosUpdateModal({ selected, open, onClose, onSuccess }) {
-  const [pos, setPos] = React.useState(selected);
-  // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState("");
+export default function PosUpdateModal({ open, onClose, info }) {
+  const { items, farmerId, id } = info || {};
   const handleClose = () => {
     onClose?.();
   };
 
-  const handleSave = () => {
-    setError("");
-    setLoading(true);
-    const newPos = {
-      ...pos,
-    };
-    posService
-      .updatePos(newPos)
-      .then(() => {
-        setPos({});
-        onSuccess?.();
-      })
-      .catch((err) => {
-        setError(err?.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  const totalPrice =
+    items?.reduce((val, item) => {
+      const subTotal = (item?.plantPrice || 0) * (item?.plantKilogram || 0);
+      return val + subTotal;
+    }, 0) || 0;
 
   return (
     <Modal
@@ -73,7 +47,6 @@ export default function PosUpdateModal({ selected, open, onClose, onSuccess }) {
                 sx={{
                   borderTopLeftRadius: 11,
                   borderBottomLeftRadius: 11,
-                  mr: 7,
                 }}
               />
               <MDBox sx={{ flexGrow: 1 }}>
@@ -83,111 +56,79 @@ export default function PosUpdateModal({ selected, open, onClose, onSuccess }) {
                       <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
                     </IconButton>
                   </MDBox>
-                  <MDBox>
+                  <MDBox sx={{ px: 7 }}>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Pos Information ({pos?.id})
+                      Pos Information
                     </Typography>
                   </MDBox>
-                  <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
+                  <MDBox className="modal-content" sx={{ flexGrow: 1, px: 7 }}>
                     <Grid container spacing={0}>
-                      <Grid item xs={4}>
+                      <Grid item xs={6}>
+                        <TextField
+                          id="outlined-basic"
+                          name="id"
+                          label="Transaction ID"
+                          readOnly
+                          value={id}
+                          variant="outlined"
+                          sx={{ pr: 25, mb: 5 }}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
                         <TextField
                           id="outlined-basic"
                           name="farmerId"
                           label="Farmer ID"
+                          readOnly
+                          value={farmerId}
                           variant="outlined"
+                          sx={{ pr: 25, mb: 5 }}
                           fullWidth
-                          sx={{ pr: 7 }}
-                          disabled
-                          defaultValue={pos.farmerId}
-                          onChange={(evt) => setPos({ ...pos, farmerId: evt.target.value })}
                         />
                       </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          name="name"
-                          label="Fiber"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7 }}
-                          disabled
-                          defaultValue={pos.name}
-                          onChange={(evt) => setPos({ ...pos, name: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <SelectGrade
-                          name="grade"
-                          label="Grade"
-                          fullWidth
-                          sx={{ pr: 7 }}
-                          disabled
-                          defaultValue={pos.grade}
-                          onChange={(evt) => setPos({ ...pos, grade: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          name="kilogram"
-                          label="Weight(kg)"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7 }}
-                          defaultValue={pos.kilogram}
-                          onChange={(evt) => setPos({ ...pos, kilogram: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Mobile Number"
-                          variant="outlined"
-                          fullWidth
-                          type="number"
-                          sx={{ mt: 2, pr: 7 }}
-                          defaultValue={pos.mobileNumber}
-                          onChange={(evt) => setPos({ ...pos, mobileNumber: evt.target.value })}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Typography
-                                  variant="h2"
-                                  component="span"
-                                  sx={{ fontSize: "15px", fontWeight: "400" }}
-                                >
-                                  +63
-                                </Typography>
-                              </InputAdornment>
-                            ),
+                      <Grid item xs={12}>
+                        <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
+                          Items
+                        </Typography>
+                        <Box
+                          sx={{
+                            maxHeight: "250px",
+                            height: "250px",
+                            overflowY: "auto",
+                            py: 1,
+                            mb: 4,
                           }}
+                        >
+                          {items?.map((item) => (
+                            // eslint-disable-next-line react/no-array-index-key
+                            <PosItem key={item?.id} info={item} />
+                          ))}
+                        </Box>
+                      </Grid>
+                      <Grid item xs={9} />
+                      <Grid item xs={3}>
+                        <TextField
+                          id="outlined-basic"
+                          name="totalPrice"
+                          label="Total Price"
+                          readOnly
+                          value={totalPrice}
+                          variant="outlined"
+                          type="number"
+                          sx={{ pr: 7 }}
+                          fullWidth
                         />
                       </Grid>
                     </Grid>
                   </MDBox>
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
-                  <MDBox>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Pos Address
-                    </Typography>
-                  </MDBox>
-                  {/* ERROR MESSAGE */}
-                  {error}
                   {open && (
                     <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
                       <MDButton
-                        onClick={handleSave}
-                        variant="contained"
-                        color="success"
-                        sx={{ mr: 2, mt: 5, width: 80 }}
-                      >
-                        Save
-                      </MDButton>
-                      <MDButton
                         variant="contained"
                         color="secondary"
-                        sx={{ mr: 2, mt: 5, width: 80 }}
+                        sx={{ mr: 2, mt: 2, width: 80 }}
                         onClick={handleClose}
                       >
                         Cancel
@@ -207,14 +148,12 @@ export default function PosUpdateModal({ selected, open, onClose, onSuccess }) {
 PosUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
-  selected: null,
-  onSuccess: () => {},
+  info: {},
 };
 // Typechecking props of the MDAlert
 PosUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
-  selected: PropTypes.object,
-  onSuccess: PropTypes.func,
+  info: PropTypes.object,
 };

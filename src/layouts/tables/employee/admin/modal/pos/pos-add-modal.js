@@ -17,13 +17,18 @@ export default function PosModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [items, setItems] = React.useState([{ id: uuidv4() }]);
+  // const [farmer, setFarmer] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
 
-  React.useEffect(() => {
-    console.log(items);
-  }, [items]);
+  const totalPrice =
+    items?.reduce((val, item) => {
+      const subTotal =
+        (item?.fiber?.prices?.find((price) => price?.grade === item?.grade)?.price || 0) *
+        (item?.kilo || 0);
+      return val + subTotal;
+    }, 0) || 0;
 
   const formik = useFormik({
     initialValues: initialPos,
@@ -33,7 +38,16 @@ export default function PosModal({ open, onClose, onSuccess }) {
       setError("");
       setLoading(true);
       posService
-        .addPos(formik.values)
+        .addPos({
+          ...formik?.values,
+          items: items.map((i) => ({
+            plantName: i?.fiber?.name,
+            plantGrade: i?.grade,
+            plantKilogram: i?.kilo,
+            plantPrice: i?.fiber?.prices?.find((p) => p?.grade === i?.grade)?.price,
+          })),
+          plantTotal: totalPrice,
+        })
         .then(() => {
           onSuccess?.();
         })
@@ -56,14 +70,6 @@ export default function PosModal({ open, onClose, onSuccess }) {
     newItems[index] = item;
     setItems(newItems);
   };
-
-  const totalPrice =
-    items?.reduce((val, item) => {
-      const subTotal =
-        (item?.fiber?.prices?.find((price) => price?.grade === item?.grade)?.price || 0) *
-        (item?.kilo || 0);
-      return val + subTotal;
-    }, 0) || 0;
 
   const handleItemDelete = (item) => {
     setItems(items.filter((i) => i?.id !== item?.id));
@@ -117,12 +123,12 @@ export default function PosModal({ open, onClose, onSuccess }) {
                             id="outlined-basic"
                             name="farmerId"
                             label="Farmer ID"
-                            // disabled={loading}
-                            // value={formik.values.farmerId}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBLur}
-                            // error={formik.touched.farmerId && Boolean(formik.errors.farmerId)}
-                            // helperText={formik.touched.farmerId && formik.errors.farmerId}
+                            disabled={loading}
+                            value={formik.values.farmerId}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.farmerId && Boolean(formik.errors.farmerId)}
+                            helperText={formik.touched.farmerId && formik.errors.farmerId}
                             variant="outlined"
                             sx={{ pr: 7, width: "33.27%", mb: 5 }}
                             fullWidth

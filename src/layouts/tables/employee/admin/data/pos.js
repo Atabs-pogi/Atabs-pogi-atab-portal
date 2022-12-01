@@ -1,14 +1,14 @@
 import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
 import posService from "services/pos-service";
-import PosUpdateModal from "../modal/fiber/fiber-update-modal";
 import PosModal from "../modal/pos/pos-add-modal";
+import PosUpdateModal from "../modal/pos/pos-update-modal";
 
 export default function PosData() {
   const [pos, setPos] = React.useState([]);
@@ -34,11 +34,23 @@ export default function PosData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 200 },
-    { field: "name", headerName: "Name", width: 200 },
-    { field: "grade", headerName: "Grade", width: 200 },
-    { field: "price", headerName: "Price", width: 200 },
-    { field: "status", headerName: "Status", width: 200 },
+    { field: "id", headerName: "Transaction ID", width: 200 },
+    { field: "farmerId", headerName: "Farmer ID", width: 200 },
+    { field: "plantTotal", headerName: "Plant Total", width: 200 },
+    {
+      field: "items",
+      headerName: "Items",
+      width: 200,
+      renderCell: (params) => (
+        <Box>
+          {params?.row?.items?.map((item) => (
+            <span>
+              {item?.plantName} {item?.plantGrade} {item?.plantKilogram} {item?.plantPrice}
+            </span>
+          ))}
+        </Box>
+      ),
+    },
     {
       field: "actions",
       type: "actions",
@@ -59,6 +71,7 @@ export default function PosData() {
             setSelected(null);
             handleSearch();
           }}
+          info={params.row}
         />,
       ],
     },

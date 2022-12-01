@@ -6,37 +6,37 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import PropTypes from "prop-types";
 
-export default function SelectFiber({ onChange, ...props }) {
-  const fibers = [
-    {
-      id: 1,
-      name: "Abaca",
-      prices: [
-        { price: 100, grade: "s1" },
-        { price: 150, grade: "s2" },
-        { price: 200, grade: "s3" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Tuxy",
-      prices: [
-        { price: 101, grade: "s1" },
-        { price: 151, grade: "s2" },
-        { price: 201, grade: "s3" },
-      ],
-    },
-    {
-      id: 3,
-      name: "Wheat",
-      prices: [
-        { price: 102, grade: "s1" },
-        { price: 152, grade: "s2" },
-        { price: 202, grade: "s3" },
-      ],
-    },
-  ];
+export const fibers = [
+  {
+    id: 1,
+    name: "Abaca",
+    prices: [
+      { price: 100, grade: "s1" },
+      { price: 150, grade: "s2" },
+      { price: 200, grade: "s3" },
+    ],
+  },
+  {
+    id: 2,
+    name: "Tuxy",
+    prices: [
+      { price: 101, grade: "s1" },
+      { price: 151, grade: "s2" },
+      { price: 201, grade: "s3" },
+    ],
+  },
+  {
+    id: 3,
+    name: "Wheat",
+    prices: [
+      { price: 102, grade: "s1" },
+      { price: 152, grade: "s2" },
+      { price: 202, grade: "s3" },
+    ],
+  },
+];
 
+export default function SelectFiber({ onChange, ...props }) {
   const handleChange = (evt) => {
     const match = fibers.find((fiber) => fiber.id === evt?.target?.value);
     onChange?.(match);

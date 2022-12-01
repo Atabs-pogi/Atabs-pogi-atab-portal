@@ -18,7 +18,6 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
     <Grid container spacing={0}>
       <Grid item xs={3}>
         <SelectFiber
-          name="name"
           disabled={disabled}
           value={item?.fiber?.id}
           onChange={(f) => {
@@ -30,7 +29,6 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
       </Grid>
       <Grid item xs={2}>
         <SelectGrade
-          name="grade"
           disabled={disabled}
           value={item?.grade}
           onChange={(evt) => setItem({ ...item, grade: evt?.target?.value })}
@@ -40,7 +38,6 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
       <Grid item xs={3}>
         <TextField
           id="outlined-start-adornment"
-          name="kilogram"
           label="Weight(kg)"
           disabled={disabled}
           value={item?.kilo}
@@ -61,7 +58,6 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
       <Grid item xs={3}>
         <TextField
           id="outlined-basic"
-          name="price"
           label="Price"
           readOnly
           value={subTotal}

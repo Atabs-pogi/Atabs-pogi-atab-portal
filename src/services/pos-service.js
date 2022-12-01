@@ -13,7 +13,7 @@ function searchPos(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/pos/search`, { params: { name: search } })
+        .get(`${BASE_URL}/pos/view`)
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
