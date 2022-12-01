@@ -5,20 +5,20 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function SelectRole(props) {
+export default function SelectGrade(props) {
   return (
-    <Box sx={{ pr: 7 }}>
+    <Box sx={{ pr: 2 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+        <InputLabel id="demo-simple-select-label">Grade</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           sx={{ py: 1.5 }}
           {...props}
         >
-          <MenuItem value="admin">admin</MenuItem>
-          <MenuItem value="cashier">cashier</MenuItem>
-          <MenuItem value="pos">pos</MenuItem>
+          <MenuItem value="s1">S1</MenuItem>
+          <MenuItem value="s2">S2</MenuItem>
+          <MenuItem value="s3">S3</MenuItem>
         </Select>
       </FormControl>
     </Box>

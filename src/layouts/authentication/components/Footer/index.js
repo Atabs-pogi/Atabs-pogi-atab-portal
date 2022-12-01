@@ -1,24 +1,8 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
@@ -57,11 +41,9 @@ function Footer({ light }) {
               </Icon>
             </MDBox>
             by
-            <Link href="https://www.facebook.com/JudeisLove/" target="_blank">
-              <MDTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
-                &nbsp;Atabs&nbsp;
-              </MDTypography>
-            </Link>
+            <MDTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
+              &nbsp;Atbsp&nbsp;
+            </MDTypography>
             for a better web.
           </MDBox>
           <MDBox
@@ -83,15 +65,9 @@ function Footer({ light }) {
           >
             {/* DITO ANG EDIT NG FOOTER PARA SA SIGN-UP */}
             <MDBox component="li" pr={2} lineHeight={1}>
-              <Link href="https://www.facebook.com/JudeisLove/" target="_blank">
-                <MDTypography
-                  variant="button"
-                  fontWeight="regular"
-                  color={light ? "white" : "dark"}
-                >
-                  Atabs
-                </MDTypography>
-              </Link>
+              <MDTypography variant="button" fontWeight="regular" color={light ? "white" : "dark"}>
+                Atbsp
+              </MDTypography>
             </MDBox>
           </MDBox>
         </MDBox>

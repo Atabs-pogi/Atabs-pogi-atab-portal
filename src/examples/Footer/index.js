@@ -17,7 +17,6 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // @mui material components
-import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
@@ -28,17 +27,15 @@ import MDTypography from "components/MDTypography";
 import typography from "assets/theme/base/typography";
 
 function Footer({ company, links }) {
-  const { href, name } = company;
+  const { name } = company;
   const { size } = typography;
 
   const renderLinks = () =>
     links.map((link) => (
       <MDBox key={link.name} component="li" px={2} lineHeight={1}>
-        <Link href={link.href} target="_blank">
-          <MDTypography variant="button" fontWeight="regular" color="text">
-            {link.name}
-          </MDTypography>
-        </Link>
+        <MDTypography variant="button" fontWeight="regular" color="text">
+          {link.name}
+        </MDTypography>
       </MDBox>
     ));
 
@@ -67,11 +64,9 @@ function Footer({ company, links }) {
           </Icon>
         </MDBox>
         by
-        <Link href={href} target="_blank">
-          <MDTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
-          </MDTypography>
-        </Link>
+        <MDTypography variant="button" fontWeight="medium">
+          &nbsp;{name}&nbsp;
+        </MDTypography>
         for a better web.
       </MDBox>
       <MDBox
@@ -99,8 +94,8 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "https://www.facebook.com/JudeisLove/", name: "Atabs" },
-  links: [{ href: "https://www.facebook.com/JudeisLove/", name: "Atabs" }],
+  company: { name: "Atbsp" },
+  links: [{ name: "Atabs" }],
 };
 
 // Typechecking props for the Footer

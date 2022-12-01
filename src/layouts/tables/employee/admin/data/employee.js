@@ -34,16 +34,16 @@ export default function EmployeeData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "Firstname", width: 210 },
-    { field: "middleName", headerName: "Middlename", width: 210 },
-    { field: "lastName", headerName: "Lastname", width: 210 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 210 },
+    { field: "id", headerName: "ID", width: 200 },
+    { field: "firstName", headerName: "Firstname", width: 200 },
+    { field: "middleName", headerName: "Middlename", width: 200 },
+    { field: "lastName", headerName: "Lastname", width: 200 },
+    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 210,
+      width: 200,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem

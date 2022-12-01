@@ -1,28 +1,15 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import {
-  Card,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import employeeImg from "assets/images/small-logos/employee1.jpg";
-import SelectSex from "../../textfields/select-sex";
-import SelectRole from "../../textfields/select-role";
-import TextFieldDatePicker from "../../textfields/date-picker";
-import employeeService from "../../../../../../services/employee-service";
+import accountImg from "assets/images/small-logos/account.jpg";
+import accountService from "services/account-service";
 
 export default function AccountUpdateModal({ selected, open, onClose, onSuccess }) {
-  const { address: selectedAddress, ...selectedEmployee } = selected;
-  const [employee, setEmployee] = React.useState(selectedEmployee);
-  const [address, setAddress] = React.useState(selectedAddress);
+  const [account, setAccount] = React.useState({ ...selected });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -32,15 +19,13 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
   const handleSave = () => {
     setError("");
     setLoading(true);
-    const newEmployee = {
-      ...employee,
-      address,
+    const newAccount = {
+      ...account,
     };
-    employeeService
-      .updateEmployee(newEmployee)
+    accountService
+      .updateAccount(newAccount)
       .then(() => {
-        setAddress({});
-        setEmployee({});
+        setAccount({});
         onSuccess?.();
       })
       .catch((err) => {
@@ -71,7 +56,7 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
             <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
               <MDBox
                 component="img"
-                src={employeeImg}
+                src={accountImg}
                 alt="Logo"
                 height="100%"
                 width="20%"
@@ -90,175 +75,52 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Employee Information ({employee?.id})
+                      Account Information ({account?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
                     <Grid container spacing={0}>
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <TextField
                           id="outlined-basic"
-                          label="Lastname"
+                          label="Username"
+                          name="username"
                           variant="outlined"
                           fullWidth
-                          sx={{ pr: 7 }}
                           disabled={loading}
-                          defaultValue={employee.lastName}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, lastName: evt.target.value })
-                          }
+                          defaultValue={account?.username}
+                          onChange={(evt) => setAccount({ ...account, username: evt.target.value })}
+                          sx={{ mb: 4, width: "25%" }}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <TextField
                           id="outlined-basic"
-                          label="Firstname"
+                          label="Password"
+                          name="password"
                           variant="outlined"
                           fullWidth
-                          sx={{ pr: 7 }}
+                          sx={{ mb: 4, width: "25%" }}
                           disabled={loading}
-                          defaultValue={employee.firstName}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, firstName: evt.target.value })
-                          }
+                          defaultValue={account?.password}
+                          onChange={(evt) => setAccount({ ...account, password: evt.target.value })}
                         />
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={12}>
                         <TextField
                           id="outlined-basic"
-                          label="Middlename (Optional)"
+                          label="Role"
+                          name="role"
                           variant="outlined"
                           fullWidth
-                          sx={{ pr: 7 }}
-                          defaultValue={employee.middleName}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, middleName: evt.target.value })
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Mobile Number"
-                          variant="outlined"
-                          fullWidth
-                          type="number"
-                          sx={{ mt: 2, pr: 7 }}
-                          defaultValue={employee.mobileNumber}
-                          onChange={(evt) =>
-                            setEmployee({ ...employee, mobileNumber: evt.target.value })
-                          }
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <Typography
-                                  variant="h2"
-                                  component="span"
-                                  sx={{ fontSize: "15px", fontWeight: "400" }}
-                                >
-                                  +63
-                                </Typography>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Email (Required)"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mt: 2, pr: 7 }}
-                          defaultValue={employee.email}
-                          onChange={(evt) => setEmployee({ ...employee, email: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <SelectSex
-                          value={employee.sex}
-                          onChange={(evt) => setEmployee({ ...employee, sex: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <TextFieldDatePicker
-                          value={employee.birthday}
-                          onChange={(evt) => setEmployee({ ...employee, birthday: evt })}
-                        />
-                      </Grid>
-                      <Grid item xs={4} mt={2}>
-                        <SelectRole
-                          value={employee.role}
-                          onChange={(evt) => setEmployee({ ...employee, role: evt.target.value })}
+                          sx={{ py: 1.7, width: "25%" }}
+                          defaultValue={account?.role}
+                          onChange={(evt) => setAccount({ ...account, role: evt.target.value })}
                         />
                       </Grid>
                     </Grid>
                   </MDBox>
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
-                  <MDBox>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Employee Address
-                    </Typography>
-                  </MDBox>
-                  <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={0}>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="House no."
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7 }}
-                          defaultValue={address?.houseNo}
-                          onChange={(evt) => setAddress({ ...address, houseNo: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Unit"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7 }}
-                          defaultValue={address?.unit}
-                          onChange={(evt) => setAddress({ ...address, unit: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Barangay"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7 }}
-                          defaultValue={address?.barangay}
-                          onChange={(evt) => setAddress({ ...address, barangay: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="City"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mt: 2, pr: 7 }}
-                          defaultValue={address?.city}
-                          onChange={(evt) => setAddress({ ...address, city: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Province"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mt: 2, pr: 7 }}
-                          defaultValue={address?.province}
-                          onChange={(evt) => setAddress({ ...address, province: evt.target.value })}
-                        />
-                      </Grid>
-                    </Grid>
-                  </MDBox>
                   {/* ERROR MESSAGE */}
                   {error}
                   {open && (
@@ -294,14 +156,14 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
 AccountUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
-  selected: null,
   onSuccess: () => {},
+  selected: null,
 };
 // Typechecking props of the MDAlert
 AccountUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
+  onSuccess: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
   selected: PropTypes.object,
-  onSuccess: PropTypes.func,
 };

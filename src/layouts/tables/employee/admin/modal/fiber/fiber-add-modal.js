@@ -72,20 +72,20 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                   }}
                 />
                 <MDBox sx={{ flexGrow: 1 }}>
-                  <MDBox sx={{ display: "flex", flexDirection: "column" }}>
+                  <MDBox sx={{ display: "flex", flexDirection: "column", height: "77vh" }}>
                     <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
                       <IconButton>
                         <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
                       </IconButton>
                     </MDBox>
                     <MDBox>
-                      <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3, mb: 5 }}>
                         Fiber Information
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
                       <Grid container spacing={0}>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
                             label="Name"
@@ -99,10 +99,10 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                             onBlur={formik.handleBLur}
                             error={formik.touched.name && Boolean(formik.errors.name)}
                             helperText={formik.touched.name && formik.errors.name}
-                            sx={{ pr: 7 }}
+                            sx={{ mb: 4, width: "30%" }}
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
                             label="Grade"
@@ -116,10 +116,10 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                             onBlur={formik.handleBLur}
                             error={formik.touched.grade && Boolean(formik.errors.grade)}
                             helperText={formik.touched.grade && formik.errors.grade}
-                            sx={{ pr: 7 }}
+                            sx={{ mb: 4, width: "30%" }}
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
                             label="Price"
@@ -134,7 +134,7 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                             error={formik.touched.price && Boolean(formik.errors.price)}
                             helperText={formik.touched.price && formik.errors.price}
                             type="number"
-                            sx={{ pr: 7 }}
+                            sx={{ mb: 4, width: "30%" }}
                           />
                         </Grid>
                       </Grid>

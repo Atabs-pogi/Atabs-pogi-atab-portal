@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
@@ -6,12 +6,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import accountService from "services/account-service";
-import AccountUpdateModal from "../modal/account/account-update-modal";
-import AccountModal from "../modal/account/account-add-modal";
+import posService from "services/pos-service";
+import PosUpdateModal from "../modal/fiber/fiber-update-modal";
+import PosModal from "../modal/pos/pos-add-modal";
 
-export default function AccountData() {
-  const [accounts, setAccounts] = React.useState([]);
+export default function PosData() {
+  const [pos, setPos] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -23,10 +23,10 @@ export default function AccountData() {
   const UpdateHandleClose = () => setSelected(null);
   const handleSearch = () => {
     setLoading(true);
-    accountService
-      .searchAccounts(search)
+    posService
+      .searchPos(search)
       .then((e) => {
-        setAccounts(e);
+        setPos(e);
       })
       .finally(() => {
         setLoading(false);
@@ -34,15 +34,16 @@ export default function AccountData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 230, textAlign: "center" },
-    { field: "username", headerName: "Username", width: 230 },
-    { field: "role", headerName: "Role", width: 230 },
-    { field: "status", headerName: "Status", width: 230 },
+    { field: "id", headerName: "ID", width: 200 },
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "grade", headerName: "Grade", width: 200 },
+    { field: "price", headerName: "Price", width: 200 },
+    { field: "status", headerName: "Status", width: 200 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 230,
+      width: 200,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
@@ -50,7 +51,7 @@ export default function AccountData() {
           onClick={() => setSelected(params.row)}
           label="Update"
         />,
-        <AccountUpdateModal
+        <PosUpdateModal
           open={params.id === selected?.id}
           onClose={UpdateHandleClose}
           selected={params.row}
@@ -62,7 +63,6 @@ export default function AccountData() {
       ],
     },
   ]);
-
   const handleSearchChange = (evt) => {
     setSearch(evt.target.value);
   };
@@ -73,7 +73,7 @@ export default function AccountData() {
 
   return (
     <MDBox>
-      <AccountModal
+      <PosModal
         open={open}
         onClose={handleClose}
         onSuccess={() => {
@@ -85,7 +85,7 @@ export default function AccountData() {
         <Grid item xs={6} sx={{ p: 1 }}>
           <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
             <AddIcon sx={{ mr: 1 }} />
-            Add Account
+            Add Pos
           </MDButton>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>
@@ -108,7 +108,7 @@ export default function AccountData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          rows={accounts}
+          rows={pos}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[1]}

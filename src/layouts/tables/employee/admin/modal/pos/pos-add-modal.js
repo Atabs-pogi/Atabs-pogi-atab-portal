@@ -1,32 +1,39 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import Modal from "@mui/material/Modal";
-import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import accountImg from "assets/images/small-logos/account.jpg";
-import accountService from "services/account-service";
+import posImg from "assets/images/small-logos/pos.jpg";
+import posService from "services/pos-service";
 import { useFormik } from "formik";
-import AccSchema, { initialAccount } from "../schema/account-schema";
-import SelectRole from "../../textfields/select-role";
+import PosSchema, { initialPos } from "../schema/pos-schema";
+import PosItem from "./item";
 
-export default function AccountModal({ open, onClose, onSuccess }) {
+export default function PosModal({ open, onClose, onSuccess }) {
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [items, setItems] = React.useState([{ id: uuidv4() }]);
   const handleClose = () => {
     onClose?.();
   };
 
-  const formik = useFormik({
-    initialValues: initialAccount,
+  React.useEffect(() => {
+    console.log(items);
+  }, [items]);
 
-    validationSchema: AccSchema,
+  const formik = useFormik({
+    initialValues: initialPos,
+
+    validationSchema: PosSchema,
     onSubmit: () => {
       setError("");
       setLoading(true);
-      accountService
-        .addAccount(formik.values)
+      posService
+        .addPos(formik.values)
         .then(() => {
           onSuccess?.();
         })
@@ -39,6 +46,28 @@ export default function AccountModal({ open, onClose, onSuccess }) {
     },
   });
 
+  const handleClick = () => {
+    setItems?.([...items, { id: uuidv4() }]);
+  };
+
+  const handleItemChange = (item) => {
+    const newItems = [...items];
+    const index = newItems.findIndex((i) => i?.id === item?.id);
+    newItems[index] = item;
+    setItems(newItems);
+  };
+
+  const totalPrice =
+    items?.reduce((val, item) => {
+      const subTotal =
+        (item?.fiber?.prices?.find((price) => price?.grade === item?.grade)?.price || 0) *
+        (item?.kilo || 0);
+      return val + subTotal;
+    }, 0) || 0;
+
+  const handleItemDelete = (item) => {
+    setItems(items.filter((i) => i?.id !== item?.id));
+  };
   return (
     <Modal
       keepMounted
@@ -60,14 +89,13 @@ export default function AccountModal({ open, onClose, onSuccess }) {
               <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
                 <MDBox
                   component="img"
-                  src={accountImg}
+                  src={posImg}
                   alt="Logo"
                   height="100%"
                   width="20%"
                   sx={{
                     borderTopLeftRadius: 11,
                     borderBottomLeftRadius: 11,
-                    mr: 7,
                   }}
                 />
                 <MDBox sx={{ flexGrow: 1 }}>
@@ -77,55 +105,67 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                         <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
                       </IconButton>
                     </MDBox>
-                    <MDBox>
+                    <MDBox sx={{ px: 7 }}>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Account Information
+                        Pos Information
                       </Typography>
                     </MDBox>
-                    <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
+                    <MDBox className="modal-content" sx={{ flexGrow: 1, px: 7 }}>
                       <Grid container spacing={0}>
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            name="username"
-                            label="Username"
-                            disabled={loading}
-                            value={formik.values.username}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.username && Boolean(formik.errors.username)}
-                            helperText={formik.touched.username && formik.errors.username}
+                            name="farmerId"
+                            label="Farmer ID"
+                            // disabled={loading}
+                            // value={formik.values.farmerId}
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBLur}
+                            // error={formik.touched.farmerId && Boolean(formik.errors.farmerId)}
+                            // helperText={formik.touched.farmerId && formik.errors.farmerId}
                             variant="outlined"
-                            sx={{ mb: 4, width: "25%" }}
+                            sx={{ pr: 7, width: "33.27%", mb: 5 }}
                             fullWidth
                           />
                         </Grid>
                         <Grid item xs={12}>
+                          <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
+                            Items <Button onClick={handleClick}>Add</Button>
+                          </Typography>
+                          <Box
+                            sx={{
+                              maxHeight: "250px",
+                              height: "250px",
+                              overflowY: "auto",
+                              py: 1,
+                              mb: 4,
+                            }}
+                          >
+                            {items?.map((item, index) => (
+                              // eslint-disable-next-line react/no-array-index-key
+                              <PosItem
+                                key={item?.id}
+                                info={item}
+                                onDelete={handleItemDelete}
+                                onChange={handleItemChange}
+                                allowDelete={items?.length > 1}
+                                autoFocus={index + 1 === items?.length}
+                              />
+                            ))}
+                          </Box>
+                        </Grid>
+                        <Grid item xs={9} />
+                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
-                            label="Password"
-                            name="password"
+                            name="totalPrice"
+                            label="Total Price"
+                            readOnly
+                            value={totalPrice}
                             variant="outlined"
+                            type="number"
+                            sx={{ pr: 7 }}
                             fullWidth
-                            disabled={loading}
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            sx={{ mb: 4, width: "25%" }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <SelectRole
-                            name="role"
-                            disabled={loading}
-                            value={formik.values.role}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.role && Boolean(formik.errors.role)}
-                            helperText={formik.touched.role && formik.errors.role}
-                            sx={{ py: 1.7, width: "26.5%" }}
                           />
                         </Grid>
                       </Grid>
@@ -138,14 +178,14 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                           type="submit"
                           variant="contained"
                           color="success"
-                          sx={{ mr: 2, mt: 5, width: 80 }}
+                          sx={{ mr: 2, mt: 2, width: 80 }}
                         >
                           Save
                         </MDButton>
                         <MDButton
                           variant="contained"
                           color="secondary"
-                          sx={{ mr: 2, mt: 5, width: 80 }}
+                          sx={{ mr: 2, mt: 2, width: 80 }}
                           onClick={handleClose}
                         >
                           Cancel
@@ -163,13 +203,13 @@ export default function AccountModal({ open, onClose, onSuccess }) {
   );
 }
 
-AccountModal.defaultProps = {
+PosModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-AccountModal.propTypes = {
+PosModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,

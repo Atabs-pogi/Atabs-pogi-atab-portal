@@ -13,6 +13,7 @@ import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
 import AccountTable from "layouts/tables/employee/admin/account-role";
 import SignOut from "layouts/authentication/sign-out";
+import PosTable from "layouts/tables/employee/admin/pos";
 
 const cashierRoutes = [
   {
@@ -46,7 +47,7 @@ const posRoutes = [
     key: "sales",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/sales",
-    component: <EmployeeTable />,
+    component: <PosTable />,
   },
   {
     type: "divider",

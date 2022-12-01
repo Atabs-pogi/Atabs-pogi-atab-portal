@@ -1,15 +1,25 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import fiberImg from "assets/images/small-logos/fiber.jpg";
-import fiberService from "services/fiber-service";
+import posImg from "assets/images/small-logos/pos.jpg";
+import posService from "../../../../../../services/pos-service";
+import SelectGrade from "../../textfields/select-grade";
 
-export default function FiberUpdateModal({ selected, open, onClose, onSuccess }) {
-  const [fiber, setFiber] = React.useState({ ...selected });
+export default function PosUpdateModal({ selected, open, onClose, onSuccess }) {
+  const [pos, setPos] = React.useState(selected);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -19,13 +29,13 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
   const handleSave = () => {
     setError("");
     setLoading(true);
-    const newFiber = {
-      ...fiber,
+    const newPos = {
+      ...pos,
     };
-    fiberService
-      .updateFiber(newFiber)
+    posService
+      .updatePos(newPos)
       .then(() => {
-        setFiber({});
+        setPos({});
         onSuccess?.();
       })
       .catch((err) => {
@@ -56,7 +66,7 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
             <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
               <MDBox
                 component="img"
-                src={fiberImg}
+                src={posImg}
                 alt="Logo"
                 height="100%"
                 width="20%"
@@ -75,52 +85,93 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Fiber Information ({fiber?.id})
+                      Pos Information ({pos?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
                     <Grid container spacing={0}>
-                      <Grid item xs={12}>
+                      <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
-                          label="Name"
+                          name="farmerId"
+                          label="Farmer ID"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ pr: 7 }}
+                          disabled
+                          defaultValue={pos.farmerId}
+                          onChange={(evt) => setPos({ ...pos, farmerId: evt.target.value })}
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <TextField
+                          id="outlined-basic"
                           name="name"
+                          label="Fiber"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          disabled={loading}
-                          defaultValue={fiber?.name}
-                          onChange={(evt) => setFiber({ ...fiber, name: evt.target.value })}
+                          sx={{ pr: 7 }}
+                          disabled
+                          defaultValue={pos.name}
+                          onChange={(evt) => setPos({ ...pos, name: evt.target.value })}
                         />
                       </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Grade"
+                      <Grid item xs={4}>
+                        <SelectGrade
                           name="grade"
-                          variant="outlined"
+                          label="Grade"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          disabled={loading}
-                          defaultValue={fiber?.grade}
-                          onChange={(evt) => setFiber({ ...fiber, grade: evt.target.value })}
+                          sx={{ pr: 7 }}
+                          disabled
+                          defaultValue={pos.grade}
+                          onChange={(evt) => setPos({ ...pos, grade: evt.target.value })}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
-                          label="Price"
-                          name="price"
+                          name="kilogram"
+                          label="Weight(kg)"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          defaultValue={fiber?.price}
-                          onChange={(evt) => setFiber({ ...fiber, price: evt.target.value })}
+                          sx={{ pr: 7 }}
+                          defaultValue={pos.kilogram}
+                          onChange={(evt) => setPos({ ...pos, kilogram: evt.target.value })}
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <TextField
+                          id="outlined-basic"
+                          label="Mobile Number"
+                          variant="outlined"
+                          fullWidth
+                          type="number"
+                          sx={{ mt: 2, pr: 7 }}
+                          defaultValue={pos.mobileNumber}
+                          onChange={(evt) => setPos({ ...pos, mobileNumber: evt.target.value })}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <Typography
+                                  variant="h2"
+                                  component="span"
+                                  sx={{ fontSize: "15px", fontWeight: "400" }}
+                                >
+                                  +63
+                                </Typography>
+                              </InputAdornment>
+                            ),
+                          }}
                         />
                       </Grid>
                     </Grid>
                   </MDBox>
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
+                  <MDBox>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
+                      Pos Address
+                    </Typography>
+                  </MDBox>
                   {/* ERROR MESSAGE */}
                   {error}
                   {open && (
@@ -153,17 +204,17 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
   );
 }
 
-FiberUpdateModal.defaultProps = {
+PosUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
-  onSuccess: () => {},
   selected: null,
+  onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-FiberUpdateModal.propTypes = {
+PosUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  onSuccess: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
   selected: PropTypes.object,
+  onSuccess: PropTypes.func,
 };

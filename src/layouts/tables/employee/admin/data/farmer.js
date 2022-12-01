@@ -34,16 +34,16 @@ export default function FarmerData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "Firstname", width: 130 },
-    { field: "middleName", headerName: "Middlename", width: 130 },
-    { field: "lastName", headerName: "Lastname", width: 130 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 150 },
+    { field: "id", headerName: "ID", width: 200 },
+    { field: "firstName", headerName: "Firstname", width: 200 },
+    { field: "middleName", headerName: "Middlename", width: 200 },
+    { field: "lastName", headerName: "Lastname", width: 200 },
+    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 130,
+      width: 200,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem

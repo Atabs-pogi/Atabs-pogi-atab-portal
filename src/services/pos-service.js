@@ -5,6 +5,10 @@ const DEFAULT_DELAY = 1000;
 
 const BASE_URL = "http://localhost:8080";
 
+function getPos(id) {
+  return axios.get(`${BASE_URL}/pos/getPos/${id}`);
+}
+
 function searchPos(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -19,11 +23,11 @@ function searchPos(search = "") {
 }
 
 function addPos(pos) {
-  return axios.post(`${BASE_URL}/pos/addPos`, pos);
+  return axios.post(`${BASE_URL}/pos/save`, pos);
 }
 
 function updatePos(pos) {
   return axios.put(`${BASE_URL}/pos/updatePos`, pos);
 }
 
-export default { searchPos, addPos, updatePos };
+export default { searchPos, addPos, updatePos, getPos };

@@ -12,7 +12,6 @@ export const EmployeeSchema = object().shape({
   sex: string().required("Required"),
   address: object().shape({
     houseNo: string().required("Required"),
-    unit: string().required("Required"),
     barangay: string().required("Required"),
     city: string().required("Required"),
     province: string().required("Required"),
@@ -28,7 +27,6 @@ export const initialEmployee = {
   sex: "",
   address: {
     houseNo: "",
-    unit: "",
     barangay: "",
     city: "",
     province: "",
