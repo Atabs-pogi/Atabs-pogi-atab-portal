@@ -72,7 +72,7 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
       </Grid>
       <Grid item xs={1}>
         <IconButton onClick={() => onDelete?.(item)}>
-          <DeleteIcon disabled={allowDelete} sx={{ cursor: "pointer" }} />
+          <DeleteIcon color="error" disabled={allowDelete} sx={{ cursor: "pointer" }} />
         </IconButton>
       </Grid>
     </Grid>

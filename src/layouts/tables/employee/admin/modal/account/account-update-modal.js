@@ -7,6 +7,7 @@ import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import accountImg from "assets/images/small-logos/account.jpg";
 import accountService from "services/account-service";
+import SelectRole from "../../textfields/select-role";
 
 export default function AccountUpdateModal({ selected, open, onClose, onSuccess }) {
   const [account, setAccount] = React.useState({ ...selected });
@@ -107,15 +108,11 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Role"
+                        <SelectRole
                           name="role"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ py: 1.7, width: "25%" }}
                           defaultValue={account?.role}
                           onChange={(evt) => setAccount({ ...account, role: evt.target.value })}
+                          sx={{ py: 1.7, width: "26.5%" }}
                         />
                       </Grid>
                     </Grid>

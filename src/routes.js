@@ -14,12 +14,13 @@ import FiberTable from "layouts/tables/employee/admin/fiber";
 import AccountTable from "layouts/tables/employee/admin/account-role";
 import SignOut from "layouts/authentication/sign-out";
 import PosTable from "layouts/tables/employee/admin/pos";
+import CashierTable from "layouts/tables/employee/admin/cashier";
 
 const cashierRoutes = [
   {
     type: "title",
     title: "Cashier",
-    key: "cashier",
+    key: "cashier-title",
   },
   {
     type: "collapse",
@@ -27,11 +28,11 @@ const cashierRoutes = [
     key: "cashier",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/cashier",
-    component: <EmployeeTable />,
+    component: <CashierTable />,
   },
   {
     type: "divider",
-    key: "divider",
+    key: "divider3",
   },
 ].map((route) => ({ ...route, role: ["cashier", "superAdmin", "admin"] }));
 
@@ -51,7 +52,7 @@ const posRoutes = [
   },
   {
     type: "divider",
-    key: "divider1",
+    key: "divider4",
   },
 ].map((route) => ({ ...route, role: ["pos", "superAdmin", "admin"] }));
 const adminRoutes = [
@@ -65,7 +66,7 @@ const adminRoutes = [
   },
   {
     type: "divider",
-    key: "divider1",
+    key: "divider5",
   },
   {
     type: "title",
@@ -104,9 +105,10 @@ const adminRoutes = [
     route: "/account",
     component: <AccountTable />,
   },
+  // DITO ANG ROUTE NG DATABASE
   {
     type: "divider",
-    key: "divider2",
+    key: "divider6",
   },
 ].map((route) => ({ ...route, role: ["admin", "superAdmin"] }));
 

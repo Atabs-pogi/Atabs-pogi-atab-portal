@@ -1,13 +1,14 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "@mui/material/Modal";
-import { Box, Button, Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import posImg from "assets/images/small-logos/pos.jpg";
 import posService from "services/pos-service";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
 import PosSchema, { initialPos } from "../schema/pos-schema";
 import PosItem from "./item";
@@ -52,7 +53,7 @@ export default function PosModal({ open, onClose, onSuccess }) {
           onSuccess?.();
         })
         .catch((err) => {
-          setError(err?.message);
+          setError(err?.response?.data || err?.message);
         })
         .finally(() => {
           setLoading(false);
@@ -130,13 +131,20 @@ export default function PosModal({ open, onClose, onSuccess }) {
                             error={formik.touched.farmerId && Boolean(formik.errors.farmerId)}
                             helperText={formik.touched.farmerId && formik.errors.farmerId}
                             variant="outlined"
-                            sx={{ pr: 7, width: "33.27%", mb: 5 }}
+                            sx={{ pr: 7, width: "33.27%", mb: 3 }}
                             fullWidth
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                            Items <Button onClick={handleClick}>Add</Button>
+                            Items
+                            <IconButton>
+                              <AddCircleOutlineIcon
+                                color="success"
+                                onClick={handleClick}
+                                sx={{ cursor: "pointer" }}
+                              />
+                            </IconButton>
                           </Typography>
                           <Box
                             sx={{
@@ -177,7 +185,9 @@ export default function PosModal({ open, onClose, onSuccess }) {
                       </Grid>
                     </MDBox>
                     <Divider sx={{ py: 0.1, opacity: 10 }} />
-                    {error}
+                    <Typography color="error" sx={{ pl: 7, maxHeight: 0 }}>
+                      {error}
+                    </Typography>
                     {open && (
                       <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
                         <MDButton

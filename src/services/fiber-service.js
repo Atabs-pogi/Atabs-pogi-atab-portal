@@ -7,20 +7,6 @@ const BASE_URL = "http://localhost:8080";
 
 function getFiber(id) {
   return axios.get(`${BASE_URL}/fiber/getFiber/${id}`);
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       id,
-  //       lastName: "Roxie",
-  //       firstName: "Harvey",
-  //       middleName: "Curtis",
-  //       birthday: "10/20/1990",
-  //       mobileNumber: "9523852567",
-  //       email: "JcPogi07@gmail.com",
-  //       sex: "Male",
-  //     });
-  //   }, DEFAULT_DELAY);
-  // });
 }
 
 function searchFiber(search = "") {
@@ -34,6 +20,7 @@ function searchFiber(search = "") {
         });
     }, DEFAULT_DELAY);
   });
+
   // return new Promise((resolve) => {
   //   setTimeout(() => {
   //     resolve({

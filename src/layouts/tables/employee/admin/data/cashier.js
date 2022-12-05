@@ -3,19 +3,16 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Box, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import MDButton from "components/MDButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import posService from "services/pos-service";
 import PosModal from "../modal/pos/pos-add-modal";
 import PosUpdateModal from "../modal/pos/pos-update-modal";
 
-export default function PosData() {
+export default function CashierPosData() {
   const [pos, setPos] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [selected, setSelected] = React.useState(null);
@@ -95,13 +92,7 @@ export default function PosData() {
         }}
       />
       <Grid container>
-        <Grid item xs={6} sx={{ p: 1 }}>
-          <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
-            <AddIcon sx={{ mr: 1 }} />
-            Add Pos
-          </MDButton>
-        </Grid>
-        <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={12} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
