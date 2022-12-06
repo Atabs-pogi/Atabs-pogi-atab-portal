@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function TextFieldDatePicker({ value, onChange }) {
+export default function TextFieldDatePicker({ value, onChange, ...rest }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
@@ -15,6 +15,7 @@ export default function TextFieldDatePicker({ value, onChange }) {
           onChange?.(newValue);
         }}
         renderInput={(params) => <TextField {...params} fullWidth sx={{ pr: 7 }} />}
+        {...rest}
       />
     </LocalizationProvider>
   );

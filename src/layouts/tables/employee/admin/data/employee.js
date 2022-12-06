@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import EmployeeUpdateModal from "../modal/employee/employee-update-modal";
+import EmployeeUpdateModal from "../modal/employee/employee-update-modal2";
 import employeeService from "../../../../../services/employee-service";
 import EmployeeModal from "../modal/employee/employee-add-modal";
 

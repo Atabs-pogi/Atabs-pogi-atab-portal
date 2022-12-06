@@ -21,7 +21,6 @@ import SelectSex from "../../textfields/select-sex";
 import EmpSchema, { initialEmployee } from "../schema/employee-schema";
 
 export default function EmployeeModal({ open, onClose, onSuccess }) {
-  const [employee, setEmployee] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -38,7 +37,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
       employeeService
         .addEmployee(formik.values)
         .then(() => {
-          setEmployee({});
+          formik?.resetForm();
           onSuccess?.();
         })
         .catch((err) => {
@@ -206,8 +205,13 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           <TextFieldDatePicker
                             name="birthday"
                             disabled={loading}
-                            value={employee.birthday}
-                            onChange={(evt) => setEmployee({ ...employee, birthday: evt })}
+                            value={formik.values.birthday}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("birthday", evt?.toISOString(), true)
+                            }
+                            maxDate={new Date()}
+                            error={formik.touched.birthday && Boolean(formik.errors.birthday)}
+                            helperText={formik.touched.birthday && formik.errors.birthday}
                           />
                         </Grid>
                       </Grid>
