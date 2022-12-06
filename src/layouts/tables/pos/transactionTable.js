@@ -31,13 +31,18 @@ function total(items) {
   return items.map(({ subtotal }) => subtotal).reduce((sum, i) => sum + i, 0);
 }
 
+// const fiber2 = ["Fiber 2", "S1", 10, 45.99];
+
 const rows = [
-  // createRow(fiber),
-  createRow("Fiber 2", "S1", 10, 45.99),
-  createRow("Fiber 3", "S1", 3, 17),
-  createRow("Fiber 4", "S1", 2, 17.99),
-  createRow("Fiber 5", "S1", 2, 17.99),
+  // createRow("Fiber 2", "S1", 10, 45.99),
+  // createRow("Fiber 3", "S1", 3, 17),
+  // createRow("Fiber 4", "S1", 2, 17.99),
+  // createRow("Fiber 5", "S1", 2, 17.99),
 ];
+
+const clickmoko = () => {
+  rows.push(createRow({fiber, grade, OGprice, weight}));
+};
 
 const invoiceTotal = total(rows);
 
@@ -50,6 +55,7 @@ export default function SpanningTable() {
         backgroundColor: "#fff",
       }}
     >
+      <MDButton onClick={clickmoko}>addRow</MDButton>
       <MDBox
         ml={4}
         sx={{
