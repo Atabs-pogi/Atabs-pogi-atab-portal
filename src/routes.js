@@ -5,12 +5,14 @@ import Profile from "layouts/profile";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
+import BackupIcon from "@mui/icons-material/Backup";
 import BadgeIcon from "@mui/icons-material/Badge";
 import GrassIcon from "@mui/icons-material/Grass";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
+import BackupTable from "layouts/tables/employee/admin/backup";
 import AccountTable from "layouts/tables/employee/admin/account-role";
 import SignOut from "layouts/authentication/sign-out";
 import PosTable from "layouts/tables/employee/admin/pos";
@@ -105,7 +107,14 @@ const adminRoutes = [
     route: "/account",
     component: <AccountTable />,
   },
-  // DITO ANG ROUTE NG DATABASE
+  {
+    type: "collapse",
+    name: "Backup",
+    key: "backup",
+    icon: <BackupIcon fontSize="small">table-view</BackupIcon>,
+    route: "/backup",
+    component: <BackupTable />,
+  },
   {
     type: "divider",
     key: "divider6",
