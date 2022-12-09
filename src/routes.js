@@ -15,6 +15,7 @@ import AccountTable from "layouts/tables/employee/admin/account-role";
 import SignOut from "layouts/authentication/sign-out";
 import PosTable from "layouts/tables/employee/admin/pos";
 import CashierTable from "layouts/tables/employee/admin/cashier";
+import TuxyTable from "layouts/tables/employee/admin/tuxy";
 
 const cashierRoutes = [
   {
@@ -105,7 +106,14 @@ const adminRoutes = [
     route: "/account",
     component: <AccountTable />,
   },
-  // DITO ANG ROUTE NG DATABASE
+  {
+    type: "collapse",
+    name: "Tuxy",
+    key: "tuxy",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/tuxy",
+    component: <TuxyTable />,
+  },
   {
     type: "divider",
     key: "divider6",

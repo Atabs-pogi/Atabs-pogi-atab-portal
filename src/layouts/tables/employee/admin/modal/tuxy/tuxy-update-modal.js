@@ -10,7 +10,7 @@ import tuxyService from "services/tuxy-service";
 import { useFormik } from "formik";
 import TuxSchema, { initialTuxy } from "../schema/tuxy-schema";
 
-export default function TuxyModal({ open, onClose, onSuccess }) {
+export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -44,9 +44,8 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
       tuxyService
         .addTuxy(values)
         .then(() => {
-          onSuccess?.();
-          formik?.setValues("price", {}, false);
           formik?.resetForm();
+          onSuccess?.();
         })
         .catch((err) => {
           setError(err?.message);
@@ -56,10 +55,6 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
         });
     },
   });
-
-  // React.useEffect(() => {
-  //   console.log(formik?.values);
-  // }, [open]);
 
   return (
     <Modal
@@ -101,7 +96,7 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Tuxy Name
+                        Tuxy Information
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -124,7 +119,7 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={12}>
                           <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                            Tuxy Prices
+                            Tuxy Information
                           </Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -143,7 +138,6 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                             }
                             helperText={formik?.touched?.price?.good && formik?.errors?.price?.good}
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
-                            type="number"
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -153,7 +147,6 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                             name="price.discarte"
                             variant="outlined"
                             fullWidth
-                            type="number"
                             disabled={loading}
                             value={formik?.values?.price?.discarte}
                             onChange={formik.handleChange}
@@ -187,7 +180,6 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                               formik?.touched?.price?.reseco && formik?.errors?.price?.reseco
                             }
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
-                            type="number"
                           />
                         </Grid>
                       </Grid>
@@ -225,13 +217,13 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
   );
 }
 
-TuxyModal.defaultProps = {
+TuxyUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-TuxyModal.propTypes = {
+TuxyUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,

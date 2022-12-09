@@ -9,7 +9,7 @@ function getPos(id) {
   return axios.get(`${BASE_URL}/pos/getPos/${id}`);
 }
 
-function searchPos(search = "") {
+function searchPos() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios

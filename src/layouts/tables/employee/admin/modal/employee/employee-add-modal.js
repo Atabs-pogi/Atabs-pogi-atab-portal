@@ -35,7 +35,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
       setError("");
       setLoading(true);
       employeeService
-        .addEmployee(formik.values)
+        .addEmployee(formik?.values)
         .then(() => {
           formik?.resetForm();
           onSuccess?.();
