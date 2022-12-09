@@ -25,7 +25,7 @@ export default function BackupData() {
     setLoading(true);
     backupService
       .saveBackup()
-      .then((e) => console.log(e))
+      .then((e) => (e ? alert("Backup for database created successfully") : console.log(e)))
       .finally(() => {
         setLoading(false);
       });
