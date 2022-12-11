@@ -24,25 +24,8 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
     onSubmit: () => {
       setError("");
       setLoading(true);
-      const values = {
-        name: formik?.values?.name,
-        items: [
-          {
-            type: "Good",
-            price: formik?.values?.price?.good,
-          },
-          {
-            type: "Discarte",
-            price: formik?.values?.price?.discarte,
-          },
-          {
-            type: "Reseco",
-            price: formik?.values?.price?.reseco,
-          },
-        ],
-      };
       tuxyService
-        .addTuxy(values)
+        .addTuxy(formik?.values)
         .then(() => {
           onSuccess?.();
           formik?.setValues("price", {}, false);
@@ -131,17 +114,15 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                           <TextField
                             id="outlined-basic"
                             label="Good Price"
-                            name="price.good"
+                            name="goodPrice"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik?.values?.price?.good}
+                            value={formik?.values?.goodPrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
-                            error={
-                              formik?.touched?.price?.good && Boolean(formik?.errors?.price?.good)
-                            }
-                            helperText={formik?.touched?.price?.good && formik?.errors?.price?.good}
+                            error={formik?.touched?.goodPrice && Boolean(formik?.errors?.goodPrice)}
+                            helperText={formik?.touched?.goodPrice && formik?.errors?.goodPrice}
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
                             type="number"
                           />
@@ -150,20 +131,20 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                           <TextField
                             id="outlined-basic"
                             label="Discarte Price"
-                            name="price.discarte"
+                            name="discartePrice"
                             variant="outlined"
                             fullWidth
                             type="number"
                             disabled={loading}
-                            value={formik?.values?.price?.discarte}
+                            value={formik?.values?.discartePrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
                             error={
-                              formik?.touched?.price?.discarte &&
-                              Boolean(formik?.errors?.price?.discarte)
+                              formik?.touched?.discartePrice &&
+                              Boolean(formik?.errors?.discartePrice)
                             }
                             helperText={
-                              formik?.touched?.price?.discarte && formik?.errors?.price?.discarte
+                              formik?.touched?.discartePrice && formik?.errors?.discartePrice
                             }
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
                           />
@@ -172,20 +153,17 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                           <TextField
                             id="outlined-basic"
                             label="Reseco Price"
-                            name="price.reseco"
+                            name="resecoPrice"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik?.values?.price?.reseco}
+                            value={formik?.values?.resecoPrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
                             error={
-                              formik?.touched?.price?.reseco &&
-                              Boolean(formik?.errors?.price?.reseco)
+                              formik?.touched?.resecoPrice && Boolean(formik?.errors?.resecoPrice)
                             }
-                            helperText={
-                              formik?.touched?.price?.reseco && formik?.errors?.price?.reseco
-                            }
+                            helperText={formik?.touched?.resecoPrice && formik?.errors?.resecoPrice}
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
                             type="number"
                           />

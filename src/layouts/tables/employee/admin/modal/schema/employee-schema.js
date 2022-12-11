@@ -1,8 +1,5 @@
 import { string, object, date } from "yup";
 
-// const passwordSequence = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{8,}$/;
-// min 8 characters , 1 upper case letter, 1 lower case letter, 1 numeric digit.
-
 export const EmployeeSchema = object().shape({
   lastName: string().required("Required"),
   firstName: string().required("Required"),
@@ -13,6 +10,7 @@ export const EmployeeSchema = object().shape({
   birthday: date(),
   address: object().shape({
     houseNo: string().required("Required"),
+    unit: string(),
     barangay: string().required("Required"),
     city: string().required("Required"),
     province: string().required("Required"),
@@ -30,6 +28,7 @@ export const initialEmployee = {
   address: {
     houseNo: "",
     barangay: "",
+    unit: "",
     city: "",
     province: "",
   },

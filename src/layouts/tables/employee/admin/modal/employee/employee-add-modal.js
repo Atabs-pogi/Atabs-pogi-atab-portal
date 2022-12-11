@@ -100,7 +100,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                             name="lastName"
                             label="Lastname"
                             disabled={loading}
-                            value={formik.values.lastName}
+                            value={formik?.values?.lastName}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
                             error={formik.touched.lastName && Boolean(formik.errors.lastName)}

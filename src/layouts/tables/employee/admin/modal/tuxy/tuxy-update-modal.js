@@ -8,44 +8,41 @@ import CloseIcon from "@mui/icons-material/Close";
 import EmployeeImg from "assets/images/small-logos/employee1.jpg";
 import tuxyService from "services/tuxy-service";
 import { useFormik } from "formik";
-import TuxSchema, { initialTuxy } from "../schema/tuxy-schema";
+import TuxSchema from "../schema/tuxy-schema";
 
-export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
+export default function TuxyViewModal({ open, onClose, onSuccess, selected }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [readOnly, setReadOnly] = React.useState(true);
+
+  React.useEffect(() => {
+    if (open) {
+      setReadOnly(true);
+    }
+  }, [open]);
+
   const handleClose = () => {
     onClose?.();
   };
 
+  const handleEditClick = () => {
+    setReadOnly(false);
+  };
+
   const formik = useFormik({
-    initialValues: initialTuxy,
+    initialValues: selected,
 
     validationSchema: TuxSchema,
     onSubmit: () => {
       setError("");
       setLoading(true);
-      const values = {
-        name: formik?.values?.name,
-        items: [
-          {
-            type: "Good",
-            price: formik?.values?.price?.good,
-          },
-          {
-            type: "Discarte",
-            price: formik?.values?.price?.discarte,
-          },
-          {
-            type: "Reseco",
-            price: formik?.values?.price?.reseco,
-          },
-        ],
-      };
       tuxyService
-        .addTuxy(values)
+        .updateTuxy(formik?.values)
         .then(() => {
-          formik?.resetForm();
           onSuccess?.();
+          setReadOnly(true);
+          formik?.setValues("price", {}, false);
+          formik?.resetForm();
         })
         .catch((err) => {
           setError(err?.message);
@@ -96,7 +93,7 @@ export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Tuxy Information
+                        Tuxy Name ({selected?.tuxyId})
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -106,7 +103,7 @@ export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
                             id="outlined-basic"
                             name="name"
                             label="Name"
-                            disabled={loading}
+                            disabled={loading || readOnly}
                             value={formik.values.name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
@@ -119,44 +116,44 @@ export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={12}>
                           <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                            Tuxy Information
+                            Tuxy Prices
                           </Typography>
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
                             label="Good Price"
-                            name="price.good"
+                            name="goodPrice"
                             variant="outlined"
                             fullWidth
-                            disabled={loading}
-                            value={formik?.values?.price?.good}
+                            disabled={loading || readOnly}
+                            value={formik?.values?.goodPrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
-                            error={
-                              formik?.touched?.price?.good && Boolean(formik?.errors?.price?.good)
-                            }
-                            helperText={formik?.touched?.price?.good && formik?.errors?.price?.good}
+                            error={formik?.touched?.goodPrice && Boolean(formik?.errors?.goodPrice)}
+                            helperText={formik?.touched?.goodPrice && formik?.errors?.goodPrice}
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
+                            type="number"
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
                             label="Discarte Price"
-                            name="price.discarte"
+                            name="discartePrice"
                             variant="outlined"
                             fullWidth
-                            disabled={loading}
-                            value={formik?.values?.price?.discarte}
+                            type="number"
+                            disabled={loading || readOnly}
+                            value={formik?.values?.discartePrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
                             error={
-                              formik?.touched?.price?.discarte &&
-                              Boolean(formik?.errors?.price?.discarte)
+                              formik?.touched?.discartePrice &&
+                              Boolean(formik?.errors?.discartePrice)
                             }
                             helperText={
-                              formik?.touched?.price?.discarte && formik?.errors?.price?.discarte
+                              formik?.touched?.discartePrice && formik?.errors?.discartePrice
                             }
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
                           />
@@ -165,22 +162,32 @@ export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
                           <TextField
                             id="outlined-basic"
                             label="Reseco Price"
-                            name="price.reseco"
+                            name="resecoPrice"
                             variant="outlined"
                             fullWidth
-                            disabled={loading}
-                            value={formik?.values?.price?.reseco}
+                            disabled={loading || readOnly}
+                            value={formik?.values?.resecoPrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
                             error={
-                              formik?.touched?.price?.reseco &&
-                              Boolean(formik?.errors?.price?.reseco)
+                              formik?.touched?.resecoPrice && Boolean(formik?.errors?.resecoPrice)
                             }
-                            helperText={
-                              formik?.touched?.price?.reseco && formik?.errors?.price?.reseco
-                            }
+                            helperText={formik?.touched?.resecoPrice && formik?.errors?.resecoPrice}
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
+                            type="number"
                           />
+                        </Grid>
+                        <Grid item xs={12}>
+                          {readOnly && open && (
+                            <MDButton
+                              variant="contained"
+                              color="primary"
+                              sx={{ mr: 2, mt: 5, width: 80 }}
+                              onClick={handleEditClick}
+                            >
+                              Update
+                            </MDButton>
+                          )}
                         </Grid>
                       </Grid>
                     </MDBox>
@@ -188,14 +195,16 @@ export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
                     {error}
                     {open && (
                       <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
-                        <MDButton
-                          type="submit"
-                          variant="contained"
-                          color="success"
-                          sx={{ mr: 2, mt: 5, width: 80 }}
-                        >
-                          Save
-                        </MDButton>
+                        {!readOnly && (
+                          <MDButton
+                            type="submit"
+                            variant="contained"
+                            color="success"
+                            sx={{ mr: 2, mt: 5, width: 80 }}
+                          >
+                            Save
+                          </MDButton>
+                        )}
                         <MDButton
                           variant="contained"
                           color="secondary"
@@ -217,14 +226,17 @@ export default function TuxyUpdateModal({ open, onClose, onSuccess }) {
   );
 }
 
-TuxyUpdateModal.defaultProps = {
+TuxyViewModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
+  selected: null,
 };
 // Typechecking props of the MDAlert
-TuxyUpdateModal.propTypes = {
+TuxyViewModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  selected: PropTypes.object,
 };

@@ -5,10 +5,10 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
-import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import tuxyServices from "services/tuxy-service";
 import TuxyModal from "../modal/tuxy/tuxy-add-modal";
-import TuxyUpdateModal from "../modal/tuxy/tuxy-update-modal";
+import TuxyViewModal from "../modal/tuxy/tuxy-update-modal";
 
 export default function TuxyData() {
   const [tuxys, setTuxys] = React.useState([]);
@@ -34,28 +34,26 @@ export default function TuxyData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "tuxyId", headerName: "ID", width: 200 },
     { field: "name", headerName: "Name", width: 200 },
     { field: "createDate", headerName: "Date Created", width: 200 },
     {
-      field: "price.good",
+      field: "goodPrice",
       headerName: "Good",
       width: 100,
       type: "number",
-      valueGetter: (p) => p?.row?.price?.good.toFixed(2),
     },
     {
-      field: "price.discarte",
+      field: "discartePrice",
       headerName: "Discarte",
       width: 100,
       type: "number",
-      valueGetter: (p) => p?.row?.price?.discarte.toFixed(2),
     },
     {
-      field: "price.reseco",
+      field: "resecoPrice",
       headerName: "Reseco",
       width: 100,
-      valueGetter: (p) => p?.row?.price?.reseco?.toFixed(2),
+      type: "number",
     },
     {
       field: "actions",
@@ -65,12 +63,12 @@ export default function TuxyData() {
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<EditIcon />}
+          icon={<VisibilityIcon />}
           onClick={() => setSelected(params?.row)}
           label="Update"
         />,
-        <TuxyUpdateModal
-          open={params?.id === selected?.id}
+        <TuxyViewModal
+          open={params?.row?.tuxyId === selected?.tuxyId}
           onClose={UpdateHandleClose}
           selected={params.row}
           onSuccess={() => {
@@ -127,6 +125,7 @@ export default function TuxyData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
+          getRowId={(row) => row.tuxyId}
           rows={tuxys}
           columns={columns}
           pageSize={10}

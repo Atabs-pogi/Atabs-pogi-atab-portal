@@ -10,7 +10,6 @@ import accountService from "services/account-service";
 import { useFormik } from "formik";
 import AccSchema, { initialAccount } from "../schema/account-schema";
 import SelectRole from "../../textfields/select-role";
-import SelectFiberCopy from "../../textfields/select-fiber copy";
 
 export default function AccountModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
@@ -128,9 +127,6 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                             helperText={formik.touched.role && formik.errors.role}
                             sx={{ py: 1.7, width: "26.5%" }}
                           />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <SelectFiberCopy />
                         </Grid>
                       </Grid>
                     </MDBox>

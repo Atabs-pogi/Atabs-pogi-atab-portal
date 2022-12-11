@@ -43,6 +43,7 @@ export default function App() {
   const { pathname } = useLocation();
   const [user, userDispatch] = useUserContext();
   const navigate = useNavigate();
+
   // Cache for the rtl
   useMemo(() => {
     const cacheRtl = createCache({
