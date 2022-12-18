@@ -7,20 +7,6 @@ const BASE_URL = "http://localhost:8080";
 
 function getFarmer(id) {
   return axios.get(`${BASE_URL}/farmer/getFarmer/${id}`);
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       id,
-  //       lastName: "Roxie",
-  //       firstName: "Harvey",
-  //       middleName: "Curtis",
-  //       birthday: "10/20/1990",
-  //       mobileNumber: "9523852567",
-  //       email: "JcPogi07@gmail.com",
-  //       sex: "Male",
-  //     });
-  //   }, DEFAULT_DELAY);
-  // });
 }
 
 function searchFarmer(search = "") {
@@ -38,26 +24,22 @@ function searchFarmer(search = "") {
 
 function addFarmer(farmer) {
   return axios.post(`${BASE_URL}/farmer/addFarmer`, farmer);
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       id: 1000,
-  //       ...employee,
-  //     });
-  //   }, DEFAULT_DELAY);
-  // });
+}
+
+function createImgPath(profile, type, img) {
+  const formData = new FormData();
+  formData.append("profile", profile);
+  formData.append("type", type);
+  formData.append("img", img);
+  return axios.post(`${BASE_URL}/image/addProfile`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 }
 
 function updateFarmer(farmer) {
   return axios.put(`${BASE_URL}/farmer/updateFarmer`, farmer);
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     // resolve({
-  //     //   ...employee,
-  //     // });
-  //     reject(new Error("Invalid Char"));
-  //   }, DEFAULT_DELAY);
-  // });
 }
 
-export default { getFarmer, searchFarmer, addFarmer, updateFarmer };
+export default { getFarmer, searchFarmer, addFarmer, createImgPath, updateFarmer };

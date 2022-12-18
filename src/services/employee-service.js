@@ -26,8 +26,20 @@ function addEmployee(employee) {
   return axios.post(`${BASE_URL}/employee/addEmployee`, employee);
 }
 
+function createImgPath(profile, type, img) {
+  const formData = new FormData();
+  formData.append("profile", profile);
+  formData.append("type", type);
+  formData.append("img", img);
+  return axios.post(`${BASE_URL}/image/addProfile`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
+
 function updateEmployee(employee) {
   return axios.put(`${BASE_URL}/employee/updateEmployee`, employee);
 }
 
-export default { getEmployee, searchEmployee, addEmployee, updateEmployee };
+export default { getEmployee, searchEmployee, addEmployee, createImgPath, updateEmployee };

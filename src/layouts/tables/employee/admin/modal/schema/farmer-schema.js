@@ -14,6 +14,7 @@ export const FarmerSchema = object().shape({
     city: string().required("Required"),
     province: string().required("Required"),
   }),
+  imageLocation: string().required("Required"),
 });
 
 export const initialFarmer = {
@@ -30,5 +31,6 @@ export const initialFarmer = {
     city: "",
     province: "",
   },
+  imageLocation: "",
 };
 export default FarmerSchema;
