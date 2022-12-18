@@ -125,7 +125,7 @@ export default function App() {
       borderRadius="50%"
       position="fixed"
       right="2rem"
-      bottom="2rem"
+      top="2rem"
       zIndex={99}
       color="dark"
       sx={{ cursor: "pointer" }}
@@ -145,7 +145,7 @@ export default function App() {
           <>
             <Sidenav
               color={sidenavColor}
-              brandName="D.O.A Portal"
+              brandName="ATBSP Portal"
               routes={filteredRoutes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -168,7 +168,7 @@ export default function App() {
         <>
           <Sidenav
             color={sidenavColor}
-            brandName="D.O.A Portal"
+            brandName="ATBSP Portal"
             routes={filteredRoutes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}

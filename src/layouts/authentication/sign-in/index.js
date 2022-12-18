@@ -32,7 +32,7 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in.jpg";
-import doaLogo from "assets/images/small-logos/doa-logo.png";
+import finailLogo from "assets/images/small-logos/final_logo.jpg";
 import { TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
@@ -97,7 +97,13 @@ function Basic() {
           mb={1}
           textAlign="center"
         >
-          <MDBox component="img" src={doaLogo} alt="Logo" height="60px" />
+          <MDBox
+            component="img"
+            src={finailLogo}
+            alt="Logo"
+            height="60px"
+            sx={{ borderRadius: "40%" }}
+          />
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <form onSubmit={formik.handleSubmit} autoComplete="off">

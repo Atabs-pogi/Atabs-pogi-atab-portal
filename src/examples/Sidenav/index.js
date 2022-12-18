@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useEffect } from "react";
 
 // react-router-dom components
@@ -46,6 +31,7 @@ import {
   setWhiteSidenav,
 } from "context";
 import Logo from "components/Logo/logo";
+import "./index.css";
 
 function Sidenav({ color, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -195,7 +181,9 @@ function Sidenav({ color, brandName, routes, ...rest }) {
         }}
         light={(!darkMode && !whiteSidenav && !transparentSidenav) || (darkMode && whiteSidenav)}
       />
-      <List>{renderRoutes}</List>
+      <List className="list-routes" sx={{ mr: 0.5 }}>
+        {renderRoutes}
+      </List>
     </SidenavRoot>
   );
 }

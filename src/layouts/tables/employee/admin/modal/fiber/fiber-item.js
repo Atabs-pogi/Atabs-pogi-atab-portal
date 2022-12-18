@@ -2,7 +2,7 @@ import { Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/ma
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SelectFiber from "../../textfields/select-fiber";
+import SelectFiber from "../../textfields/select-tuxy";
 import SelectGrade from "../../textfields/select-grade";
 
 export default function FiberItem({ info, onChange, disabled, allowDelete, onDelete, autoFocus }) {

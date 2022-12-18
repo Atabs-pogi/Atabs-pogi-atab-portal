@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import tuxyServices from "services/tuxy-service";
+import tuxyService from "services/tuxy-service";
 import TuxyModal from "../modal/tuxy/tuxy-add-modal";
 import TuxyViewModal from "../modal/tuxy/tuxy-update-modal";
 
@@ -23,7 +23,7 @@ export default function TuxyData() {
   const UpdateHandleClose = () => setSelected(null);
   const handleSearch = () => {
     setLoading(true);
-    tuxyServices
+    tuxyService
       .getTuxyList(search)
       .then((e) => {
         setTuxys(e);
@@ -39,14 +39,14 @@ export default function TuxyData() {
     { field: "createDate", headerName: "Date Created", width: 200 },
     {
       field: "goodPrice",
-      headerName: "Good",
-      width: 100,
+      headerName: "Good Quality",
+      width: 150,
       type: "number",
     },
     {
       field: "discartePrice",
-      headerName: "Discarte",
-      width: 100,
+      headerName: "Outer Fiber",
+      width: 150,
       type: "number",
     },
     {

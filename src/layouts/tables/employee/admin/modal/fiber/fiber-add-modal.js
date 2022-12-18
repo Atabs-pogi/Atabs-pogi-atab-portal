@@ -4,7 +4,7 @@ import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/mat
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
 import fiberService from "services/fiber-service";
@@ -180,11 +180,11 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                             sx={{ pr: 3 }}
                           />
                         </Grid>
-                        <Grid item xs={1}>
+                        {/* <Grid item xs={1}>
                           <IconButton>
                             <DeleteIcon color="error" sx={{ cursor: "pointer" }} />
                           </IconButton>
-                        </Grid>
+                        </Grid> */}
                       </Grid>
                     </MDBox>
                   </MDBox>

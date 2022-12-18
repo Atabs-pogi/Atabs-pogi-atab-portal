@@ -84,7 +84,7 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Tuxy Name
+                        Farmer Produced
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -107,7 +107,7 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={12}>
                           <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                            Tuxy Prices
+                            Farmer Produced Prices
                           </Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -130,7 +130,7 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            label="Discarte Price"
+                            label="Discarted Price"
                             name="discartePrice"
                             variant="outlined"
                             fullWidth

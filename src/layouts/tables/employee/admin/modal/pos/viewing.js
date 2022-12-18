@@ -1,6 +1,6 @@
 import { Grid, InputAdornment, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-import SelectFiber, { fibers } from "../../textfields/select-fiber";
+import SelectFiber from "../../textfields/select-tuxy";
 import SelectGrade from "../../textfields/select-grade";
 
 export default function PosItem({ info }) {
@@ -9,7 +9,7 @@ export default function PosItem({ info }) {
     kilo: info?.plantKilogram,
     grade: info?.plantGrade,
     fiber: {
-      id: fibers.find((f) => f.name === info?.plantName)?.id,
+      // id: fibers.find((f) => f.name === info?.plantName)?.id,
     },
   };
 

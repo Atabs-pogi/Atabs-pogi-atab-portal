@@ -2,8 +2,8 @@ import { Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/ma
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SelectFiber from "../../textfields/select-fiber";
 import SelectGrade from "../../textfields/select-grade";
+import SelectTuxy from "../../textfields/select-tuxy";
 
 export default function PosItem({ info, onChange, disabled, allowDelete, onDelete, autoFocus }) {
   const [item, setItem] = useState(info || {});
@@ -14,10 +14,11 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
   const subTotal =
     (item?.fiber?.prices?.find((price) => price?.grade === item?.grade)?.price || 0) *
     (item?.kilo || 0);
+
   return (
     <Grid container spacing={0}>
       <Grid item xs={3}>
-        <SelectFiber
+        <SelectTuxy
           disabled={disabled}
           value={item?.fiber?.id}
           onChange={(f) => {

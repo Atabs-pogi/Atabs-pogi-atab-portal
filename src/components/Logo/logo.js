@@ -1,11 +1,11 @@
 // import PropTypes from "prop-types";
 // import ForestOutlinedIcon from "@mui/icons-material/ForestOutlined";
-import doaLogo from "assets/images/small-logos/doa-logo.png";
+import finalLogo from "assets/images/small-logos/final_logo.jpg";
 import MDBox from "components/MDBox";
 
 function Logo() {
   return (
-    <MDBox component="img" src={doaLogo} alt="Logo" height="50px" />
+    <MDBox component="img" src={finalLogo} alt="Logo" height="50px" sx={{ borderRadius: "40%" }} />
     // <ForestOutlinedIcon
     //   {...rest}
     //   {...{ color: light ? "white" : undefined }}

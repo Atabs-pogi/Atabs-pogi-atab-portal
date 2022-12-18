@@ -16,6 +16,8 @@ import SignOut from "layouts/authentication/sign-out";
 import PosTable from "layouts/tables/employee/admin/pos";
 import CashierTable from "layouts/tables/employee/admin/cashier";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
+import TransactionPage from "layouts/pos/transaction";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const cashierRoutes = [
   {
@@ -45,7 +47,15 @@ const posRoutes = [
   },
   {
     type: "collapse",
-    name: "Sales",
+    name: "New Transaction",
+    key: "new-transaction",
+    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
+    route: "/new-transaction",
+    component: <TransactionPage />,
+  },
+  {
+    type: "collapse",
+    name: "Transaction History",
     key: "sales",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/sales",
