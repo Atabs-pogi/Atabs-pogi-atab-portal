@@ -16,6 +16,7 @@ import SignOut from "layouts/authentication/sign-out";
 import PosTable from "layouts/tables/employee/admin/pos";
 import CashierTable from "layouts/tables/employee/admin/cashier";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
+import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
 import TransactionPage from "layouts/pos/transaction";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
@@ -123,6 +124,14 @@ const adminRoutes = [
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/tuxy",
     component: <TuxyTable />,
+  },
+  {
+    type: "collapse",
+    name: "Price Logs",
+    key: "pricelogs",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/pricelogs",
+    component: <PriceLogsTable />,
   },
   {
     type: "divider",
