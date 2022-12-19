@@ -7,13 +7,20 @@ import MDButton from "components/MDButton";
 import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import TransactionCart, { getUnitPrice } from "./cart";
+import SearchIcon from "@mui/icons-material/Search";
+import TransactionCart, { getUnitTotal } from "./cart";
 import ItemModal from "./item-add-modal";
+import CheckoutModal from "./checkout-modal";
+import SummaryModal from "./summary-modal";
+import FarmerModal from "./select-farmer-modal";
 
 export default function TransactionPage() {
   const [itemOpen, setItemOpen] = React.useState(false);
   const [items, setItems] = React.useState([]);
-  const [payment, setPayment] = React.useState(null);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [transId, setTransId] = React.useState(null);
+  const [farmerOpen, setFarmerOpen] = React.useState(false);
+  const [farmer, setFarmer] = React.useState(null);
 
   const handleChange = (item) => {
     const index = items?.findIndex((p) => p?.id === item?.id);
@@ -22,11 +29,7 @@ export default function TransactionPage() {
     setItems(newItems);
   };
 
-  const totalPrice =
-    items?.reduce((val, item) => {
-      const subTotal = getUnitPrice(item) * (item?.quantity || 0);
-      return val + subTotal;
-    }, 0) || 0;
+  const totalPrice = items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
 
   const handleAdd = () => {
     setItemOpen(true);
@@ -52,14 +55,39 @@ export default function TransactionPage() {
     ]);
   };
 
+  const handleConfirmAdd = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
+  };
+
+  const onSuccessConfirm = (id) => {
+    setConfirmOpen(false);
+    setTransId(id);
+    setItems([]);
+  };
+
+  const handleCloseSummary = () => {
+    setTransId(null);
+  };
+
   const handleItemRemove = (item) => {
     setItems(items?.filter((i) => i?.id !== item?.id));
   };
 
-  const handlePayment = (evt) => {
-    setPayment(evt?.target?.value);
+  const handleSelectFarmer = () => {
+    setFarmerOpen(true);
   };
 
+  const handleCloseFarmer = () => {
+    setFarmerOpen(false);
+  };
+
+  const handleFarmer = (f) => {
+    setFarmer(f);
+  };
   // React.useEffect(() => {
   //   console.log(items);
   // }, [items]);
@@ -74,13 +102,52 @@ export default function TransactionPage() {
         items={items}
         onItemAdd={handleItemAdd}
       />
+      <CheckoutModal
+        open={confirmOpen}
+        onClose={handleConfirmClose}
+        items={items}
+        onSuccess={onSuccessConfirm}
+        farmer={farmer}
+      />
+      <SummaryModal open={!!transId} onClose={handleCloseSummary} transId={transId} />
+      <FarmerModal
+        open={farmerOpen}
+        onClose={handleCloseFarmer}
+        farmer={farmer}
+        onFarmerSelect={handleFarmer}
+      />
       <MDBox pb={1}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <MDButton variant="contained" color="success" size="sm" onClick={handleAdd}>
+            <MDButton
+              variant="contained"
+              color="success"
+              size="sm"
+              onClick={handleAdd}
+              sx={{ mr: 2 }}
+            >
               <AddIcon sx={{ mr: 1 }} />
               Add Item
             </MDButton>
+            <MDButton
+              variant="contained"
+              color="success"
+              size="sm"
+              onClick={handleSelectFarmer}
+              sx={{ mr: 2 }}
+            >
+              <SearchIcon sx={{ mr: 1 }} />
+              Select Farmer
+            </MDButton>
+            <TextField
+              label="Farmer Name"
+              value={
+                farmer?.id
+                  ? `${farmer?.firstName} ${farmer?.middleName} ${farmer?.lastName}`
+                  : "No farmer selected"
+              }
+              readOnly
+            />
           </Grid>
           <Grid item xs={12} sx={{ marginTop: "-40px" }}>
             <Card>
@@ -99,25 +166,6 @@ export default function TransactionPage() {
                     sx={{ m: 1, mt: 2 }}
                   />
                 </MDBox>
-                <MDBox>
-                  <TextField
-                    label="Payment"
-                    value={payment}
-                    variant="outlined"
-                    type="number"
-                    onChange={handlePayment}
-                    sx={{ m: 1 }}
-                  />
-                </MDBox>
-                <MDBox>
-                  <TextField
-                    label="Change"
-                    value={payment - totalPrice}
-                    readOnly
-                    variant="outlined"
-                    sx={{ m: 1 }}
-                  />
-                </MDBox>
               </MDBox>
               <CardActions sx={{ justifyContent: "right" }}>
                 <MDBox>
@@ -125,7 +173,8 @@ export default function TransactionPage() {
                     variant="contained"
                     color="info"
                     size="sm"
-                    disabled={payment - totalPrice < 0 || totalPrice === 0}
+                    disabled={totalPrice === 0}
+                    onClick={handleConfirmAdd}
                   >
                     Checkout
                   </MDButton>

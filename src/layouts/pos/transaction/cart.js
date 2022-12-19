@@ -8,7 +8,10 @@ export const getUnitPrice = (item) =>
   ({
     Good: item?.goodPrice,
     Excellent: item?.discartePrice,
+    Reseco: item?.resecoPrice,
   }[item?.quality] || 0);
+
+export const getUnitTotal = (item) => getUnitPrice(item) * (item?.quantity || 0);
 
 export default function TransactionCart({ onChange, items, onItemRemove }) {
   const handleChange = React.useCallback(
@@ -36,6 +39,7 @@ export default function TransactionCart({ onChange, items, onItemRemove }) {
         >
           <MenuItem value="Good">Good</MenuItem>
           <MenuItem value="Excellent">Excellent</MenuItem>
+          <MenuItem value="Reseco">Reseco</MenuItem>
         </Select>
       ),
     },
@@ -84,7 +88,7 @@ export default function TransactionCart({ onChange, items, onItemRemove }) {
       columns={columns}
       pageSize={10}
       rowsPerPageOptions={[1]}
-      sx={{ minHeight: "40vh" }}
+      sx={{ minHeight: "55vh" }}
     />
   );
 }

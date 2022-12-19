@@ -3,9 +3,9 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import MDTypography from "components/MDTypography";
 
-export default function ItemGrid({ items, loading, onItemAdd }) {
+export default function FarmerGrid({ items, loading, onFarmerSelect }) {
   const handleAdd = (item) => {
-    if (!item?.added) onItemAdd?.(item);
+    if (!item?.added) onFarmerSelect?.(item);
   };
 
   const columns = React.useMemo(() => [
@@ -22,22 +22,20 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
               color={row?.added ? "secondary" : "success"}
               onClick={() => handleAdd(row)}
             >
-              {row?.added ? "ADDED" : "ADD"}
+              {row?.added ? "SELECTED" : "SELECT"}
             </MDTypography>
           }
           label="Update"
         />,
       ],
     },
-    { field: "name", headerName: "Name", width: 200 },
-    { field: "discartePrice", headerName: "Excellent", width: 200 },
-    { field: "goodPrice", headerName: "Good Quality", width: 200 },
-    { field: "resecoPrice", headerName: "Reseco", width: 200 },
+    { field: "firstName", headerName: "Firstname", width: 200 },
+    { field: "middleName", headerName: "Middlename", width: 200 },
+    { field: "lastName", headerName: "Lastname", width: 200 },
   ]);
 
   return (
     <DataGrid
-      getRowId={(row) => row.tuxyId}
       rows={items}
       columns={columns}
       pageSize={10}
@@ -48,15 +46,15 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
   );
 }
 
-ItemGrid.defaultProps = {
+FarmerGrid.defaultProps = {
   items: [],
   loading: false,
-  onItemAdd: () => {},
+  onFarmerSelect: () => {},
 };
 
-ItemGrid.propTypes = {
+FarmerGrid.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   items: PropTypes.array,
   loading: PropTypes.bool,
-  onItemAdd: PropTypes.func,
+  onFarmerSelect: PropTypes.func,
 };

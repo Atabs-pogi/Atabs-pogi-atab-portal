@@ -1,19 +1,20 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
+import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
 
-const BASE_URL = "http://localhost:8080";
+// const BASE_URL = "http://localhost:8080";
 
 function getPos(id) {
-  return axios.get(`${BASE_URL}/pos/getPos/${id}`);
+  return axios.get(`${apiUrl}/pos/getPos/${id}`);
 }
 
 function searchPos() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/pos/view`)
+        .get(`${apiUrl}/pos/view`)
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -22,12 +23,13 @@ function searchPos() {
   });
 }
 
-function addPos(pos) {
-  return axios.post(`${BASE_URL}/pos/save`, pos);
+function save(pos) {
+  return axios.post(`${apiUrl}/pos/save`, pos);
+  // return axios.get(`${BASE_URL}/pos/view`);
 }
 
 function updatePos(pos) {
-  return axios.put(`${BASE_URL}/pos/updatePos`, pos);
+  return axios.put(`${apiUrl}/pos/updatePos`, pos);
 }
 
-export default { searchPos, addPos, updatePos, getPos };
+export default { searchPos, save, updatePos, getPos };

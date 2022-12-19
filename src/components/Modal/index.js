@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
+import ModalLoader from "./loader";
 
 export default function Modal({
   open,
@@ -17,6 +18,7 @@ export default function Modal({
   disabled,
   noCancel,
   saveText,
+  loading,
 }) {
   const handleClose = () => {
     onClose?.();
@@ -59,12 +61,7 @@ export default function Modal({
                 <MDBox sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
                   <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
                     <IconButton>
-                      <CloseIcon
-                        color="error"
-                        disabled={disabled}
-                        onClick={handleClose}
-                        sx={{ cursor: "pointer" }}
-                      />
+                      <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
                     </IconButton>
                   </MDBox>
                   <MDBox sx={{ px: 7, flexGrow: 1 }}>
@@ -73,14 +70,17 @@ export default function Modal({
                         {title}
                       </Typography>
                     </MDBox>
-                    <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
+                    <MDBox
+                      className="modal-content"
+                      sx={{ flexGrow: 1, position: "relative", height: "100%" }}
+                    >
+                      {loading && <ModalLoader />}
                       {children}
                     </MDBox>
                   </MDBox>
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
-                  <MDBox>
-                    {/* ERROR MESSAGE */}
-                    {error}
+                  <MDBox sx={{ px: 4 }}>
+                    <Typography color="error">{error}</Typography>
                   </MDBox>
                   {open && (
                     <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
@@ -126,6 +126,7 @@ Modal.defaultProps = {
   disabled: false,
   noCancel: false,
   saveText: "",
+  loading: false,
 };
 
 Modal.propTypes = {
@@ -139,4 +140,5 @@ Modal.propTypes = {
   disabled: PropTypes.bool,
   noCancel: PropTypes.bool,
   saveText: PropTypes.string,
+  loading: PropTypes.bool,
 };
