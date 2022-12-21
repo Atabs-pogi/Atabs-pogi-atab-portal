@@ -40,7 +40,7 @@ export default function TransactionPage() {
   };
 
   const handleItemSave = () => {
-    console.log("Qwe");
+    console.log("Item Saved");
   };
 
   const handleItemAdd = (item) => {
@@ -49,7 +49,7 @@ export default function TransactionPage() {
       {
         ...item,
         id: uuid(),
-        quality: "Good",
+        quality: "Excellent",
         quantity: 1,
       },
     ]);
@@ -109,13 +109,13 @@ export default function TransactionPage() {
         onSuccess={onSuccessConfirm}
         farmer={farmer}
       />
-      <SummaryModal open={!!transId} onClose={handleCloseSummary} transId={transId} />
       <FarmerModal
         open={farmerOpen}
         onClose={handleCloseFarmer}
         farmer={farmer}
         onFarmerSelect={handleFarmer}
       />
+      <SummaryModal open={!!transId} onClose={handleCloseSummary} transId={transId} />
       <MDBox pb={1}>
         <Grid container spacing={6}>
           <Grid item xs={12}>

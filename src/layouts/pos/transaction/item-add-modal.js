@@ -36,17 +36,14 @@ export default function ItemModal({ open, onClose, items: selectedItems, onItemA
     handleSearch();
   }, []);
 
-  const isAdded = React.useCallback(
-    (item) => {
-      const a = selectedItems?.filter((s) => s?.tuxyId === item?.tuxyId)?.length || 0;
-      return a > 1;
-    },
+  const addCount = React.useCallback(
+    (item) => selectedItems?.filter((s) => s?.tuxyId === item?.tuxyId)?.length || 0,
     [selectedItems]
   );
 
   const listItems = items?.map((item) => ({
     ...item,
-    added: isAdded(item),
+    count: addCount(item),
   }));
 
   const handleItemAdd = (item) => {

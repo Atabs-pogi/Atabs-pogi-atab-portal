@@ -2,10 +2,11 @@ import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import MDTypography from "components/MDTypography";
+import { Badge } from "@mui/material";
 
 export default function ItemGrid({ items, loading, onItemAdd }) {
-  const handleAdd = (item) => {
-    if (!item?.added) onItemAdd?.(item);
+  const handleCellClick = ({ row }) => {
+    if (row?.count < 3) onItemAdd?.(row);
   };
 
   const columns = React.useMemo(() => [
@@ -18,11 +19,15 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
       getActions: ({ row }) => [
         <GridActionsCellItem
           icon={
-            <MDTypography
-              color={row?.added ? "secondary" : "success"}
-              onClick={() => handleAdd(row)}
-            >
-              {row?.added ? "ADDED" : "ADD"}
+            <MDTypography color={row?.count > 2 ? "secondary" : "success"}>
+              {row?.count > 2 ? (
+                "ADDED"
+              ) : (
+                <>
+                  ADD
+                  <Badge badgeContent={row?.count} color="primary" sx={{ marginLeft: 2 }} />
+                </>
+              )}
             </MDTypography>
           }
           label="Update"
@@ -44,6 +49,7 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
       rowsPerPageOptions={[1]}
       loading={loading}
       sx={{ minHeight: "55vh" }}
+      onCellClick={handleCellClick}
     />
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import Modal from "components/Modal";
 import PropTypes from "prop-types";
 import tuxyImg from "assets/images/small-logos/account.jpg";
-import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import farmerService from "services/farmer-service";
+import MDBox from "components/MDBox";
+import Modal from "components/Modal";
 import FarmerGrid from "../farmer/farmer-grid";
 
 export default function FarmerModal({ open, onClose, farmer: selectedFarmer, onFarmerSelect }) {

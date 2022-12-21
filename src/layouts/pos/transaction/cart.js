@@ -6,8 +6,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 export const getUnitPrice = (item) =>
   ({
-    Good: item?.goodPrice,
-    Excellent: item?.discartePrice,
+    Excellent: item?.goodPrice,
+    Good: item?.discartePrice,
     Reseco: item?.resecoPrice,
   }[item?.quality] || 0);
 
@@ -37,8 +37,8 @@ export default function TransactionCart({ onChange, items, onItemRemove }) {
           onChange={(evt) => handleChange({ ...row, quality: evt?.target?.value })}
           value={row?.quality}
         >
-          <MenuItem value="Good">Good</MenuItem>
           <MenuItem value="Excellent">Excellent</MenuItem>
+          <MenuItem value="Good">Good</MenuItem>
           <MenuItem value="Reseco">Reseco</MenuItem>
         </Select>
       ),
@@ -51,7 +51,7 @@ export default function TransactionCart({ onChange, items, onItemRemove }) {
     },
     {
       field: "quantity",
-      headerName: "Quantity",
+      headerName: "Quantity (kg)",
       width: 200,
       renderCell: ({ row }) => (
         <TextField

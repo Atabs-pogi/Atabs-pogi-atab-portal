@@ -14,68 +14,34 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import posService from "services/pos-service";
-import { getUnitPrice, getUnitTotal } from "./cart";
 
-export default function CheckoutModal({ open, onClose, items, onSuccess, farmer }) {
+export const getUnitTotal = (item) => (item?.price || 0) * (item?.quantity || 0);
+
+export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
   // const [payment, setPayment] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState("");
-
-  // const handlePayment = (evt) => {
-  //   if (evt?.target?.value.length === 0) {
-  //     setPayment(0);
-  //   } else if (!Number.isNaN(evt?.target?.value)) setPayment(parseFloat(evt?.target?.value));
-  // };
-
   const handleSave = () => {
-    setError("");
-    setLoading(true);
-    // setPayment(0);
-    posService
-      .save({
-        farmerId: farmer?.id,
-        items: items?.map?.((item) => ({
-          tuxyId: item?.tuxyId,
-          quality: item?.quality,
-          quantity: item?.quantity,
-        })),
-        // payment,
-      })
-      .then((t) => {
-        onSuccess?.(t?.transactionId || t);
-      })
-      .catch((err) => {
-        setError(err?.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    onSuccess?.();
   };
 
   const handleClose = () => {
-    setError("");
-    setLoading(false);
     onClose?.();
   };
 
-  const totalPrice = items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
+  const totalPrice = selected?.items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
   return (
     <Modal
       open={open}
       onClose={handleClose}
       title="Transaction Summary"
       picture={tuxyImg}
-      noCancel
-      saveText="Confirm"
+      saveText="Release"
       // disabled={payment < totalPrice}
       onSave={handleSave}
-      error={error}
-      loading={loading}
+      noSuccess={selected?.status}
     >
       <MDBox sx={{ maxHeight: "52vh", overflow: "auto" }}>
         <Typography variant="h6" gutterBottom>
-          Farmer: {farmer?.firstName} {farmer?.middleName} {farmer?.lastName}
+          Farmer: {selected?.firstName} {selected?.middleName} {selected?.lastName}
         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
@@ -88,13 +54,13 @@ export default function CheckoutModal({ open, onClose, items, onSuccess, farmer 
               </TableRow>
             </TableHead>
             <TableBody>
-              {items?.map?.((item) => (
+              {selected?.items?.map?.((item) => (
                 <TableRow key={item?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell component="th" scope="row">
-                    {item?.name} ({item?.quality})
+                    {item?.tuxyName} ({item?.type}) {item?.quality}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
-                  <TableCell align="right">{getUnitPrice(item)}</TableCell>
+                  <TableCell align="right">{item?.price}</TableCell>
                   <TableCell align="right">{getUnitTotal(item)}</TableCell>
                 </TableRow>
               ))}
@@ -103,46 +69,26 @@ export default function CheckoutModal({ open, onClose, items, onSuccess, farmer 
         </TableContainer>
       </MDBox>
       <MDBox sx={{ textAlign: "right", mt: 2 }}>
-        {/* <MDBox sx={{ display: "inline-block" }}>
-          <TextField
-            label="Payment"
-            value={payment}
-            variant="outlined"
-            onChange={handlePayment}
-            sx={{ m: 1 }}
-          />
-        </MDBox> */}
         <MDBox sx={{ display: "inline-block" }}>
           <TextField label="Total" value={totalPrice} readOnly variant="outlined" sx={{ m: 1 }} />
         </MDBox>
-        {/* <MDBox sx={{ display: "inline-block" }}>
-          <TextField
-            label="Change"
-            value={payment - totalPrice}
-            disabled
-            variant="outlined"
-            sx={{ m: 1 }}
-          />
-        </MDBox> */}
       </MDBox>
     </Modal>
   );
 }
 
-CheckoutModal.defaultProps = {
+ConfirmModal.defaultProps = {
   open: false,
   onClose: () => {},
-  items: [],
   onSuccess: () => {},
-  farmer: null,
+  selected: null,
 };
 
-CheckoutModal.propTypes = {
+ConfirmModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
-  items: PropTypes.array,
   onSuccess: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
-  farmer: PropTypes.object,
+  selected: PropTypes.object,
 };

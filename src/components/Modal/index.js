@@ -17,6 +17,7 @@ export default function Modal({
   error,
   disabled,
   noCancel,
+  noSuccess,
   saveText,
   loading,
 }) {
@@ -84,15 +85,17 @@ export default function Modal({
                   </MDBox>
                   {open && (
                     <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
-                      <MDButton
-                        onClick={handleSave}
-                        variant="contained"
-                        color="success"
-                        sx={{ mr: 2, mt: 5, width: 80 }}
-                        disabled={disabled}
-                      >
-                        {saveText || "Save"}
-                      </MDButton>
+                      {!noSuccess && (
+                        <MDButton
+                          onClick={handleSave}
+                          variant="contained"
+                          color="success"
+                          sx={{ mr: 2, mt: 5, width: 80 }}
+                          disabled={disabled}
+                        >
+                          {saveText || "Save"}
+                        </MDButton>
+                      )}
                       {!noCancel && (
                         <MDButton
                           variant="contained"
@@ -127,6 +130,7 @@ Modal.defaultProps = {
   noCancel: false,
   saveText: "",
   loading: false,
+  noSuccess: false,
 };
 
 Modal.propTypes = {
@@ -141,4 +145,5 @@ Modal.propTypes = {
   noCancel: PropTypes.bool,
   saveText: PropTypes.string,
   loading: PropTypes.bool,
+  noSuccess: PropTypes.bool,
 };

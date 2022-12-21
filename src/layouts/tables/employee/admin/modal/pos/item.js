@@ -2,10 +2,10 @@ import { Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/ma
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SelectGrade from "../../textfields/select-grade";
-import SelectTuxy from "../../textfields/select-tuxy";
+// import SelectGrade from "../../textfields/select-grade";
+// import SelectTuxy from "../../textfields/select-tuxy";
 
-export default function PosItem({ info, onChange, disabled, allowDelete, onDelete, autoFocus }) {
+export default function PosItem({ info, onChange, disabled, allowDelete, onDelete }) {
   const [item, setItem] = useState(info || {});
   useEffect(() => {
     onChange?.(item);
@@ -18,7 +18,7 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
   return (
     <Grid container spacing={0}>
       <Grid item xs={3}>
-        <SelectTuxy
+        {/* <SelectTuxy
           disabled={disabled}
           value={item?.fiber?.id}
           onChange={(f) => {
@@ -26,15 +26,15 @@ export default function PosItem({ info, onChange, disabled, allowDelete, onDelet
           }}
           sx={{ py: 1.5 }}
           autoFocus={autoFocus}
-        />
+        /> */}
       </Grid>
       <Grid item xs={2}>
-        <SelectGrade
+        {/* <SelectGrade
           disabled={disabled}
           value={item?.grade}
           onChange={(evt) => setItem({ ...item, grade: evt?.target?.value })}
           sx={{ pr: 7, py: 1.5 }}
-        />
+        /> */}
       </Grid>
       <Grid item xs={3}>
         <TextField
@@ -86,7 +86,7 @@ PosItem.defaultProps = {
   disabled: false,
   allowDelete: false,
   onDelete: () => {},
-  autoFocus: false,
+  // autoFocus: false,
 };
 // Typechecking props of the MDAlert
 PosItem.propTypes = {
@@ -96,5 +96,5 @@ PosItem.propTypes = {
   disabled: PropTypes.bool,
   allowDelete: PropTypes.bool,
   onDelete: PropTypes.func,
-  autoFocus: PropTypes.bool,
+  // autoFocus: PropTypes.bool,
 };

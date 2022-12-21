@@ -13,12 +13,12 @@ import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
 import AccountTable from "layouts/tables/employee/admin/account-role";
 import SignOut from "layouts/authentication/sign-out";
-import PosTable from "layouts/tables/employee/admin/pos";
-import CashierTable from "layouts/tables/employee/admin/cashier";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
 import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
 import TransactionPage from "layouts/pos/transaction";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import PosHistoryTable from "layouts/pos/cashier-index";
+import PosTable from "layouts/pos/pos-index";
 
 const cashierRoutes = [
   {
@@ -32,7 +32,7 @@ const cashierRoutes = [
     key: "cashier",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/cashier",
-    component: <CashierTable />,
+    component: <PosTable />,
   },
   {
     type: "divider",
@@ -60,7 +60,7 @@ const posRoutes = [
     key: "sales",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/sales",
-    component: <PosTable />,
+    component: <PosHistoryTable />,
   },
   {
     type: "divider",

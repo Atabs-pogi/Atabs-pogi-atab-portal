@@ -5,15 +5,13 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import posService from "services/pos-service";
-import MDButton from "components/MDButton";
 import ConfirmModal from "./confirm-modal";
 import CashierSummaryModal from "./summary-modal";
 
-export default function PosData() {
+export default function PosHistory() {
   const [pos, setPos] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
-  const [status, setStatus] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   const [selected, setSelected] = React.useState(null);
@@ -22,7 +20,7 @@ export default function PosData() {
   const handleSearch = () => {
     setLoading(true);
     posService
-      .getTransaction(status)
+      .searchPos(search)
       .then((e) => {
         setPos(e);
       })
@@ -62,14 +60,13 @@ export default function PosData() {
       headerName: "Actions",
       width: 150,
       // eslint-disable-next-line react/no-unstable-nested-components
-      getActions: (params) =>
-        console.log(params) || [
-          <GridActionsCellItem
-            icon={<VisibilityIcon />}
-            onClick={() => setSelected(params?.row)}
-            label="Viewing"
-          />,
-        ],
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<VisibilityIcon />}
+          onClick={() => setSelected(params?.row)}
+          label="Viewing"
+        />,
+      ],
     },
   ]);
   const handleSearchChange = (evt) => {
@@ -78,7 +75,7 @@ export default function PosData() {
 
   React.useEffect(() => {
     handleSearch();
-  }, [status]);
+  }, []);
 
   return (
     <MDBox>
@@ -95,27 +92,7 @@ export default function PosData() {
         onClose={handleSummaryClose}
       />
       <Grid container>
-        <Grid item xs={6} sx={{ padding: 1 }}>
-          <MDButton
-            variant="contained"
-            color={status === 1 ? "secondary" : "info"}
-            size="sm"
-            sx={{ mr: 2, width: "100px" }}
-            onClick={() => setStatus(1)}
-          >
-            Unrelease
-          </MDButton>
-          <MDButton
-            variant="contained"
-            color={status === 2 ? "secondary" : "info"}
-            size="sm"
-            sx={{ mr: 2, width: "100px" }}
-            onClick={() => setStatus(2)}
-          >
-            Release
-          </MDButton>
-        </Grid>
-        <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={12} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
