@@ -23,7 +23,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
   const { address: selectedAddress, ...selectedFarmer } = selected;
   const [farmer, setFarmer] = React.useState(selectedFarmer);
   const [imagePath, setImgPath] = React.useState("");
-  const [image, setImg] = React.useState(farmer?.imageLocation);
+  const [image, setImg] = React.useState("");
   const [address, setAddress] = React.useState(selectedAddress);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -53,6 +53,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
       setImg(reader.result);
     };
   }
+  console.log(image);
   console.log(imagePath);
   console.log(farmer);
 
@@ -128,8 +129,8 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                   >
                     <MDBox>
                       <MDBox
-                        component="img"
                         src={image}
+                        component="img"
                         alt=""
                         sx={{
                           border: "solid 1px #aaa",
@@ -175,6 +176,19 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                         onChange={handleImage}
                         sx={{ display: "none" }}
                       />
+                      <Grid item>
+                        <TextField
+                          id="outlined-basic"
+                          label="Image Location"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ textAlign: "center", justifyContent: "center", mt: 2 }}
+                          value={imagePath}
+                          onChange={(evt) =>
+                            setFarmer({ ...farmer, imageLocation: evt.target.value })
+                          }
+                        />
+                      </Grid>
                     </MDBox>
 
                     <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
