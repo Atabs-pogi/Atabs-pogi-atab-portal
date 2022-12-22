@@ -62,14 +62,13 @@ export default function PosData() {
       headerName: "Actions",
       width: 150,
       // eslint-disable-next-line react/no-unstable-nested-components
-      getActions: (params) =>
-        console.log(params) || [
-          <GridActionsCellItem
-            icon={<VisibilityIcon />}
-            onClick={() => setSelected(params?.row)}
-            label="Viewing"
-          />,
-        ],
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<VisibilityIcon />}
+          onClick={() => setSelected(params?.row)}
+          label="Viewing"
+        />,
+      ],
     },
   ]);
   const handleSearchChange = (evt) => {

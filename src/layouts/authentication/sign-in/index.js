@@ -32,7 +32,7 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in.jpg";
-import finailLogo from "assets/images/small-logos/final_logo.jpg";
+import finailLogo from "assets/images/small-logos/doa-logo.png";
 import { TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";

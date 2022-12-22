@@ -5,7 +5,7 @@ export const TuxySchema = object().shape({
   name: string().required("Required"),
   goodPrice: number().min(1, "Should be greater than or equal to 1").required("Required"),
   discartePrice: number().min(1, "Should be greater than or equal to 1").required("Required"),
-  resecoPrice: number().min(1, "Should be greater than or equal to 1").required("Required"),
+  resecoPrice: number().required("Required"),
 });
 
 export const initialTuxy = {

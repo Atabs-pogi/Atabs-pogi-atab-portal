@@ -17,7 +17,7 @@ import {
 
 export const getUnitTotal = (item) => (item?.price || 0) * (item?.quantity || 0);
 
-export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
+export default function PosConfirmModal({ open, onClose, onSuccess, selected }) {
   // const [payment, setPayment] = React.useState(null);
   const handleSave = () => {
     onSuccess?.();
@@ -37,7 +37,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
       saveText="Release"
       // disabled={payment < totalPrice}
       onSave={handleSave}
-      noSuccess={selected?.status !== 1}
+      noSuccess
     >
       <MDBox sx={{ maxHeight: "52vh", overflow: "auto" }}>
         <Typography variant="h6" gutterBottom>
@@ -77,14 +77,14 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
   );
 }
 
-ConfirmModal.defaultProps = {
+PosConfirmModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
   selected: null,
 };
 
-ConfirmModal.propTypes = {
+PosConfirmModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types

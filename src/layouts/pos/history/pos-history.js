@@ -5,8 +5,8 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import posService from "services/pos-service";
-import ConfirmModal from "./confirm-modal";
 import CashierSummaryModal from "./summary-modal";
+import PosConfirmModal from "./pos-confirm-modal";
 
 export default function PosHistory() {
   const [pos, setPos] = React.useState([]);
@@ -79,7 +79,7 @@ export default function PosHistory() {
 
   return (
     <MDBox>
-      <ConfirmModal
+      <PosConfirmModal
         open={selected?.transactionsId}
         onClose={UpdateHandleClose}
         selected={selected}
