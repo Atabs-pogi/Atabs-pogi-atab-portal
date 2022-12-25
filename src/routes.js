@@ -16,29 +16,39 @@ import SignOut from "layouts/authentication/sign-out";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
 import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
 import TransactionPage from "layouts/pos/transaction";
+import MechantTransactionPage from "layouts/pos-merchant/transaction";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import PosHistoryTable from "layouts/pos/cashier-index";
-import PosTable from "layouts/pos/pos-index";
+// import MerchantPosTable from "layouts/pos-merchant";
+import PosPage from "layouts/pos";
+import MerchantTransactionHistory from "layouts/pos-merchant";
 
 const cashierRoutes = [
   {
     type: "title",
-    title: "Cashier",
+    title: "Merchant POS",
     key: "cashier-title",
   },
   {
     type: "collapse",
-    name: "Cashier",
-    key: "cashier",
+    name: "New Transaction",
+    key: "new-merchant-transaction",
+    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
+    route: "/new-merchant-transaction",
+    component: <MechantTransactionPage />,
+  },
+  {
+    type: "collapse",
+    name: "Transaction History",
+    key: "merchant-sales",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
-    route: "/cashier",
-    component: <PosTable />,
+    route: "/merchant-sales",
+    component: <MerchantTransactionHistory />,
   },
   {
     type: "divider",
     key: "divider3",
   },
-].map((route) => ({ ...route, role: ["cashier", "superAdmin", "admin"] }));
+].map((route) => ({ ...route, role: [...(route?.role || []), "cashier", "superAdmin", "admin"] }));
 
 const posRoutes = [
   {
@@ -60,13 +70,13 @@ const posRoutes = [
     key: "sales",
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/sales",
-    component: <PosHistoryTable />,
+    component: <PosPage />,
   },
   {
     type: "divider",
     key: "divider4",
   },
-].map((route) => ({ ...route, role: ["pos", "superAdmin", "admin"] }));
+].map((route) => ({ ...route, role: [...(route?.role || []), "pos", "superAdmin", "admin"] }));
 const adminRoutes = [
   {
     type: "collapse",
@@ -137,7 +147,7 @@ const adminRoutes = [
     type: "divider",
     key: "divider6",
   },
-].map((route) => ({ ...route, role: ["admin", "superAdmin"] }));
+].map((route) => ({ ...route, role: [...(route?.role || []), "admin", "superAdmin"] }));
 
 const routes = [
   ...adminRoutes,
