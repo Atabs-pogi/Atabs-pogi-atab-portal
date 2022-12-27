@@ -12,7 +12,7 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
+  // Typography,
 } from "@mui/material";
 import { useUserContext } from "user-context/user-context";
 
@@ -41,9 +41,9 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
       noSuccess={selected?.status !== 1 || user?.info?.role !== "cashier"}
     >
       <MDBox sx={{ maxHeight: "52vh", overflow: "auto" }}>
-        <Typography variant="h6" gutterBottom>
+        {/* <Typography variant="h6" gutterBottom>
           Farmer: {selected?.firstName} {selected?.middleName} {selected?.lastName}
-        </Typography>
+        </Typography> */}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
             <TableHead sx={{ display: "table-header-group" }}>

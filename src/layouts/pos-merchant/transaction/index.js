@@ -45,7 +45,6 @@ export default function TransactionPage() {
       {
         ...item,
         id: uuid(),
-        quality: "Excellent",
         quantity: 1,
       },
     ]);

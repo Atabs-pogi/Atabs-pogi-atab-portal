@@ -7,14 +7,14 @@ const DEFAULT_DELAY = 1000;
 // const BASE_URL = "http://localhost:8080";
 
 function getPos(id) {
-  return axios.get(`${apiUrl}/pos/getPos/${id}`);
+  return axios.get(`${apiUrl}/merchant/getPos/${id}`);
 }
 
-function getTransaction(status) {
+function getTransaction() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/pos/all/${status}`)
+        .get(`${apiUrl}/merchant/getAll/`)
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -24,16 +24,8 @@ function getTransaction(status) {
 }
 
 function save(pos) {
-  return axios.post(`${apiUrl}/pos/save`, pos).then((res) => res.data);
+  return axios.post(`${apiUrl}/merchant/saveTransaction`, pos).then((res) => res.data);
   // return axios.get(`${BASE_URL}/pos/view`);
 }
 
-function updatePos(pos) {
-  return axios.put(`${apiUrl}/pos/updatePos`, pos);
-}
-
-function release(transId) {
-  return axios.put(`${apiUrl}/pos/update`, { transaction_id: transId, status: 2 });
-}
-
-export default { getTransaction, save, updatePos, getPos, release };
+export default { getTransaction, save, getPos };

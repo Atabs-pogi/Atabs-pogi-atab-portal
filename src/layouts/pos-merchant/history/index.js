@@ -4,9 +4,9 @@ import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import posService from "services/pos-service";
 import MDButton from "components/MDButton";
 import { useUserContext } from "user-context/user-context";
+import posMerchantService from "services/pos-merchant-service";
 import ConfirmModal from "./confirm-modal";
 import CashierSummaryModal from "./summary-modal";
 
@@ -24,7 +24,7 @@ export default function PosHistory() {
   const allowRelease = user?.info?.role === "cashier";
   const handleSearch = () => {
     setLoading(true);
-    posService
+    posMerchantService
       .getTransaction(allowRelease ? status : "")
       .then((e) => {
         setPos(e);
