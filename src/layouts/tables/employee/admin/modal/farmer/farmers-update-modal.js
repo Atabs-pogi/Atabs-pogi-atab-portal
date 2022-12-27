@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Modal from "@mui/material/Modal";
 import {
   Card,
@@ -24,7 +24,6 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
   const [farmer, setFarmer] = React.useState(selectedFarmer);
   const [imagePath, setImgPath] = React.useState("");
   const [image, setImg] = React.useState(farmer.imageLocation);
-  const [tryimage, setTryImg] = React.useState("");
   const [address, setAddress] = React.useState(selectedAddress);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -58,20 +57,20 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
   console.log(imagePath);
   console.log(farmer);
   console.log(farmer?.imageLocation);
+  console.log(farmer?.affiliation);
 
-  useEffect(() => {
-    const filePath =
-      "D:/Users/Matthew/Documents/GitHub/atabs-BE-master/atabs-BED/atabs-BED-main/src/main/imagedata/Farmer_.png";
-    const file = new File([], filePath);
+  // useEffect(() => {
+  //   const filePath =
+  //     "D:/Users/Matthew/Documents/GitHub/atabs-BE-master/atabs-BED/atabs-BED-main/src/main/imagedata/Farmer_.png";
+  //   const file = new File([], filePath);
 
-    console.log(file);
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      console.log(reader.result);
-      setTryImg(reader.result);
-    };
-  }, []);
+  //   console.log(file);
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = () => {
+  //     console.log(reader.result);
+  //   };
+  // }, []);
 
   const handleSave = () => {
     setError("");
@@ -200,7 +199,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                           variant="outlined"
                           fullWidth
                           sx={{ textAlign: "center", justifyContent: "center", mt: 2 }}
-                          value={imagePath}
+                          defaultValue={farmer?.imagePath}
                           onChange={(evt) =>
                             setFarmer({ ...farmer, imageLocation: evt.target.value })
                           }
@@ -302,21 +301,120 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             onChange={(evt) => setFarmer({ ...farmer, birthday: evt })}
                           />
                         </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Affiliation"
+                            name="affiliation"
+                            variant="outlined"
+                            fullWidth
+                            sx={{ pr: 7 }}
+                            defaultValue={farmer?.affiliation}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, affiliation: evt.target.value })
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Civil Status"
+                            name="civilStatus"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.civilStatus}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, civilStatus: evt.target.value })
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Educational Attainment"
+                            name="educationalAttainment"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.educationalAttainment}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, educationalAttainment: evt.target.value })
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Estimated Annual Income"
+                            name="estimatedAnnualIncome"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.estimatedAnnualIncome}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, estimatedAnnualIncome: evt.target.value })
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Facebook Account"
+                            name="facebookAccount"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.facebookAccount}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, facebookAccount: evt.target.value })
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="No. Of Dependents"
+                            name="noOfDependents"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.noOfDependents}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, noOfDependents: evt.target.value })
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Spouse"
+                            name="spouse"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.spouse}
+                            onChange={(evt) => setFarmer({ ...farmer, spouse: evt.target.value })}
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Viber Account"
+                            name="viberAccount"
+                            variant="outlined"
+                            fullWidth
+                            defaultValue={farmer?.viberAccount}
+                            onChange={(evt) =>
+                              setFarmer({ ...farmer, viberAccount: evt.target.value })
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
                       </Grid>
                     </MDBox>
                   </MDBox>
-
-                  <img
-                    alt="asd"
-                    src={tryimage}
-                    sx={{
-                      border: "solid 1px #aaa",
-                      padding: "20",
-                      height: "230px",
-                      width: "230px",
-                      margin: "auto",
-                    }}
-                  />
 
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
                   <MDBox>
