@@ -32,13 +32,14 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in.jpg";
-import finailLogo from "assets/images/small-logos/final_logo.jpg";
+import finailLogo from "assets/images/small-logos/doa-logo.png";
 import { TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import accountService from "services/account-service";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "user-context/user-context";
+import { defaultRoute } from "routes";
 import { Schema } from "./schema";
 
 function Basic() {
@@ -65,7 +66,7 @@ function Basic() {
         .then((info) => {
           window.sessionStorage.setItem("currentUser", JSON.stringify(info));
           userDispatch.login(info);
-          navigate("/dashboard");
+          navigate(defaultRoute[info?.role] || "/");
         })
         .catch((err) => {
           let message = "";

@@ -32,7 +32,7 @@ function addTuxy(tuxy) {
 }
 
 function updateTuxy(tuxy) {
-  return axios.post(`${apiUrl}/tuxy/addTuxy`, tuxy);
+  return axios.put(`${apiUrl}/tuxy/updateTuxy`, tuxy);
 }
 
 export default { addTuxy, getTuxyList, updateTuxy };

@@ -9,11 +9,11 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Card } from "@mui/material";
-import PosHistory from "./history/pos-history";
+import PosHistory from "./history";
 
 // Data
 
-function PosHistoryTable() {
+function PosPage() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -31,4 +31,4 @@ function PosHistoryTable() {
   );
 }
 
-export default PosHistoryTable;
+export default PosPage;

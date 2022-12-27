@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 // import ForestOutlinedIcon from "@mui/icons-material/ForestOutlined";
-import finalLogo from "assets/images/small-logos/final_logo.jpg";
+import finalLogo from "assets/images/small-logos/doa-logo.png";
 import MDBox from "components/MDBox";
 
 function Logo() {

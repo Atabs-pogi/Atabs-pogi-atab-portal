@@ -23,19 +23,6 @@ function getTransaction(status) {
   });
 }
 
-function searchPos() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get(`${apiUrl}/pos/all`)
-        .then((res) => resolve(res.data))
-        .catch((err) => {
-          reject(err);
-        });
-    }, DEFAULT_DELAY);
-  });
-}
-
 function save(pos) {
   return axios.post(`${apiUrl}/pos/save`, pos).then((res) => res.data);
   // return axios.get(`${BASE_URL}/pos/view`);
@@ -49,4 +36,4 @@ function release(transId) {
   return axios.put(`${apiUrl}/pos/update`, { transaction_id: transId, status: 2 });
 }
 
-export default { getTransaction, save, updatePos, searchPos, getPos, release };
+export default { getTransaction, save, updatePos, getPos, release };

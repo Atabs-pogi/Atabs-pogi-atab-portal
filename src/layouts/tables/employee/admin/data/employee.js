@@ -40,6 +40,12 @@ export default function EmployeeData() {
     { field: "lastName", headerName: "Lastname", width: 200 },
     { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
     {
+      field: "status",
+      headerName: "Status",
+      width: 100,
+      valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
+    },
+    {
       field: "actions",
       type: "actions",
       headerName: "Actions",

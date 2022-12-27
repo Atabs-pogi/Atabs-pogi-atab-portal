@@ -18,10 +18,9 @@ import farmerService from "services/farmer-service";
 import { useFormik } from "formik";
 import TextFieldDatePicker from "../../textfields/date-picker";
 import SelectSex from "../../textfields/select-sex";
-import EmpSchema, { initialFarmer } from "../schema/farmer-schema";
+import farmerSchema, { initialFarmer } from "../schema/farmer-schema";
 
 export default function FarmerModal({ open, onClose, onSuccess }) {
-  const [farmer, setFarmer] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -31,14 +30,14 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
   const formik = useFormik({
     initialValues: initialFarmer,
 
-    validationSchema: EmpSchema,
+    validationSchema: farmerSchema,
     onSubmit: () => {
       setError("");
       setLoading(true);
       farmerService
-        .addFarmer(formik.values)
+        .addFarmer(formik?.values)
         .then(() => {
-          setFarmer({});
+          formik?.resetForm();
           onSuccess?.();
         })
         .catch((err) => {
@@ -101,7 +100,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             name="lastName"
                             label="Lastname"
                             disabled={loading}
-                            value={formik.values.lastName}
+                            value={formik?.values?.lastName}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
                             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
@@ -206,8 +205,13 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           <TextFieldDatePicker
                             name="birthday"
                             disabled={loading}
-                            value={farmer.birthday}
-                            onChange={(evt) => setFarmer({ ...farmer, birthday: evt })}
+                            value={formik.values.birthday}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("birthday", evt?.toISOString(), true)
+                            }
+                            maxDate={new Date()}
+                            error={formik.touched.birthday && Boolean(formik.errors.birthday)}
+                            helperText={formik.touched.birthday && formik.errors.birthday}
                           />
                         </Grid>
                       </Grid>

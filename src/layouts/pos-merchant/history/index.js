@@ -4,7 +4,9 @@ import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import posService from "services/pos-service";
+import MDButton from "components/MDButton";
+import { useUserContext } from "user-context/user-context";
+import posMerchantService from "services/pos-merchant-service";
 import ConfirmModal from "./confirm-modal";
 import CashierSummaryModal from "./summary-modal";
 
@@ -12,15 +14,18 @@ export default function PosHistory() {
   const [pos, setPos] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
+  const [status, setStatus] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [user] = useUserContext();
 
   const [selected, setSelected] = React.useState(null);
   const UpdateHandleClose = () => setSelected(null);
 
+  const allowRelease = user?.info?.role === "cashier";
   const handleSearch = () => {
     setLoading(true);
-    posService
-      .searchPos(search)
+    posMerchantService
+      .getTransaction(allowRelease ? status : "")
       .then((e) => {
         setPos(e);
       })
@@ -55,6 +60,13 @@ export default function PosHistory() {
     },
     { field: "totalAmount", headerName: "Total Amount", width: 150, type: "number" },
     {
+      field: "status",
+      headerName: "Status",
+      width: 150,
+      valueGetter: (params) =>
+        ["Cancelled", "Unrelease", "Released"][params?.row?.status] || "Unknown",
+    },
+    {
       field: "actions",
       type: "actions",
       headerName: "Actions",
@@ -75,7 +87,7 @@ export default function PosHistory() {
 
   React.useEffect(() => {
     handleSearch();
-  }, []);
+  }, [status]);
 
   return (
     <MDBox>
@@ -92,7 +104,31 @@ export default function PosHistory() {
         onClose={handleSummaryClose}
       />
       <Grid container>
-        <Grid item xs={12} sx={{ textAlign: "right" }}>
+        <Grid item xs={6} sx={{ padding: 1 }}>
+          {allowRelease && (
+            <>
+              <MDButton
+                variant="contained"
+                color={status === 1 ? "secondary" : "info"}
+                size="sm"
+                sx={{ mr: 2, width: "100px" }}
+                onClick={() => setStatus(1)}
+              >
+                Unrelease
+              </MDButton>
+              <MDButton
+                variant="contained"
+                color={status === 2 ? "secondary" : "info"}
+                size="sm"
+                sx={{ mr: 2, width: "100px" }}
+                onClick={() => setStatus(2)}
+              >
+                Release
+              </MDButton>
+            </>
+          )}
+        </Grid>
+        <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{

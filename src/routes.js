@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Dashboard from "layouts/dashboard";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
@@ -17,69 +18,15 @@ import TuxyTable from "layouts/tables/employee/admin/tuxy";
 import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
 import MerchantProdTable from "layouts/tables/employee/admin/merchant-prod";
 import TransactionPage from "layouts/pos/transaction";
+import MechantTransactionPage from "layouts/pos-merchant/transaction";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import PosHistoryTable from "layouts/pos/cashier-index";
-import PosTable from "layouts/pos/pos-index";
+import PosPage from "layouts/pos";
+import MerchantTransactionHistory from "layouts/pos-merchant";
 
-const cashierRoutes = [
-  {
-    type: "title",
-    title: "Cashier",
-    key: "cashier-title",
-  },
-  {
-    type: "collapse",
-    name: "Cashier",
-    key: "cashier",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
-    route: "/cashier",
-    component: <PosTable />,
-  },
+const registrationRoutes = [
   {
     type: "divider",
-    key: "divider3",
-  },
-].map((route) => ({ ...route, role: ["cashier", "superAdmin", "admin"] }));
-
-const posRoutes = [
-  {
-    type: "title",
-    title: "Point of Sales",
-    key: "pos",
-  },
-  {
-    type: "collapse",
-    name: "New Transaction",
-    key: "new-transaction",
-    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
-    route: "/new-transaction",
-    component: <TransactionPage />,
-  },
-  {
-    type: "collapse",
-    name: "Transaction History",
-    key: "sales",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
-    route: "/sales",
-    component: <PosHistoryTable />,
-  },
-  {
-    type: "divider",
-    key: "divider4",
-  },
-].map((route) => ({ ...route, role: ["pos", "superAdmin", "admin"] }));
-const adminRoutes = [
-  {
-    type: "collapse",
-    name: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-  {
-    type: "divider",
-    key: "divider5",
+    key: "registration-divider",
   },
   {
     type: "title",
@@ -134,6 +81,9 @@ const adminRoutes = [
     route: "/pricelogs",
     component: <PriceLogsTable />,
   },
+];
+
+const storeRoutes = [
   {
     type: "collapse",
     name: "Merchant Product",
@@ -144,20 +94,60 @@ const adminRoutes = [
   },
   {
     type: "divider",
-    key: "divider6",
+    key: "store-divider",
+    role: ["cashier"],
   },
-].map((route) => ({ ...route, role: ["admin", "superAdmin"] }));
+  {
+    type: "title",
+    title: "Store",
+    key: "cashier",
+    role: ["cashier"],
+  },
+  {
+    type: "collapse",
+    name: "New Transaction",
+    key: "new-merchant-transaction",
+    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
+    route: "/new-merchant-transaction",
+    role: ["cashier"],
+    component: <MechantTransactionPage />,
+  },
+  {
+    type: "collapse",
+    name: "Transaction History",
+    key: "merchant-sales",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/merchant-sales",
+    role: ["cashier"],
+    component: <MerchantTransactionHistory />,
+  },
+];
 
-const routes = [
-  ...adminRoutes,
-  ...cashierRoutes,
-  ...posRoutes,
+const dashboardRoutes = [
+  {
+    type: "collapse",
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    role: ["*"],
+    component: <Dashboard />,
+  },
+];
+
+const userRoutes = [
+  {
+    type: "divider",
+    key: "user-divider",
+    role: ["*"],
+  },
   {
     type: "collapse",
     name: "Notifications",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
+    role: ["*"],
     component: <Notifications />,
   },
   {
@@ -166,6 +156,7 @@ const routes = [
     key: "profile",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
+    role: ["*"],
     component: <Profile />,
   },
   {
@@ -174,15 +165,56 @@ const routes = [
     key: "sign-out",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/sign-out",
+    role: ["*"],
     component: <SignOut />,
   },
+];
+
+const posRoutes = [
+  {
+    type: "divider",
+    key: "pos-divider",
+    role: ["cashier", "pos"],
+  },
+  {
+    type: "title",
+    title: "Tuxy Sales",
+    role: ["cashier", "pos"],
+    key: "pos",
+  },
+  {
+    type: "collapse",
+    name: "New Transaction",
+    key: "new-transaction",
+    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
+    route: "/new-transaction",
+    role: ["pos"],
+    component: <TransactionPage />,
+  },
+  {
+    type: "collapse",
+    name: "Transaction History",
+    key: "sales",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/sales",
+    role: ["cashier", "pos"],
+    component: <PosPage />,
+  },
+];
+
+const routes = [
+  ...dashboardRoutes,
+  ...registrationRoutes,
+  ...storeRoutes,
+  ...posRoutes,
+  ...userRoutes,
 ];
 
 export const defaultRoute = {
   admin: "/dashboard",
   superAdmin: "/dashboard",
-  pos: "/sales",
-  cashier: "/cashier",
+  pos: "/dashboard",
+  cashier: "/dashboard",
   payroll: "/payroll",
 };
 

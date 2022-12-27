@@ -14,13 +14,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useUserContext } from "user-context/user-context";
 
 export const getUnitTotal = (item) => (item?.price || 0) * (item?.quantity || 0);
 
-export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
+export default function PosConfirmModal({ open, onClose, onSuccess, selected }) {
   // const [payment, setPayment] = React.useState(null);
-  const [user] = useUserContext();
   const handleSave = () => {
     onSuccess?.();
   };
@@ -28,9 +26,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
   const handleClose = () => {
     onClose?.();
   };
-  const allowRelease = ["cashier", "admin"].indexOf(user?.info?.role) > -1;
 
-  console.log(selected);
   const totalPrice = selected?.items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
   return (
     <Modal
@@ -41,11 +37,11 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
       saveText="Release"
       // disabled={payment < totalPrice}
       onSave={handleSave}
-      noSuccess={selected?.status !== 1 || !allowRelease}
+      noSuccess
     >
       <MDBox sx={{ maxHeight: "52vh", overflow: "auto" }}>
         <Typography variant="h6" gutterBottom>
-          Farmer: {selected?.farmerId}
+          Farmer: {selected?.firstName} {selected?.middleName} {selected?.lastName}
         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
@@ -81,14 +77,14 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
   );
 }
 
-ConfirmModal.defaultProps = {
+PosConfirmModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
   selected: null,
 };
 
-ConfirmModal.propTypes = {
+PosConfirmModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types

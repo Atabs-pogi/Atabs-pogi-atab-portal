@@ -9,11 +9,11 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Card } from "@mui/material";
-import PosData from "./history";
+import PosHistory from "./history";
 
 // Data
 
-function PosTable() {
+function PosMerchant() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -21,7 +21,7 @@ function PosTable() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <PosData />
+              <PosHistory />
             </Card>
           </Grid>
         </Grid>
@@ -31,4 +31,4 @@ function PosTable() {
   );
 }
 
-export default PosTable;
+export default PosMerchant;
