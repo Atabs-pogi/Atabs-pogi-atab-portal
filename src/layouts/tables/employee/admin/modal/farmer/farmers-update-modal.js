@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import {
   Card,
@@ -23,7 +23,8 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
   const { address: selectedAddress, ...selectedFarmer } = selected;
   const [farmer, setFarmer] = React.useState(selectedFarmer);
   const [imagePath, setImgPath] = React.useState("");
-  const [image, setImg] = React.useState("");
+  const [image, setImg] = React.useState(farmer.imageLocation);
+  const [tryimage, setTryImg] = React.useState("");
   const [address, setAddress] = React.useState(selectedAddress);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -56,6 +57,21 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
   console.log(image);
   console.log(imagePath);
   console.log(farmer);
+  console.log(farmer?.imageLocation);
+
+  useEffect(() => {
+    const filePath =
+      "D:/Users/Matthew/Documents/GitHub/atabs-BE-master/atabs-BED/atabs-BED-main/src/main/imagedata/Farmer_.png";
+    const file = new File([], filePath);
+
+    console.log(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      console.log(reader.result);
+      setTryImg(reader.result);
+    };
+  }, []);
 
   const handleSave = () => {
     setError("");
@@ -141,6 +157,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                           mb: 2,
                         }}
                       />
+
                       <MDBox
                         className="upload-btn"
                         mx={2}
@@ -288,6 +305,19 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                       </Grid>
                     </MDBox>
                   </MDBox>
+
+                  <img
+                    alt="asd"
+                    src={tryimage}
+                    sx={{
+                      border: "solid 1px #aaa",
+                      padding: "20",
+                      height: "230px",
+                      width: "230px",
+                      margin: "auto",
+                    }}
+                  />
+
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
