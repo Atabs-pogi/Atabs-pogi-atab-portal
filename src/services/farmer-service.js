@@ -10,6 +10,10 @@ function getFarmer(id) {
   return axios.get(`${apiUrl}/farmer/getFarmer/${id}`);
 }
 
+function getFarmerCount() {
+  return axios.get(`${apiUrl}/farmer/getFarmerCount/`);
+}
+
 function searchFarmer(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -31,4 +35,4 @@ function updateFarmer(farmer) {
   return axios.put(`${apiUrl}/farmer/updateFarmer`, farmer);
 }
 
-export default { getFarmer, searchFarmer, addFarmer, updateFarmer };
+export default { getFarmer, searchFarmer, addFarmer, updateFarmer, getFarmerCount };
