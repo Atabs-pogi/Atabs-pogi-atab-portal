@@ -33,4 +33,5 @@ export const initialFarmer = {
     province: "",
   },
 };
+
 export default FarmerSchema;

@@ -85,7 +85,7 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
               {items?.map?.((item) => (
                 <TableRow key={item?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell component="th" scope="row">
-                    {item?.name} ({item?.quality})
+                    {item?.name}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
                   <TableCell align="right">{getUnitPrice(item)}</TableCell>

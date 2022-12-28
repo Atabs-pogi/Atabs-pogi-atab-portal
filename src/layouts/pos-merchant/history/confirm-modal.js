@@ -38,7 +38,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
       saveText="Release"
       disabled={selected?.payment < totalPrice}
       onSave={handleSave}
-      noSuccess={selected?.status !== 1 || user?.info?.role !== "cashier"}
+      noSuccess={selected?.status !== 1 || user?.info?.role !== "admin"}
     >
       <MDBox sx={{ maxHeight: "52vh", overflow: "auto" }}>
         {/* <Typography variant="h6" gutterBottom>

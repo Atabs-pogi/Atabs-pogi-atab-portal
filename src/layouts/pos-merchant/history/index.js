@@ -21,7 +21,7 @@ export default function PosHistory() {
   const [selected, setSelected] = React.useState(null);
   const UpdateHandleClose = () => setSelected(null);
 
-  const allowRelease = user?.info?.role === "cashier";
+  const allowRelease = user?.info?.role === "admin";
   const handleSearch = () => {
     setLoading(true);
     posMerchantService
@@ -148,7 +148,7 @@ export default function PosHistory() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          getRowId={(row) => row?.transactionsId}
+          getRowId={(row) => row?.transMerchantId}
           rows={pos}
           columns={columns}
           pageSize={10}
