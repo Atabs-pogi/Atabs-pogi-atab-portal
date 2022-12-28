@@ -34,15 +34,15 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
         />,
       ],
     },
-    { field: "name", headerName: "Name", width: 200 },
-    { field: "discartePrice", headerName: "Excellent", width: 200 },
-    { field: "goodPrice", headerName: "Good Quality", width: 200 },
-    { field: "resecoPrice", headerName: "Reseco", width: 200 },
+    { field: "item", headerName: "Item", width: 200 },
+    { field: "price", headerName: "Price", width: 200 },
+    { field: "quantity", headerName: "Quantity", width: 200 },
+    { field: "status", headerName: "Status", width: 200 },
   ]);
 
   return (
     <DataGrid
-      getRowId={(row) => row.tuxyId}
+      getRowId={(row) => row.productId}
       rows={items}
       columns={columns}
       pageSize={10}

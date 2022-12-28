@@ -21,12 +21,11 @@ export default function TransactionCart({ onChange, items, onItemRemove }) {
   };
 
   const columns = React.useMemo(() => [
-    { field: "name", headerName: "Name", width: 200 },
+    { field: "item", headerName: "Item", width: 200 },
     {
       field: "price",
       headerName: "Price",
       width: 200,
-      valueGetter: ({ row }) => getUnitPrice(row),
     },
     {
       field: "quantity",
@@ -44,7 +43,7 @@ export default function TransactionCart({ onChange, items, onItemRemove }) {
       field: "subtotal",
       headerName: "Sub Total",
       width: 200,
-      valueGetter: ({ row }) => getUnitPrice(row) * (row?.quantity || 0),
+      valueGetter: ({ row }) => parseFloat(row?.price || 0) * (row?.quantity || 0),
     },
     {
       field: "actions",
