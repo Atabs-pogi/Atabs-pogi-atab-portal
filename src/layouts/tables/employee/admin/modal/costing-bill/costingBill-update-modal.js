@@ -6,10 +6,10 @@ import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
-import merchantService from "services/merchant-prod-service";
+import costingBillService from "services/costing-bill-service";
 
-export default function MerchantProdUpdateModal({ selected, open, onClose, onSuccess }) {
-  const [merchantProd, setMerchantProd] = React.useState({ ...selected });
+export default function CostingBillUpdateModal({ selected, open, onClose, onSuccess }) {
+  const [costingBill, setCostingBill] = React.useState({ ...selected });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -19,13 +19,13 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
   const handleSave = () => {
     setError("");
     setLoading(true);
-    const newMerchantProd = {
-      ...merchantProd,
+    const newCostingBill = {
+      ...costingBill,
     };
-    merchantService
-      .updateMerchProd(newMerchantProd)
+    costingBillService
+      .updateBills(newCostingBill)
       .then(() => {
-        setMerchantProd({});
+        setCostingBill({});
         onSuccess?.();
       })
       .catch((err) => {
@@ -75,7 +75,7 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Merchant Product Information ({merchantProd?.productId})
+                      Costing Bill Information ({costingBill?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -83,44 +83,62 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
                       <Grid item xs={12}>
                         <TextField
                           id="outlined-basic"
-                          label="Item"
-                          name="item"
+                          label="Name"
+                          name="name"
                           variant="outlined"
                           fullWidth
                           sx={{ mb: 4, width: "25%" }}
                           disabled={loading}
-                          defaultValue={merchantProd?.item}
+                          defaultValue={costingBill?.name}
                           onChange={(evt) =>
-                            setMerchantProd({ ...merchantProd, item: evt.target.value })
+                            setCostingBill({ ...costingBill, name: evt.target.value })
                           }
                         />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
                           id="outlined-basic"
-                          label="Price"
-                          name="price"
+                          label="Type"
+                          name="type"
                           variant="outlined"
                           fullWidth
                           sx={{ mb: 4, width: "25%" }}
-                          defaultValue={merchantProd?.price}
+                          disabled={loading}
+                          defaultValue={costingBill?.type}
                           onChange={(evt) =>
-                            setMerchantProd({ ...merchantProd, price: evt.target.value })
+                            setCostingBill({ ...costingBill, type: evt.target.value })
                           }
                         />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
                           id="outlined-basic"
-                          label="Quantity"
-                          name="quantity"
+                          label="Account No."
+                          name="accountNo"
+                          type="number"
                           variant="outlined"
                           fullWidth
                           sx={{ mb: 4, width: "25%" }}
                           disabled={loading}
-                          defaultValue={merchantProd?.quantity}
+                          defaultValue={costingBill?.accountNo}
                           onChange={(evt) =>
-                            setMerchantProd({ ...merchantProd, quantity: evt.target.value })
+                            setCostingBill({ ...costingBill, accountNo: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          id="outlined-basic"
+                          name="amount"
+                          label="Amount"
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mb: 4, width: "25%" }}
+                          disabled={loading}
+                          defaultValue={costingBill?.amount}
+                          onChange={(evt) =>
+                            setCostingBill({ ...costingBill, amount: evt.target.value })
                           }
                         />
                       </Grid>
@@ -159,14 +177,14 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
   );
 }
 
-MerchantProdUpdateModal.defaultProps = {
+CostingBillUpdateModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
   selected: null,
 };
 // Typechecking props of the MDAlert
-MerchantProdUpdateModal.propTypes = {
+CostingBillUpdateModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
