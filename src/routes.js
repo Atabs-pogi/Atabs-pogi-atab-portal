@@ -17,6 +17,7 @@ import SignOut from "layouts/authentication/sign-out";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
 import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
 import MerchantProdTable from "layouts/tables/employee/admin/merchant-prod";
+import CostingBillTable from "layouts/tables/employee/admin/costing-bill";
 import TransactionPage from "layouts/pos/transaction";
 import MechantTransactionPage from "layouts/pos-merchant/transaction";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -80,6 +81,14 @@ const registrationRoutes = [
     icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
     route: "/pricelogs",
     component: <PriceLogsTable />,
+  },
+  {
+    type: "collapse",
+    name: "Costing Bill",
+    key: "costingbill",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/costingbill",
+    component: <CostingBillTable />,
   },
 ];
 

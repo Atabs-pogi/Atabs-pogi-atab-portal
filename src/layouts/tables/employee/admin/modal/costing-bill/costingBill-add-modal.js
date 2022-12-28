@@ -6,11 +6,11 @@ import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
-import merchantService from "services/merchant-prod-service";
+import costingBillService from "services/costing-bill-service";
 import { useFormik } from "formik";
-import EmpSchema, { initialMerchantProd } from "../schema/merchant-prod-schema";
+import EmpSchema, { initialCostingBill } from "../schema/costing-bill-schema";
 
-export default function MerchantProdModal({ open, onClose, onSuccess }) {
+export default function CostingBillModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -18,14 +18,14 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
   };
 
   const formik = useFormik({
-    initialValues: initialMerchantProd,
+    initialValues: initialCostingBill,
 
     validationSchema: EmpSchema,
     onSubmit: () => {
       setError("");
       setLoading(true);
-      merchantService
-        .addMerchProd(formik.values)
+      costingBillService
+        .addBills(formik.values)
         .then(() => {
           onSuccess?.();
         })
@@ -78,7 +78,7 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Merchant Product Information
+                        Costing Bill Information
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -86,51 +86,67 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            name="item"
-                            label="Item"
+                            name="name"
+                            label="Name"
                             disabled={loading}
-                            value={formik.values.item}
+                            value={formik.values.name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.item && Boolean(formik.errors.item)}
-                            helperText={formik.touched.item && formik.errors.item}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
                             variant="outlined"
-                            sx={{ mb: 4, width: "25%" }}
+                            sx={{ pr: 7, mb: 4, width: "25%" }}
                             fullWidth
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            name="price"
-                            label="Price"
-                            type="number"
+                            name="type"
+                            label="Type"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.price}
+                            value={formik.values.type}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.price && Boolean(formik.errors.price)}
-                            helperText={formik.touched.price && formik.errors.price}
-                            sx={{ mb: 4, width: "25%" }}
+                            error={formik.touched.type && Boolean(formik.errors.type)}
+                            helperText={formik.touched.type && formik.errors.type}
+                            sx={{ pr: 7, mb: 4, width: "25%" }}
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            name="quantity"
-                            label="Quantity"
+                            name="accountNo"
+                            label="Account No."
                             type="number"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.quantity}
+                            value={formik.values.accountNo}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-                            helperText={formik.touched.quantity && formik.errors.quantity}
-                            sx={{ mb: 4, width: "25%" }}
+                            error={formik.touched.accountNo && Boolean(formik.errors.accountNo)}
+                            helperText={formik.touched.accountNo && formik.errors.accountNo}
+                            sx={{ pr: 7, mb: 4, width: "25%" }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            id="outlined-basic"
+                            name="amount"
+                            label="Amount"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.amount}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.amount && Boolean(formik.errors.amount)}
+                            helperText={formik.touched.amount && formik.errors.amount}
+                            sx={{ pr: 7, mb: 4, width: "25%" }}
                           />
                         </Grid>
                       </Grid>
@@ -168,13 +184,13 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
   );
 }
 
-MerchantProdModal.defaultProps = {
+CostingBillModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
 };
 // Typechecking props of the MDAlert
-MerchantProdModal.propTypes = {
+CostingBillModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
