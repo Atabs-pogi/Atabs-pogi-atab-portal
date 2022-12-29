@@ -40,7 +40,7 @@ export default function MerchantData() {
     {
       field: "status",
       headerName: "Status",
-      width: 100,
+      width: 200,
       valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
     },
     {
