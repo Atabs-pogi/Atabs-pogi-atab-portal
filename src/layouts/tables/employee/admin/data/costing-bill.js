@@ -34,15 +34,13 @@ export default function FiberData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "name", headerName: "Name", width: 300 },
+    { field: "name", headerName: "Name", width: 400 },
     { field: "type", headerName: "Type", width: 400 },
-    { field: "accountNo", headerName: "Account No.", width: 200 },
-    { field: "amount", headerName: "Amount", width: 200 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 200,
+      width: 400,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem

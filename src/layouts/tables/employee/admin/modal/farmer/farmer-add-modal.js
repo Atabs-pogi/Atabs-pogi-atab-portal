@@ -177,7 +177,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                         <Grid item xs={4}>
                           <TextField
                             id="outlined-basic"
-                            label="Email (Required)"
+                            label="Email (Optional)"
                             name="email"
                             variant="outlined"
                             fullWidth
@@ -322,6 +322,26 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             }
                             helperText={
                               formik.touched?.address?.province && formik.errors?.address?.province
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={4}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Postal No."
+                            name="address.postalNo"
+                            variant="outlined"
+                            fullWidth
+                            sx={{ mt: 2, pr: 7 }}
+                            value={formik.values?.address?.postalNo}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched?.address?.postalNo &&
+                              Boolean(formik.errors?.address?.postalNo)
+                            }
+                            helperText={
+                              formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
                             }
                           />
                         </Grid>

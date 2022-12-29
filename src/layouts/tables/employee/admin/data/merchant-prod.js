@@ -35,7 +35,7 @@ export default function FiberData() {
 
   const columns = React.useMemo(() => [
     { field: "item", headerName: "Item", width: 400 },
-    { field: "price", headerName: "Price", width: 300 },
+    { field: "price", headerName: "Price", width: 200 },
     { field: "quantity", headerName: "Quantity", width: 200 },
     { field: "status", headerName: "Status", width: 200 },
     {
