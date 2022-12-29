@@ -128,7 +128,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                         mb: 2,
                       }}
                     >
-                      <MDBox>
+                      <MDBox sx={{ px: 2 }}>
                         <MDBox
                           id="farmerImg"
                           component="img"
@@ -136,7 +136,6 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           src={image}
                           sx={{
                             border: "solid 1px #aaa",
-                            padding: "20",
                             height: "230px",
                             width: "230px",
                             margin: "auto",
@@ -181,7 +180,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                         />
                       </MDBox>
 
-                      <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
+                      <MDBox className="modal-content" sx={{ flexGrow: 1, mt: 14, ml: 7 }}>
                         <Grid container spacing={0}>
                           <Grid item xs={4}>
                             <TextField
@@ -266,7 +265,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           <Grid item xs={4}>
                             <TextField
                               id="outlined-basic"
-                              label="Email (Required)"
+                              label="Email (Optional)"
                               name="email"
                               variant="outlined"
                               fullWidth
@@ -298,87 +297,6 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               onChange={(evt) => setFarmer({ ...farmer, birthday: evt })}
                             />
                           </Grid>
-
-                          <Grid item xs={4} mt={2}>
-                            <TextField
-                              id="outlined-basic"
-                              label="Affiliation"
-                              name="affiliation"
-                              variant="outlined"
-                              fullWidth
-                              disabled={loading}
-                              value={formik.values.affiliation}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBLur}
-                              error={
-                                formik.touched.affiliation && Boolean(formik.errors.affiliation)
-                              }
-                              helperText={formik.touched.affiliation && formik.errors.affiliation}
-                              sx={{ pr: 7 }}
-                            />
-                          </Grid>
-                          <Grid item xs={4} mt={2}>
-                            <TextField
-                              id="outlined-basic"
-                              label="Civil Status"
-                              name="civilStatus"
-                              variant="outlined"
-                              fullWidth
-                              disabled={loading}
-                              value={formik.values.civilStatus}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBLur}
-                              error={
-                                formik.touched.civilStatus && Boolean(formik.errors.civilStatus)
-                              }
-                              helperText={formik.touched.civilStatus && formik.errors.civilStatus}
-                              sx={{ pr: 7 }}
-                            />
-                          </Grid>
-                          <Grid item xs={4} mt={2}>
-                            <TextField
-                              id="outlined-basic"
-                              label="Educational Attainment"
-                              name="educationalAttainment"
-                              variant="outlined"
-                              fullWidth
-                              disabled={loading}
-                              value={formik.values.educationalAttainment}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBLur}
-                              error={
-                                formik.touched.educationalAttainment &&
-                                Boolean(formik.errors.educationalAttainment)
-                              }
-                              helperText={
-                                formik.touched.educationalAttainment &&
-                                formik.errors.educationalAttainment
-                              }
-                              sx={{ pr: 7 }}
-                            />
-                          </Grid>
-                          <Grid item xs={4} mt={2}>
-                            <TextField
-                              id="outlined-basic"
-                              label="Estimated Annual Income"
-                              name="estimatedAnnualIncome"
-                              variant="outlined"
-                              fullWidth
-                              disabled={loading}
-                              value={formik.values.estimatedAnnualIncome}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBLur}
-                              error={
-                                formik.touched.estimatedAnnualIncome &&
-                                Boolean(formik.errors.estimatedAnnualIncome)
-                              }
-                              helperText={
-                                formik.touched.estimatedAnnualIncome &&
-                                formik.errors.estimatedAnnualIncome
-                              }
-                              sx={{ pr: 7 }}
-                            />
-                          </Grid>
                           <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
@@ -403,44 +321,6 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
-                              label="No. Of Dependents"
-                              name="noOfDependents"
-                              type="number"
-                              variant="outlined"
-                              fullWidth
-                              disabled={loading}
-                              value={formik.values.noOfDependents}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBLur}
-                              error={
-                                formik.touched.noOfDependents &&
-                                Boolean(formik.errors.noOfDependents)
-                              }
-                              helperText={
-                                formik.touched.noOfDependents && formik.errors.noOfDependents
-                              }
-                              sx={{ pr: 7 }}
-                            />
-                          </Grid>
-                          <Grid item xs={4} mt={2}>
-                            <TextField
-                              id="outlined-basic"
-                              label="Spouse"
-                              name="spouse"
-                              variant="outlined"
-                              fullWidth
-                              disabled={loading}
-                              value={formik.values.spouse}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBLur}
-                              error={formik.touched.spouse && Boolean(formik.errors.spouse)}
-                              helperText={formik.touched.spouse && formik.errors.spouse}
-                              sx={{ pr: 7 }}
-                            />
-                          </Grid>
-                          <Grid item xs={4} mt={2}>
-                            <TextField
-                              id="outlined-basic"
                               label="Viber Account"
                               name="viberAccount"
                               variant="outlined"
@@ -458,6 +338,125 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           </Grid>
                         </Grid>
                       </MDBox>
+                    </MDBox>
+
+                    <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={0}>
+                        <Grid item xs={3} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Affiliation"
+                            name="affiliation"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.affiliation}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.affiliation && Boolean(formik.errors.affiliation)}
+                            helperText={formik.touched.affiliation && formik.errors.affiliation}
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={3} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Civil Status"
+                            name="civilStatus"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.civilStatus}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.civilStatus && Boolean(formik.errors.civilStatus)}
+                            helperText={formik.touched.civilStatus && formik.errors.civilStatus}
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={3} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Educational Attainment"
+                            name="educationalAttainment"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.educationalAttainment}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.educationalAttainment &&
+                              Boolean(formik.errors.educationalAttainment)
+                            }
+                            helperText={
+                              formik.touched.educationalAttainment &&
+                              formik.errors.educationalAttainment
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={3} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Estimated Annual Income"
+                            name="estimatedAnnualIncome"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.estimatedAnnualIncome}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.estimatedAnnualIncome &&
+                              Boolean(formik.errors.estimatedAnnualIncome)
+                            }
+                            helperText={
+                              formik.touched.estimatedAnnualIncome &&
+                              formik.errors.estimatedAnnualIncome
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+
+                        <Grid item xs={3} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="No. Of Dependents"
+                            name="noOfDependents"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.noOfDependents}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.noOfDependents && Boolean(formik.errors.noOfDependents)
+                            }
+                            helperText={
+                              formik.touched.noOfDependents && formik.errors.noOfDependents
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={3} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Spouse"
+                            name="spouse"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.spouse}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.spouse && Boolean(formik.errors.spouse)}
+                            helperText={formik.touched.spouse && formik.errors.spouse}
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                      </Grid>
                     </MDBox>
 
                     <Divider sx={{ py: 0.1, opacity: 10 }} />
@@ -536,7 +535,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             name="address.city"
                             variant="outlined"
                             fullWidth
-                            sx={{ mt: 2, pr: 7 }}
+                            sx={{ pr: 7 }}
                             disabled={loading}
                             value={formik.values?.address?.city}
                             onChange={formik.handleChange}

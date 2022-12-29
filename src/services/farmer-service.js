@@ -1,19 +1,20 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
+import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
 
-const BASE_URL = "http://localhost:8080";
+// const BASE_URL = "http://localhost:8080";
 
 function getFarmer(id) {
-  return axios.get(`${BASE_URL}/farmer/getFarmer/${id}`);
+  return axios.get(`${apiUrl}/farmer/getFarmer/${id}`);
 }
 
 function searchFarmer(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/farmer/search`, { params: { name: search } })
+        .get(`${apiUrl}/farmer/search`, { params: { name: search } })
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -23,7 +24,7 @@ function searchFarmer(search = "") {
 }
 
 function addFarmer(farmer) {
-  return axios.post(`${BASE_URL}/farmer/addFarmer`, farmer);
+  return axios.post(`${apiUrl}/farmer/addFarmer`, farmer);
 }
 
 function createImgPath(profile, type, img) {
@@ -31,7 +32,7 @@ function createImgPath(profile, type, img) {
   formData.append("profile", profile);
   formData.append("type", type);
   formData.append("img", img);
-  return axios.post(`${BASE_URL}/image/addProfile`, formData, {
+  return axios.post(`${apiUrl}/image/addProfile`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -39,7 +40,7 @@ function createImgPath(profile, type, img) {
 }
 
 function updateFarmer(farmer) {
-  return axios.put(`${BASE_URL}/farmer/updateFarmer`, farmer);
+  return axios.put(`${apiUrl}/farmer/updateFarmer`, farmer);
 }
 
 export default { getFarmer, searchFarmer, addFarmer, createImgPath, updateFarmer };
