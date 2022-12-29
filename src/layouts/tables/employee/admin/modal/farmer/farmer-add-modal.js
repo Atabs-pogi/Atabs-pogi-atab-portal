@@ -468,7 +468,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
                       <Grid container spacing={0}>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
                             label="House no."
@@ -489,7 +489,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             }
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
                             label="Unit"
@@ -509,7 +509,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             }
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
                             label="Barangay"
@@ -529,7 +529,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             }
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
                             label="City"
@@ -549,7 +549,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             }
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
                             label="Province"

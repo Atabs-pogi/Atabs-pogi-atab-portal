@@ -1,23 +1,26 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
+import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
 
-const BASE_URL = "http://localhost:8080";
+// const BASE_URL = "http://localhost:8080";
+
+console.log(apiUrl);
 
 function authenticate(account) {
-  return axios.post(`${BASE_URL}/login/authenticate`, account).then((res) => res.data);
+  return axios.post(`${apiUrl}/login/authenticate`, account).then((res) => res.data);
 }
 
 function getAccount(id) {
-  return axios.get(`${BASE_URL}/login/getAccount/${id}`);
+  return axios.get(`${apiUrl}/login/getAccount/${id}`);
 }
 
 function searchAccounts(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/login/search`, { params: { name: search } })
+        .get(`${apiUrl}/login/search`, { params: { name: search } })
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -27,7 +30,7 @@ function searchAccounts(search = "") {
 }
 
 function addAccount(account) {
-  return axios.post(`${BASE_URL}/login/addAccount`, account);
+  return axios.post(`${apiUrl}/login/addAccount`, account);
   // return new Promise((resolve) => {
   //   setTimeout(() => {
   //     resolve({
@@ -39,7 +42,7 @@ function addAccount(account) {
 }
 
 function updateAccount(account) {
-  return axios.put(`${BASE_URL}/login/updateAccount`, account);
+  return axios.put(`${apiUrl}/login/updateAccount`, account);
   // return new Promise((resolve, reject) => {
   //   setTimeout(() => {
   //     // resolve({
