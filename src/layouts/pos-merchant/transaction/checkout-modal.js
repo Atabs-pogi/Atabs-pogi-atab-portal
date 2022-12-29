@@ -14,7 +14,6 @@ import {
   TextField,
 } from "@mui/material";
 import posMerchantService from "services/pos-merchant-service";
-import { getUnitPrice, getUnitTotal } from "./cart";
 
 export default function CheckoutModal({ open, onClose, items, onSuccess }) {
   const [payment, setPayment] = React.useState(null);
@@ -34,13 +33,13 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
     posMerchantService
       .save({
         items: items?.map?.((item) => ({
-          tuxyId: item?.tuxyId,
+          productId: item?.productId,
           quantity: item?.quantity,
         })),
         payment,
       })
       .then((t) => {
-        onSuccess?.(t?.transactionId || t);
+        onSuccess?.(t?.transMerchantId || t);
       })
       .catch((err) => {
         setError(err?.message);
@@ -56,7 +55,12 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
     onClose?.();
   };
 
-  const totalPrice = items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
+  const totalPrice =
+    items?.reduce((val, item) => {
+      const subTotal = parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0);
+      return val + subTotal;
+    }, 0) || 0;
+
   return (
     <Modal
       open={open}
@@ -83,13 +87,18 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
             </TableHead>
             <TableBody>
               {items?.map?.((item) => (
-                <TableRow key={item?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableRow
+                  key={item?.productId}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
                   <TableCell component="th" scope="row">
-                    {item?.name}
+                    {item?.item}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
-                  <TableCell align="right">{getUnitPrice(item)}</TableCell>
-                  <TableCell align="right">{getUnitTotal(item)}</TableCell>
+                  <TableCell align="right">{parseFloat(item?.price)}</TableCell>
+                  <TableCell align="right">
+                    {parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

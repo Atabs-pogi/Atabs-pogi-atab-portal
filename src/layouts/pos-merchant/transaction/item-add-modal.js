@@ -5,7 +5,7 @@ import tuxyImg from "assets/images/small-logos/account.jpg";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
-import tuxyService from "services/tuxy-service";
+import merchantProdService from "services/merchant-prod-service";
 import ItemGrid from "../items/item-grid";
 
 export default function ItemModal({ open, onClose, items: selectedItems, onItemAdd }) {
@@ -22,10 +22,10 @@ export default function ItemModal({ open, onClose, items: selectedItems, onItemA
 
   const handleSearch = () => {
     setLoading(true);
-    tuxyService
-      .getTuxyList(search)
+    merchantProdService
+      .getAllMerchProd(search)
       .then((e) => {
-        setItems(e);
+        setItems(e?.data);
       })
       .finally(() => {
         setLoading(false);
@@ -37,11 +37,11 @@ export default function ItemModal({ open, onClose, items: selectedItems, onItemA
   }, []);
 
   const addCount = React.useCallback(
-    (item) => selectedItems?.filter((s) => s?.tuxyId === item?.tuxyId)?.length || 0,
+    (item) => selectedItems?.filter((s) => s?.productId === item?.productId)?.length || 0,
     [selectedItems]
   );
 
-  const listItems = items?.map((item) => ({
+  const listItems = items?.map?.((item) => ({
     ...item,
     count: addCount(item),
   }));
@@ -55,7 +55,7 @@ export default function ItemModal({ open, onClose, items: selectedItems, onItemA
       open={open}
       onClose={handleClose}
       onSave={handleClose}
-      title="Select Tuxy"
+      title="Select Item"
       picture={tuxyImg}
       noCancel
       saveText="Done"

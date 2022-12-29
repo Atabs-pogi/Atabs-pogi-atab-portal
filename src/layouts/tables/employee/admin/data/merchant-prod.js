@@ -10,7 +10,7 @@ import merchantService from "services/merchant-prod-service";
 import MerchantProdModal from "../modal/merchant-prod/merchant-add-modal";
 import MerchantProdUpdateModal from "../modal/merchant-prod/merchant-update-modal";
 
-export default function FiberData() {
+export default function MerchantData() {
   const [merchantProd, setMerchantProd] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -24,9 +24,9 @@ export default function FiberData() {
   const handleSearch = () => {
     setLoading(true);
     merchantService
-      .searchMerchProd(search)
-      .then((e) => {
-        setMerchantProd(e);
+      .getAllMerchProd(search)
+      .then((res) => {
+        setMerchantProd(res?.data);
       })
       .finally(() => {
         setLoading(false);
@@ -37,7 +37,12 @@ export default function FiberData() {
     { field: "item", headerName: "Item", width: 400 },
     { field: "price", headerName: "Price", width: 200 },
     { field: "quantity", headerName: "Quantity", width: 200 },
-    { field: "status", headerName: "Status", width: 200 },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 100,
+      valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
+    },
     {
       field: "actions",
       type: "actions",

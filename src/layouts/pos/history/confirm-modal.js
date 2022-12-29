@@ -30,7 +30,6 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
   };
   const allowRelease = ["cashier", "admin"].indexOf(user?.info?.role) > -1;
 
-  console.log(selected);
   const totalPrice = selected?.items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
   return (
     <Modal

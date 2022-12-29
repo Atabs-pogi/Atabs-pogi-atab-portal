@@ -7,7 +7,7 @@ import MDButton from "components/MDButton";
 import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import TransactionCart, { getUnitTotal } from "./cart";
+import TransactionCart from "./cart";
 import ItemModal from "./item-add-modal";
 import CheckoutModal from "./checkout-modal";
 import SummaryModal from "./summary-modal";
@@ -25,7 +25,11 @@ export default function TransactionPage() {
     setItems(newItems);
   };
 
-  const totalPrice = items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
+  const totalPrice =
+    items?.reduce(
+      (val, item) => val + parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0),
+      0
+    ) || 0;
 
   const handleAdd = () => {
     setItemOpen(true);

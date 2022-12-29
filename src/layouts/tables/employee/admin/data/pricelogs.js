@@ -23,14 +23,14 @@ export default function TuxyData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "tuxyName", headerName: "Tuxy Name", width: 300 },
-    { field: "action", headerName: "Action", width: 500 },
+    { field: "tuxyName", headerName: "Tuxy Name", width: 150 },
+    { field: "action", headerName: "Action", type: "action:", width: 450 },
     {
       field: "updatedBy",
       headerName: "Updated By",
-      width: 300,
+      width: 200,
     },
-    { field: "createDate", headerName: "Date Created", width: 450 },
+    { field: "createDate", headerName: "Date Created", width: 300 },
   ]);
 
   const handleSearchChange = (evt) => {

@@ -14,12 +14,10 @@ import {
   TextField,
   // Typography,
 } from "@mui/material";
-import { useUserContext } from "user-context/user-context";
 
-export const getUnitTotal = (item) => (item?.price || 0) * (item?.quantity || 0);
+// export const getUnitTotal = (item) => (item?.price || 0) * (item?.quantity || 0);
 
 export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
-  const [user] = useUserContext();
   const handleSave = () => {
     onSuccess?.();
   };
@@ -28,7 +26,6 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
     onClose?.();
   };
 
-  const totalPrice = selected?.items?.reduce((val, item) => val + getUnitTotal(item), 0) || 0;
   return (
     <Modal
       open={open}
@@ -36,33 +33,34 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
       title="Transaction Summary"
       picture={tuxyImg}
       saveText="Release"
-      disabled={selected?.payment < totalPrice}
       onSave={handleSave}
-      noSuccess={selected?.status !== 1 || user?.info?.role !== "admin"}
+      noSuccess
     >
       <MDBox sx={{ maxHeight: "52vh", overflow: "auto" }}>
-        {/* <Typography variant="h6" gutterBottom>
-          Farmer: {selected?.firstName} {selected?.middleName} {selected?.lastName}
-        </Typography> */}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
             <TableHead sx={{ display: "table-header-group" }}>
               <TableRow>
                 <TableCell>Item</TableCell>
-                <TableCell align="right">Quantity (kg)</TableCell>
+                <TableCell align="right">Quantity</TableCell>
                 <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Sub Total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {selected?.items?.map?.((item) => (
-                <TableRow key={item?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableRow
+                  key={item?.transMerchantId}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
                   <TableCell component="th" scope="row">
-                    {item?.tuxyName} ({item?.type}) {item?.quality}
+                    {item?.name}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
                   <TableCell align="right">{item?.price}</TableCell>
-                  <TableCell align="right">{getUnitTotal(item)}</TableCell>
+                  <TableCell align="right">
+                    {parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -73,7 +71,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
         <MDBox sx={{ display: "inline-block" }}>
           <TextField
             label="Payment"
-            value={selected?.payment || 0}
+            value={selected?.paid || 0}
             readOnly
             variant="outlined"
             sx={{ m: 1 }}
@@ -82,7 +80,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
         <MDBox sx={{ display: "inline-block" }}>
           <TextField
             label="Total"
-            value={totalPrice || 0}
+            value={selected?.totalAmount || 0}
             readOnly
             variant="outlined"
             sx={{ m: 1 }}
@@ -91,7 +89,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
         <MDBox sx={{ display: "inline-block" }}>
           <TextField
             label="Change"
-            value={(selected?.payment || 0) - (totalPrice || 0)}
+            value={selected?.changed || 0}
             readOnly
             variant="outlined"
             sx={{ m: 1 }}

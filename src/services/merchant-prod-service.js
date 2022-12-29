@@ -28,7 +28,7 @@ function addMerchProd(merchProd) {
 }
 
 function updateMerchProd(merchProd) {
-  return axios.post(`${apiUrl}/merchant/updateProduct`, merchProd);
+  return axios.put(`${apiUrl}/merchant/updateProduct`, merchProd);
 }
 
 export default { getAllMerchProd, searchMerchProd, addMerchProd, updateMerchProd };
