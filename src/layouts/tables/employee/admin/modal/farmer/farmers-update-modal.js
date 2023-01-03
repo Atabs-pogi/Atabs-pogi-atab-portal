@@ -325,7 +325,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             }
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        {/* <Grid item xs={4}>
                           <TextField
                             id="outlined-basic"
                             label="Postal No."
@@ -344,7 +344,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                               formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
                             }
                           />
-                        </Grid>
+                        </Grid> */}
                       </Grid>
                     </MDBox>
                     {/* ERROR MESSAGE */}

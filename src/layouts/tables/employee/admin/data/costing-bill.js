@@ -1,9 +1,9 @@
 import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { Grid } from "@mui/material";
+import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
-// import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
 import costingBillService from "services/costing-bill-service";
@@ -13,7 +13,7 @@ import CostingBillModalUpdateModal from "../modal/costing-bill/costingBill-updat
 export default function FiberData() {
   const [costingBills, setCostingBills] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  // const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -24,9 +24,9 @@ export default function FiberData() {
   const handleSearch = () => {
     setLoading(true);
     costingBillService
-      .getAllBills()
+      .searchBills(search)
       .then((e) => {
-        setCostingBills(e.data);
+        setCostingBills(e);
       })
       .finally(() => {
         setLoading(false);
@@ -61,9 +61,9 @@ export default function FiberData() {
     },
   ]);
 
-  // const handleSearchChange = (evt) => {
-  //   setSearch(evt.target.value);
-  // };
+  const handleSearchChange = (evt) => {
+    setSearch(evt.target.value);
+  };
 
   React.useEffect(() => {
     handleSearch();
@@ -86,7 +86,7 @@ export default function FiberData() {
             Add Product
           </MDButton>
         </Grid>
-        {/* <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
@@ -102,7 +102,7 @@ export default function FiberData() {
             onChange={handleSearchChange}
             value={search}
           />
-        </Grid> */}
+        </Grid>
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid

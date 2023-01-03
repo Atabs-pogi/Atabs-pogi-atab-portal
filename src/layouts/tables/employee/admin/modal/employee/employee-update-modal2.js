@@ -178,7 +178,7 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
                         <Grid item xs={4}>
                           <TextField
                             id="outlined-basic"
-                            label="Email (Required)"
+                            label="Email (Optional)"
                             name="email"
                             variant="outlined"
                             fullWidth

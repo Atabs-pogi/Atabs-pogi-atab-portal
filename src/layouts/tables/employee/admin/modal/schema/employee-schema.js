@@ -5,11 +5,11 @@ export const EmployeeSchema = object().shape({
   firstName: string().required("Required"),
   middleName: string(""),
   mobileNumber: string().required("Required"),
-  email: string().required("Required"),
+  email: string(""),
   sex: string().required("Required"),
   birthday: date(),
   address: object().shape({
-    houseNo: string().required("Required"),
+    houseNo: string(""),
     unit: string(""),
     barangay: string().required("Required"),
     city: string().required("Required"),
