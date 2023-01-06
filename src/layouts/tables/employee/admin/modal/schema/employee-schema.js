@@ -15,6 +15,7 @@ export const EmployeeSchema = object().shape({
     city: string().required("Required"),
     province: string().required("Required"),
   }),
+  imageLocation: string().required("Required"),
 });
 
 export const initialEmployee = {
@@ -32,5 +33,6 @@ export const initialEmployee = {
     city: "",
     province: "",
   },
+  imageLocation: "",
 };
 export default EmployeeSchema;
