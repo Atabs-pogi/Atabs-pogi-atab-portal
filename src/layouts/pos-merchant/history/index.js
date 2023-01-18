@@ -31,7 +31,7 @@ export default function PosHistory() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "transMerchantId", headerName: "Transaction ID", width: 200 },
+    { field: "transMerchantId", headerName: "Transaction ID", width: 200, sortable: true },
     {
       field: "items",
       headerName: "Total Items",
@@ -98,6 +98,11 @@ export default function PosHistory() {
           pageSize={10}
           rowsPerPageOptions={[1]}
           loading={loading}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "transMerchantId", sort: "desc" }],
+            },
+          }}
         />
       </div>
     </MDBox>

@@ -34,8 +34,8 @@ export default function MerchantData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "item", headerName: "Item", width: 400 },
-    { field: "price", headerName: "Price", width: 300 },
+    { field: "item", headerName: "Item", width: 300 },
+    { field: "price", headerName: "Price", width: 200, type: "number" },
     { field: "quantity", headerName: "Quantity", width: 200 },
     {
       field: "status",

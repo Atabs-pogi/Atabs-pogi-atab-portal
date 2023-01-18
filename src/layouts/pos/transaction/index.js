@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { Card, CardActions, Grid, TextField } from "@mui/material";
+import { Card, CardActions, Grid, TextField, Typography } from "@mui/material";
 import MDBox from "components/MDBox";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
@@ -140,11 +140,11 @@ export default function TransactionPage() {
               Select Farmer
             </MDButton>
             <TextField
-              label="Farmer Name"
+              label={<Typography color="red">*</Typography> || ""}
               value={
                 farmer?.id
                   ? `${farmer?.firstName} ${farmer?.middleName} ${farmer?.lastName}`
-                  : "No farmer selected"
+                  : "Farmer Name"
               }
               readOnly
             />
@@ -173,7 +173,8 @@ export default function TransactionPage() {
                     variant="contained"
                     color="info"
                     size="sm"
-                    disabled={totalPrice === 0}
+                    // disabled={totalPrice === 0 || !farmer?.id}
+                    disabled={!(totalPrice > 0 && farmer?.id)}
                     onClick={handleConfirmAdd}
                   >
                     Checkout

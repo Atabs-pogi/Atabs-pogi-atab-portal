@@ -50,8 +50,8 @@ export default function PosHistory() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "transactionsId", headerName: "Transaction ID", width: 200 },
-    { field: "farmerId", headerName: "Farmer ID", width: 200 },
+    { field: "transactionsId", headerName: "Transaction ID", width: 200, sortable: true },
+    { field: "farmerId", headerName: "Farmer ID", width: 150, sortable: true },
     {
       field: "items",
       headerName: "Total Items",
@@ -60,10 +60,13 @@ export default function PosHistory() {
       type: "number",
     },
     { field: "totalAmount", headerName: "Total Amount", width: 150, type: "number" },
+    { field: "transactionDate", headerName: "Transaction Date", width: 200 },
+    { field: "releaseDate", headerName: "Release Data", width: 200 },
     {
       field: "status",
       headerName: "Status",
       width: 150,
+      sortable: true,
       valueGetter: (params) =>
         ["Cancelled", "Unrelease", "Released"][params?.row?.status] || "Unknown",
     },
@@ -155,6 +158,16 @@ export default function PosHistory() {
           pageSize={10}
           rowsPerPageOptions={[1]}
           loading={loading}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "transactionsId", sort: "desc" }],
+            },
+          }}
+          columnVisibilityModel={{
+            // Hide columns status and traderName, the other columns will remain visible
+            transactionDate: status === 1,
+            releaseDate: status === 2,
+          }}
         />
       </div>
     </MDBox>

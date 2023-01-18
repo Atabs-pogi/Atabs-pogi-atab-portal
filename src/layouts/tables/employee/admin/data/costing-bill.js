@@ -34,10 +34,10 @@ export default function FiberData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "name", headerName: "Name", width: 300 },
+    { field: "name", headerName: "Name", width: 250 },
     { field: "type", headerName: "Type", width: 400 },
-    { field: "accountNo", headerName: "Account No.", width: 200 },
-    { field: "amount", headerName: "Amount", width: 200 },
+    { field: "accountNo", headerName: "Account No.", width: 200, type: "number" },
+    { field: "amount", headerName: "Amount", width: 150, type: "number" },
     {
       field: "actions",
       type: "actions",
@@ -85,7 +85,7 @@ export default function FiberData() {
         <Grid item xs={6} sx={{ p: 1 }}>
           <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
             <AddIcon sx={{ mr: 1 }} />
-            Add Product
+            Add Payment Bill
           </MDButton>
         </Grid>
         {/* <Grid item xs={6} sx={{ textAlign: "right" }}>

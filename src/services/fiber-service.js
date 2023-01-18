@@ -20,14 +20,6 @@ function searchFiber(search = "") {
         });
     }, DEFAULT_DELAY);
   });
-
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       name: "Roxie",
-  //     });
-  //   }, DEFAULT_DELAY);
-  // });
 }
 
 function addFiber(fiber) {

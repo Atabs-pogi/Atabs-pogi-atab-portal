@@ -37,7 +37,12 @@ export default function AccountData() {
     { field: "id", headerName: "ID", width: 230, textAlign: "center" },
     { field: "username", headerName: "Username", width: 230 },
     { field: "role", headerName: "Role", width: 230 },
-    { field: "status", headerName: "Status", width: 230 },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 230,
+      valueGetter: (params) => ["Disabled", "Active", "Inactive"][params?.row?.status] || "Unknown",
+    },
     {
       field: "actions",
       type: "actions",
@@ -108,6 +113,7 @@ export default function AccountData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
+          getRowId={(row) => row?.id}
           rows={accounts}
           columns={columns}
           pageSize={10}

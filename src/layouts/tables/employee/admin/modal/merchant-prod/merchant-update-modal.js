@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import fiberImg from "assets/images/small-logos/fiber.jpg";
+import merchantImg from "assets/images/small-logos/merchant.jpg";
 import merchantService from "services/merchant-prod-service";
 
 export default function MerchantProdUpdateModal({ selected, open, onClose, onSuccess }) {
@@ -56,7 +56,7 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
             <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
               <MDBox
                 component="img"
-                src={fiberImg}
+                src={merchantImg}
                 alt="Logo"
                 height="100%"
                 width="20%"

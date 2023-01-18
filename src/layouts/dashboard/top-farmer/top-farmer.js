@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 // import AddIcon from "@mui/icons-material/Add";
@@ -89,7 +89,12 @@ export default function TopFarmerData() {
             Add Farmer
           </MDButton>
         </Grid> */}
-        <Grid item xs={12} sx={{ textAlign: "right" }}>
+        <Grid item xs={6}>
+          <Typography variant="h4" sx={{ margin: 2 }}>
+            List of active sellers
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
@@ -112,7 +117,7 @@ export default function TopFarmerData() {
           rows={farmers}
           columns={columns}
           pageSize={10}
-          rowsPerPageOptions={[1]}
+          rowsPerPageOptions={[]}
           loading={loading}
         />
       </div>

@@ -25,7 +25,6 @@ function getTransaction(status) {
 
 function save(pos) {
   return axios.post(`${apiUrl}/pos/save`, pos).then((res) => res.data);
-  // return axios.get(`${BASE_URL}/pos/view`);
 }
 
 function updatePos(pos) {

@@ -5,7 +5,7 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import priceLogService from "services/price-log-service";
 
-export default function TuxyData() {
+export default function PriceLogsData() {
   const [pricelogs, setPriceLogs] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -23,14 +23,9 @@ export default function TuxyData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "tuxyName", headerName: "Tuxy Name", width: 150 },
+    { field: "tuxyName", headerName: "Tuxy Name", width: 150, sortable: true },
     { field: "action", headerName: "Action", type: "action:", width: 450 },
-    {
-      field: "updatedBy",
-      headerName: "Updated By",
-      width: 200,
-    },
-    { field: "createDate", headerName: "Date Created", width: 300 },
+    { field: "createDate", headerName: "Date Created", width: 300, sortable: true },
   ]);
 
   const handleSearchChange = (evt) => {
@@ -71,6 +66,11 @@ export default function TuxyData() {
           pageSize={10}
           rowsPerPageOptions={[1]}
           loading={loading}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "createDate", sort: "desc" }],
+            },
+          }}
         />
       </div>
     </MDBox>

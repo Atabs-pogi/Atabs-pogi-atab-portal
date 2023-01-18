@@ -7,15 +7,10 @@ import Select from "@mui/material/Select";
 
 export default function SelectRole(props) {
   return (
-    <Box sx={{ pr: 7 }}>
+    <Box>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Role</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          sx={{ py: 1.5 }}
-          {...props}
-        >
+        <Select labelId="demo-simple-select-label" id="demo-simple-select" size="small" {...props}>
           <MenuItem value="admin">admin</MenuItem>
           <MenuItem value="cashier">cashier</MenuItem>
           <MenuItem value="pos">pos</MenuItem>
