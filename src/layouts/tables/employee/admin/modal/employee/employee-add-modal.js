@@ -12,6 +12,7 @@ import {
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
+import UploadIcon from "@mui/icons-material/Upload";
 import CloseIcon from "@mui/icons-material/Close";
 import employeeImg from "assets/images/small-logos/employee1.jpg";
 import employeeService from "services/employee-service";
@@ -21,6 +22,7 @@ import SelectSex from "../../textfields/select-sex";
 import EmpSchema, { initialEmployee } from "../schema/employee-schema";
 
 export default function EmployeeModal({ open, onClose, onSuccess }) {
+  const [image, setImg] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -35,9 +37,10 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
       setError("");
       setLoading(true);
       employeeService
-        .addEmployee(formik?.values)
+        .addEmployee(formik.values)
         .then(() => {
           formik?.resetForm();
+          setImg(null);
           onSuccess?.();
         })
         .catch((err) => {
@@ -48,6 +51,32 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
         });
     },
   });
+
+  function handleImage(e) {
+    console.log(e.target.files[0]);
+
+    employeeService
+      .createImgPath("FirstName", "Employee", e.target.files[0])
+      .then((res) => {
+        formik.values.imageLocation = res.data;
+        // onSuccess?.();
+      })
+      .catch((err) => {
+        setError(err?.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      console.log(reader.result);
+      setImg(reader.result);
+    };
+  }
+  console.log(image);
+  console.log(formik.values);
 
   return (
     <Modal
@@ -92,129 +121,187 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                         Employee Information
                       </Typography>
                     </MDBox>
-                    <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                      <Grid container spacing={0}>
-                        <Grid item xs={4}>
-                          <TextField
-                            id="outlined-basic"
-                            name="lastName"
-                            label="Lastname"
-                            disabled={loading}
-                            value={formik?.values?.lastName}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                            helperText={formik.touched.lastName && formik.errors.lastName}
-                            variant="outlined"
-                            sx={{ pr: 7 }}
-                            fullWidth
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                            id="outlined-basic"
-                            label="Firstname"
-                            name="firstName"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.firstName}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                            helperText={formik.touched.firstName && formik.errors.firstName}
-                            sx={{ pr: 7 }}
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                            id="outlined-basic"
-                            label="Middlename (Optional)"
-                            name="middleName"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.middleName}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.middleName && Boolean(formik.errors.middleName)}
-                            helperText={formik.touched.middleName && formik.errors.middleName}
-                            sx={{ pr: 7 }}
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                            id="outlined-basic"
-                            label="Mobile Number"
-                            name="mobileNumber"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.mobileNumber}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={
-                              formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)
-                            }
-                            helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
-                            type="number"
-                            sx={{ mt: 2, pr: 7 }}
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <Typography
-                                    variant="h2"
-                                    component="span"
-                                    sx={{ fontSize: "15px" }}
-                                  >
-                                    +63
-                                  </Typography>
-                                </InputAdornment>
-                              ),
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        mb: 2,
+                      }}
+                    >
+                      <MDBox>
+                        <MDBox
+                          component="img"
+                          alt=""
+                          src={image}
+                          sx={{
+                            border: "solid 1px #aaa",
+                            padding: "20",
+                            height: "230px",
+                            width: "230px",
+                            margin: "auto",
+                          }}
+                        />
+
+                        <MDBox
+                          className="upload-btn"
+                          htmlFor="imgInput"
+                          mx={2}
+                          sx={{
+                            textAlign: "center",
+                            padding: "8px 0",
+                            backgroundColor: "#252525",
+                            borderRadius: "10px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <Typography
+                            variant="label"
+                            component="label"
+                            htmlFor="imgInput"
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              cursor: "pointer",
+                              fontSize: "small",
+                              color: "#fff",
                             }}
-                          />
+                          >
+                            <UploadIcon sx={{ mr: 1 }} />
+                            Upload an Image
+                          </Typography>
+                        </MDBox>
+                        <input
+                          id="imgInput"
+                          type="file"
+                          name="employee_img"
+                          onChange={handleImage}
+                          sx={{ display: "none" }}
+                        />
+                      </MDBox>
+                      <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
+                        <Grid container spacing={0}>
+                          <Grid item xs={4}>
+                            <TextField
+                              id="outlined-basic"
+                              name="lastName"
+                              label="Lastname"
+                              disabled={loading}
+                              value={formik.values.lastName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBLur}
+                              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                              helperText={formik.touched.lastName && formik.errors.lastName}
+                              variant="outlined"
+                              sx={{ pr: 7 }}
+                              fullWidth
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <TextField
+                              id="outlined-basic"
+                              label="Firstname"
+                              name="firstName"
+                              variant="outlined"
+                              fullWidth
+                              disabled={loading}
+                              value={formik.values.firstName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBLur}
+                              error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                              helperText={formik.touched.firstName && formik.errors.firstName}
+                              sx={{ pr: 7 }}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <TextField
+                              id="outlined-basic"
+                              label="Middlename (Optional)"
+                              name="middleName"
+                              variant="outlined"
+                              fullWidth
+                              disabled={loading}
+                              value={formik.values.middleName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBLur}
+                              error={formik.touched.middleName && Boolean(formik.errors.middleName)}
+                              helperText={formik.touched.middleName && formik.errors.middleName}
+                              sx={{ pr: 7 }}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <TextField
+                              id="outlined-basic"
+                              label="Mobile Number"
+                              name="mobileNumber"
+                              variant="outlined"
+                              fullWidth
+                              disabled={loading}
+                              value={formik.values.mobileNumber}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBLur}
+                              error={
+                                formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)
+                              }
+                              helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
+                              type="number"
+                              sx={{ mt: 2, pr: 7 }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <Typography
+                                      variant="h2"
+                                      component="span"
+                                      sx={{ fontSize: "15px" }}
+                                    >
+                                      +63
+                                    </Typography>
+                                  </InputAdornment>
+                                ),
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <TextField
+                              id="outlined-basic"
+                              label="Email (Optional)"
+                              name="email"
+                              variant="outlined"
+                              fullWidth
+                              disabled={loading}
+                              value={formik.values.email}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBLur}
+                              error={formik.touched.email && Boolean(formik.errors.email)}
+                              helperText={formik.touched.email && formik.errors.email}
+                              sx={{ mt: 2, pr: 7 }}
+                            />
+                          </Grid>
+                          <Grid item xs={4} mt={2}>
+                            <SelectSex
+                              name="sex"
+                              disabled={loading}
+                              value={formik.values.sex}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBLur}
+                              error={formik.touched.sex && Boolean(formik.errors.sex)}
+                              helperText={formik.touched.sex && formik.errors.sex}
+                            />
+                          </Grid>
+                          <Grid item xs={4} mt={2}>
+                            <TextFieldDatePicker
+                              name="birthday"
+                              disabled={loading}
+                              value={formik.values.birthday}
+                              onChange={(evt) =>
+                                formik?.setFieldValue("birthday", evt?.toISOString(), true)
+                              }
+                              maxDate={new Date()}
+                              error={formik.touched.birthday && Boolean(formik.errors.birthday)}
+                              helperText={formik.touched.birthday && formik.errors.birthday}
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={4}>
-                          <TextField
-                            id="outlined-basic"
-                            label="Email (Required)"
-                            name="email"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                            sx={{ mt: 2, pr: 7 }}
-                          />
-                        </Grid>
-                        <Grid item xs={4} mt={2}>
-                          <SelectSex
-                            name="sex"
-                            disabled={loading}
-                            value={formik.values.sex}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.sex && Boolean(formik.errors.sex)}
-                            helperText={formik.touched.sex && formik.errors.sex}
-                          />
-                        </Grid>
-                        <Grid item xs={4} mt={2}>
-                          <TextFieldDatePicker
-                            name="birthday"
-                            disabled={loading}
-                            value={formik.values.birthday}
-                            onChange={(evt) =>
-                              formik?.setFieldValue("birthday", evt?.toISOString(), true)
-                            }
-                            maxDate={new Date()}
-                            error={formik.touched.birthday && Boolean(formik.errors.birthday)}
-                            helperText={formik.touched.birthday && formik.errors.birthday}
-                          />
-                        </Grid>
-                      </Grid>
+                      </MDBox>
                     </MDBox>
                     <Divider sx={{ py: 0.1, opacity: 10 }} />
                     <MDBox>
@@ -322,6 +409,27 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                             }
                             helperText={
                               formik.touched?.address?.province && formik.errors?.address?.province
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={4}>
+                          <TextField
+                            id="outlined-basic"
+                            type="number"
+                            label="Postal No."
+                            name="address.postalNo"
+                            variant="outlined"
+                            fullWidth
+                            sx={{ mt: 2, pr: 7 }}
+                            value={formik.values?.address?.postalNo}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched?.address?.postalNo &&
+                              Boolean(formik.errors?.address?.postalNo)
+                            }
+                            helperText={
+                              formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
                             }
                           />
                         </Grid>

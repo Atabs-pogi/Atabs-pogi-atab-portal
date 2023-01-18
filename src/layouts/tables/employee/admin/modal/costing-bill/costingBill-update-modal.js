@@ -79,15 +79,15 @@ export default function CostingBillUpdateModal({ selected, open, onClose, onSucc
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={0}>
-                      <Grid item xs={12}>
+                    <Grid container spacing={0} sx={{ mt: 2 }}>
+                      <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
                           label="Name"
                           name="name"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
+                          sx={{ pr: 7, mb: 4 }}
                           disabled={loading}
                           defaultValue={costingBill?.name}
                           onChange={(evt) =>
@@ -95,50 +95,18 @@ export default function CostingBillUpdateModal({ selected, open, onClose, onSucc
                           }
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={4}>
                         <TextField
                           id="outlined-basic"
                           label="Type"
                           name="type"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
+                          sx={{ pr: 7, mb: 4 }}
                           disabled={loading}
                           defaultValue={costingBill?.type}
                           onChange={(evt) =>
                             setCostingBill({ ...costingBill, type: evt.target.value })
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Account No."
-                          name="accountNo"
-                          type="number"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          disabled={loading}
-                          defaultValue={costingBill?.accountNo}
-                          onChange={(evt) =>
-                            setCostingBill({ ...costingBill, accountNo: evt.target.value })
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          name="amount"
-                          label="Amount"
-                          type="number"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          disabled={loading}
-                          defaultValue={costingBill?.amount}
-                          onChange={(evt) =>
-                            setCostingBill({ ...costingBill, amount: evt.target.value })
                           }
                         />
                       </Grid>

@@ -82,8 +82,8 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                      <Grid container spacing={0}>
-                        <Grid item xs={12}>
+                      <Grid container spacing={0} sx={{ mt: 2 }}>
+                        <Grid item xs={4}>
                           <TextField
                             id="outlined-basic"
                             name="name"
@@ -95,11 +95,11 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                             error={formik.touched.name && Boolean(formik.errors.name)}
                             helperText={formik.touched.name && formik.errors.name}
                             variant="outlined"
-                            sx={{ pr: 7, mb: 4, width: "25%" }}
+                            sx={{ pr: 7, mb: 4 }}
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={4}>
                           <TextField
                             id="outlined-basic"
                             name="type"
@@ -112,41 +112,7 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                             onBlur={formik.handleBLur}
                             error={formik.touched.type && Boolean(formik.errors.type)}
                             helperText={formik.touched.type && formik.errors.type}
-                            sx={{ pr: 7, mb: 4, width: "25%" }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField
-                            id="outlined-basic"
-                            name="accountNo"
-                            label="Account No."
-                            type="number"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.accountNo}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.accountNo && Boolean(formik.errors.accountNo)}
-                            helperText={formik.touched.accountNo && formik.errors.accountNo}
-                            sx={{ pr: 7, mb: 4, width: "25%" }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField
-                            id="outlined-basic"
-                            name="amount"
-                            label="Amount"
-                            type="number"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.amount}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.amount && Boolean(formik.errors.amount)}
-                            helperText={formik.touched.amount && formik.errors.amount}
-                            sx={{ pr: 7, mb: 4, width: "25%" }}
+                            sx={{ pr: 7, mb: 4 }}
                           />
                         </Grid>
                       </Grid>

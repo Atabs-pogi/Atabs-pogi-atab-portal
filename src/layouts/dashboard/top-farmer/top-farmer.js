@@ -34,7 +34,7 @@ export default function TopFarmerData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "farmerId", headerName: "ID", width: 200 },
     { field: "firstName", headerName: "Firstname", width: 200 },
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
@@ -114,10 +114,11 @@ export default function TopFarmerData() {
       </Grid>
       <div style={{ height: 400, width: "100%", position: "relative" }}>
         <DataGrid
+          getRowId={(row) => row.farmerId}
           rows={farmers}
           columns={columns}
           pageSize={10}
-          rowsPerPageOptions={[]}
+          rowsPerPageOptions={[1]}
           loading={loading}
         />
       </div>
