@@ -54,11 +54,11 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
   });
 
   function handleImage(e) {
-    console.log(e.target.files[0]);
     farmerService
       .createImgPath("Matthew", "Farmer", e.target.files[0])
       .then((res) => {
         setImgPath(res.data);
+        formik.values.imageLocation = res.data;
         // onSuccess?.();
       })
       .catch((err) => {
@@ -71,7 +71,6 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-      console.log(reader.result);
       setImg(reader.result);
     };
   }
@@ -143,9 +142,10 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                   >
                     <MDBox>
                       <MDBox
-                        src={image}
+                        id="farmerImg"
                         component="img"
                         alt=""
+                        src={image}
                         sx={{
                           border: "solid 1px #aaa",
                           padding: "20",
@@ -184,13 +184,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                           Upload an Image
                         </Typography>
                       </MDBox>
-                      <input
-                        id="farmerimg"
-                        type="file"
-                        name="imgUpload"
-                        onChange={handleImage}
-                        sx={{ display: "none" }}
-                      />
+                      <input id="farmerimg" type="file" name="imgUpload" onChange={handleImage} />
                     </MDBox>
 
                     <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
@@ -259,7 +253,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             }
                             helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
                             type="number"
-                            sx={{ mt: 2, pr: 7 }}
+                            sx={{ mt: 3, pr: 7 }}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -288,10 +282,10 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             onBlur={formik.handleBLur}
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email}
-                            sx={{ mt: 2, pr: 7 }}
+                            sx={{ mt: 3, pr: 7 }}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
                           <SelectSex
                             name="sex"
                             disabled={loading}
@@ -302,7 +296,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             helperText={formik.touched.sex && formik.errors.sex}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
                           <TextFieldDatePicker
                             name="birthday"
                             disabled={loading}
@@ -315,7 +309,46 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             helperText={formik.touched.birthday && formik.errors.birthday}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Facebook Account"
+                            name="facebookAccount"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.facebookAccount}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.facebookAccount &&
+                              Boolean(formik.errors.facebookAccount)
+                            }
+                            helperText={
+                              formik.touched.facebookAccount && formik.errors.facebookAccount
+                            }
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={3}>
+                          <TextField
+                            id="outlined-basic"
+                            label="Viber Account"
+                            name="viberAccount"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.viberAccount}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.viberAccount && Boolean(formik.errors.viberAccount)
+                            }
+                            helperText={formik.touched.viberAccount && formik.errors.viberAccount}
+                            sx={{ pr: 7 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4} mt={3}>
                           <TextField
                             id="outlined-basic"
                             label="Affiliation"
@@ -331,7 +364,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             sx={{ pr: 7 }}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
                           <TextField
                             id="outlined-basic"
                             label="Civil Status"
@@ -347,7 +380,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             sx={{ pr: 7 }}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
                           <TextField
                             id="outlined-basic"
                             label="Educational Attainment"
@@ -369,7 +402,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             sx={{ pr: 7 }}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
                           <TextField
                             id="outlined-basic"
                             label="Estimated Annual Income"
@@ -392,28 +425,8 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             sx={{ pr: 7 }}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
-                          <TextField
-                            id="outlined-basic"
-                            label="Facebook Account"
-                            name="facebookAccount"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.facebookAccount}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={
-                              formik.touched.facebookAccount &&
-                              Boolean(formik.errors.facebookAccount)
-                            }
-                            helperText={
-                              formik.touched.facebookAccount && formik.errors.facebookAccount
-                            }
-                            sx={{ pr: 7 }}
-                          />
-                        </Grid>
-                        <Grid item xs={4} mt={2}>
+
+                        <Grid item xs={4} mt={3}>
                           <TextField
                             id="outlined-basic"
                             label="No. Of Dependents"
@@ -434,7 +447,7 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             sx={{ pr: 7 }}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={2}>
+                        <Grid item xs={4} mt={3}>
                           <TextField
                             id="outlined-basic"
                             label="Spouse"
@@ -447,24 +460,6 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             onBlur={formik.handleBLur}
                             error={formik.touched.spouse && Boolean(formik.errors.spouse)}
                             helperText={formik.touched.spouse && formik.errors.spouse}
-                            sx={{ pr: 7 }}
-                          />
-                        </Grid>
-                        <Grid item xs={4} mt={2}>
-                          <TextField
-                            id="outlined-basic"
-                            label="Viber Account"
-                            name="viberAccount"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.viberAccount}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={
-                              formik.touched.viberAccount && Boolean(formik.errors.viberAccount)
-                            }
-                            helperText={formik.touched.viberAccount && formik.errors.viberAccount}
                             sx={{ pr: 7 }}
                           />
                         </Grid>

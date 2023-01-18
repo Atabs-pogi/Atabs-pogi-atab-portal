@@ -59,6 +59,7 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
       .createImgPath("Matthew", "Farmer", e.target.files[0])
       .then((res) => {
         setImgPath(res.data);
+        formik.values.imageLocation = res.data;
         // onSuccess?.();
       })
       .catch((err) => {
@@ -179,7 +180,7 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
                         />
                       </MDBox>
 
-                      <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
+                      <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
                         <Grid container spacing={0}>
                           <Grid item xs={4}>
                             <TextField

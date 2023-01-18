@@ -14,7 +14,6 @@ export const FarmerSchema = object().shape({
     barangay: string().required("Required"),
     city: string().required("Required"),
     province: string().required("Required"),
-    postalNo: string().required("Required"),
   }),
   imageLocation: string().required("Required"),
   affiliation: string().required("Required"),
