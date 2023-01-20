@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Dashboard from "layouts/dashboard";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
@@ -14,6 +13,7 @@ import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
 import AccountTable from "layouts/tables/employee/admin/account-role";
 import SignOut from "layouts/authentication/sign-out";
+import PaymentIcon from "@mui/icons-material/Payment";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
 import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
 import MerchantProdTable from "layouts/tables/employee/admin/merchant-prod";
@@ -22,7 +22,12 @@ import TransactionPage from "layouts/pos/transaction";
 import MechantTransactionPage from "layouts/pos-merchant/transaction";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PosPage from "layouts/pos";
+import ForestIcon from "@mui/icons-material/Forest";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import HistoryIcon from "@mui/icons-material/History";
+import StoreIcon from "@mui/icons-material/Store";
 import MerchantTransactionHistory from "layouts/pos-merchant";
+import GenerateBillTable from "layouts/generating-bills";
 
 const registrationRoutes = [
   {
@@ -70,7 +75,7 @@ const registrationRoutes = [
     type: "collapse",
     name: "Tuxy",
     key: "tuxy",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    icon: <ForestIcon fontSize="small">table-view</ForestIcon>,
     route: "/tuxy",
     component: <TuxyTable />,
   },
@@ -78,7 +83,7 @@ const registrationRoutes = [
     type: "collapse",
     name: "Price Logs",
     key: "pricelogs",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    icon: <HistoryIcon fontSize="small">table-view</HistoryIcon>,
     route: "/pricelogs",
     component: <PriceLogsTable />,
   },
@@ -86,9 +91,17 @@ const registrationRoutes = [
     type: "collapse",
     name: "Costing Bill",
     key: "costingbill",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    icon: <PaymentsIcon fontSize="small">table-view</PaymentsIcon>,
     route: "/costingbill",
     component: <CostingBillTable />,
+  },
+  {
+    type: "collapse",
+    name: "Generate Bill",
+    key: "generate-bill",
+    icon: <PaymentIcon fontSize="small">table-view</PaymentIcon>,
+    route: "/generate-bill",
+    component: <GenerateBillTable />,
   },
 ];
 
@@ -97,7 +110,7 @@ const storeRoutes = [
     type: "collapse",
     name: "Merchant Product",
     key: "merchantProduct",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    icon: <StoreIcon fontSize="small">table-view</StoreIcon>,
     route: "/merchantProduct",
     component: <MerchantProdTable />,
   },

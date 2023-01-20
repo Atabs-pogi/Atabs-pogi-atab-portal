@@ -142,7 +142,7 @@ export default function TransactionPage() {
             <TextField
               label={<Typography color="red">*</Typography> || ""}
               value={
-                farmer?.id
+                farmer?.farmerId
                   ? `${farmer?.firstName} ${farmer?.middleName} ${farmer?.lastName}`
                   : "Farmer Name"
               }
@@ -173,8 +173,7 @@ export default function TransactionPage() {
                     variant="contained"
                     color="info"
                     size="sm"
-                    // disabled={totalPrice === 0 || !farmer?.id}
-                    disabled={!(totalPrice > 0 && farmer?.id)}
+                    disabled={!(totalPrice > 0 && farmer?.farmerId)}
                     onClick={handleConfirmAdd}
                   >
                     Checkout

@@ -18,7 +18,6 @@ import {
 export const getUnitTotal = (item) => (item?.price || 0) * (item?.quantity || 0);
 
 export default function PosConfirmModal({ open, onClose, onSuccess, selected }) {
-  // const [payment, setPayment] = React.useState(null);
   const handleSave = () => {
     onSuccess?.();
   };

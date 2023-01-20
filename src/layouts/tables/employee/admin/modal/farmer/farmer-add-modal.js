@@ -53,7 +53,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
         });
     },
   });
-
+  console.log(formik?.values);
   function handleImage(e) {
     farmerService
       .createImgPath("FirstName", "Farmer", e.target.files[0])
@@ -74,8 +74,6 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
       setImg(reader.result);
     };
   }
-  // console.log(image);
-  console.log(formik.values);
 
   return (
     <Modal

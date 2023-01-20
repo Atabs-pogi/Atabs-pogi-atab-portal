@@ -22,7 +22,6 @@ export default function PosHistory() {
   const UpdateHandleClose = () => setSelected(null);
 
   const allowRelease = ["cashier", "admin"].indexOf(user?.info?.role) > -1;
-  console.log(selected);
   const handleSearch = () => {
     setLoading(true);
     posService

@@ -36,6 +36,7 @@ export default function FarmerGrid({ items, loading, onFarmerSelect }) {
 
   return (
     <DataGrid
+      getRowId={(row) => row.farmerId}
       rows={items}
       columns={columns}
       pageSize={10}

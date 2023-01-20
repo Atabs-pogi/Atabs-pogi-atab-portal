@@ -34,7 +34,7 @@ export default function CheckoutModal({ open, onClose, items, onSuccess, farmer 
     // setPayment(0);
     posService
       .save({
-        farmerId: farmer?.id,
+        farmerId: farmer?.farmerId,
         items: items?.map?.((item) => ({
           tuxyId: item?.tuxyId,
           quality: item?.quality,
@@ -103,27 +103,9 @@ export default function CheckoutModal({ open, onClose, items, onSuccess, farmer 
         </TableContainer>
       </MDBox>
       <MDBox sx={{ textAlign: "right", mt: 2 }}>
-        {/* <MDBox sx={{ display: "inline-block" }}>
-          <TextField
-            label="Payment"
-            value={payment}
-            variant="outlined"
-            onChange={handlePayment}
-            sx={{ m: 1 }}
-          />
-        </MDBox> */}
         <MDBox sx={{ display: "inline-block" }}>
           <TextField label="Total" value={totalPrice} readOnly variant="outlined" sx={{ m: 1 }} />
         </MDBox>
-        {/* <MDBox sx={{ display: "inline-block" }}>
-          <TextField
-            label="Change"
-            value={payment - totalPrice}
-            disabled
-            variant="outlined"
-            sx={{ m: 1 }}
-          />
-        </MDBox> */}
       </MDBox>
     </Modal>
   );

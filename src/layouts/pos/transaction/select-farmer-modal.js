@@ -36,7 +36,10 @@ export default function FarmerModal({ open, onClose, farmer: selectedFarmer, onF
     handleSearch();
   }, []);
 
-  const isAdded = React.useCallback((item) => selectedFarmer?.id === item?.id, [selectedFarmer]);
+  const isAdded = React.useCallback(
+    (item) => selectedFarmer?.farmerId === item?.farmerId,
+    [selectedFarmer]
+  );
 
   const listItems = items?.map((item) => ({
     ...item,

@@ -53,8 +53,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
   });
 
   function handleImage(e) {
-    console.log(e.target.files[0]);
-
     employeeService
       .createImgPath("FirstName", "Employee", e.target.files[0])
       .then((res) => {
@@ -71,12 +69,9 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-      console.log(reader.result);
       setImg(reader.result);
     };
   }
-  console.log(image);
-  console.log(formik.values);
 
   return (
     <Modal

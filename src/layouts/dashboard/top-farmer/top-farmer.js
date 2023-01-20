@@ -39,29 +39,6 @@ export default function TopFarmerData() {
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
     { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
-    // {
-    //   field: "actions",
-    //   type: "actions",
-    //   headerName: "Actions",
-    //   width: 200,
-    //   // eslint-disable-next-line react/no-unstable-nested-components
-    //   getActions: (params) => [
-    //     <GridActionsCellItem
-    //       icon={<EditIcon />}
-    //       onClick={() => setSelected(params.row)}
-    //       label="Update"
-    //     />,
-    //     <FarmerUpdateModal
-    //       open={params.id === selected?.id}
-    //       onClose={UpdateHandleClose}
-    //       selected={params.row}
-    //       onSuccess={() => {
-    //         setSelected(null);
-    //         handleSearch();
-    //       }}
-    //     />,
-    //   ],
-    // },
   ]);
 
   const handleSearchChange = (evt) => {
