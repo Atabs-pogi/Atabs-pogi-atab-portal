@@ -65,7 +65,7 @@ BillSelect.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default function BillsModal({ open, onClose }) {
+export default function BillsModal({ open, onClose, onSuccess }) {
   const [items, setItems] = React.useState([]);
   const [bills, setBills] = React.useState([]);
   const [error, setError] = React.useState(null);
@@ -88,7 +88,7 @@ export default function BillsModal({ open, onClose }) {
       {
         billId: uuid(),
         id: bills?.[0]?.id,
-        amount: 0,
+        amount: null,
       },
     ]);
   };
@@ -122,7 +122,7 @@ export default function BillsModal({ open, onClose }) {
           amount,
         })),
       })
-      .then(() => alert("Success"))
+      .then(() => onSuccess?.())
       .catch((err) => setError(err?.message))
       .finally(() => setSaving(false));
   };
@@ -215,6 +215,7 @@ export default function BillsModal({ open, onClose }) {
                     </TableCell>
                     <TableCell align="right">
                       <TextField
+                        label="Amount"
                         value={item?.amount}
                         onChange={handleAmountChange(index)}
                         type="number"
@@ -228,12 +229,19 @@ export default function BillsModal({ open, onClose }) {
             <MDBox p={2} textAlign="right">
               <TextField value={total} label="Total" readOnly type="number" />
             </MDBox>
-            <MDBox mt={2} sx={{ textAlign: "right" }}>
-              {error}
-              <MDButton disabled={saving} variant="contained" onClick={handleSave} color="success">
-                SAVE
-              </MDButton>
-            </MDBox>
+            {open && (
+              <MDBox mt={2} p={2} sx={{ textAlign: "right" }}>
+                {error}
+                <MDButton
+                  disabled={total === 0}
+                  variant="contained"
+                  onClick={handleSave}
+                  color="success"
+                >
+                  SAVE
+                </MDButton>
+              </MDBox>
+            )}
           </TableContainer>
         </MDBox>
       </MDBox>
@@ -244,9 +252,11 @@ export default function BillsModal({ open, onClose }) {
 BillsModal.defaultProps = {
   open: false,
   onClose: () => {},
+  onSuccess: () => {},
 };
-// Typechecking props of the MDAlert
+
 BillsModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
+  onSuccess: PropTypes.func,
 };

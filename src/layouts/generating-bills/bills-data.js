@@ -35,9 +35,10 @@ export default function EmployeeData() {
     {
       field: "items",
       headerName: "Category",
-      width: 500,
+      width: 450,
       renderCell: (params) => params?.value?.map((item) => <MDBox mr={3}>{item?.category}</MDBox>),
     },
+    { field: "importDate", headerName: "Import Date", width: 200 },
   ]);
 
   const handleSearchChange = (evt) => {
