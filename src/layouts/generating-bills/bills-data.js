@@ -1,17 +1,20 @@
 import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import generatingBills from "services/generating-bills";
 import BillsModal from "./bills-modal";
+import BillsViewModal from "./view";
 
 export default function EmployeeData() {
   const [bills, setBills] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
+  const [selected, setSelected] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -34,11 +37,26 @@ export default function EmployeeData() {
     { field: "totalAmount", headerName: "Total Amount", width: 200 },
     {
       field: "items",
-      headerName: "Category",
-      width: 450,
-      renderCell: (params) => params?.value?.map((item) => <MDBox mr={3}>{item?.category}</MDBox>),
+      headerName: "Total Items",
+      width: 150,
+      valueGetter: (params) => params?.row?.items.length || 0,
+      type: "number",
     },
     { field: "importDate", headerName: "Import Date", width: 200 },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 150,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<VisibilityIcon />}
+          onClick={() => setSelected(params?.row)}
+          label="Viewing"
+        />,
+      ],
+    },
   ]);
 
   const handleSearchChange = (evt) => {
@@ -58,6 +76,13 @@ export default function EmployeeData() {
           setOpen(false);
           handleSearch();
         }}
+      />
+      <BillsViewModal
+        open={selected?.id}
+        onClose={() => {
+          setSelected(null);
+        }}
+        selected={selected}
       />
       <Grid container>
         <Grid item xs={6} sx={{ p: 1 }}>

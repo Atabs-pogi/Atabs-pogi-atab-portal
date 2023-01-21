@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function BillSelect({ items, ...props }) {
   return (
@@ -71,7 +70,7 @@ export default function BillsViewModal({ selected, open, onClose }) {
               </IconButton>
             </MDBox>
             <MDBox mb={1}>
-              <TextField value={selected?.monthYear} label="Date" disabled />
+              <TextField value={selected?.monthYear} readOnly />
             </MDBox>
             <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
               <TableHead sx={{ display: "table-header-group" }}>
@@ -91,18 +90,10 @@ export default function BillsViewModal({ selected, open, onClose }) {
                       scope="row"
                       sx={{ display: "flex", flexDirection: "row" }}
                     >
-                      <IconButton disabled variant="contained" color="info" sx={{ mr: 2 }}>
-                        <DeleteIcon color="error" />
-                      </IconButton>
-                      <BillSelect disabled items={selected?.bills} value={selected?.item?.id} />
+                      {item?.category}
                     </TableCell>
                     <TableCell align="right">
-                      <TextField
-                        label="Amount"
-                        value={selected?.item?.amount}
-                        type="number"
-                        disabled
-                      />
+                      <TextField value={item?.amount} type="number" readOnly />
                     </TableCell>
                   </TableRow>
                 ))}

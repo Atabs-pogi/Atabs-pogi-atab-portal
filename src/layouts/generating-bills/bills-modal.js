@@ -233,7 +233,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
               <MDBox mt={2} p={2} sx={{ textAlign: "right" }}>
                 {error}
                 <MDButton
-                  disabled={total === 0}
+                  disabled={total === 0 || !date || saving}
                   variant="contained"
                   onClick={handleSave}
                   color="success"
