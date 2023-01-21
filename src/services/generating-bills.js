@@ -17,8 +17,21 @@ function getBillList() {
   });
 }
 
+function getGeneratedBills() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      axios
+        .get(`${apiUrl}/bills/all`)
+        .then((res) => resolve(res.data))
+        .catch((err) => {
+          reject(err);
+        });
+    }, DEFAULT_DELAY);
+  });
+}
+
 function addBill(bills) {
   return axios.post(`${apiUrl}/bills/save`, bills);
 }
 
-export default { addBill, getBillList };
+export default { addBill, getBillList, getGeneratedBills };

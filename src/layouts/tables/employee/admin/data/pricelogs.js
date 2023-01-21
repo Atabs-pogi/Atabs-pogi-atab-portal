@@ -3,7 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
+import DownloadIcon from "@mui/icons-material/Download";
 import priceLogService from "services/price-log-service";
+import MDButton from "components/MDButton";
 
 export default function PriceLogsData() {
   const [pricelogs, setPriceLogs] = React.useState([]);
@@ -39,8 +41,11 @@ export default function PriceLogsData() {
   return (
     <MDBox>
       <Grid container>
-        <Grid item xs={6} sx={{ p: 1 }} />
-        <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={12} sx={{ textAlign: "right" }}>
+          <MDButton variant="contained" color="success" sx={{ mr: 2, my: 1 }}>
+            <DownloadIcon sx={{ mr: 1 }} />
+            Download
+          </MDButton>
           <TextField
             label="Search"
             InputProps={{
