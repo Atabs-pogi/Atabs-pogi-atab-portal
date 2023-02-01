@@ -8,7 +8,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
 import costingBillService from "services/costing-bill-service";
 import { useFormik } from "formik";
-import EmpSchema, { initialCostingBill } from "../schema/costing-bill-schema";
+import CostingBillSchema, { initialCostingBill } from "../schema/costing-bill-schema";
+import TextFieldDatePicker from "../../textfields/date-picker";
 
 export default function CostingBillModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
@@ -20,7 +21,7 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
   const formik = useFormik({
     initialValues: initialCostingBill,
 
-    validationSchema: EmpSchema,
+    validationSchema: CostingBillSchema,
     onSubmit: () => {
       setError("");
       setLoading(true);
@@ -113,6 +114,18 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                             error={formik.touched.type && Boolean(formik.errors.type)}
                             helperText={formik.touched.type && formik.errors.type}
                             sx={{ pr: 7, mb: 4 }}
+                          />
+                        </Grid>
+                        <Grid item xs={4}>
+                          <TextFieldDatePicker
+                            name="dueDate"
+                            disabled={loading}
+                            value={formik.values.dueDate}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("dueDate", evt?.toISOString(), true)
+                            }
+                            error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
+                            helperText={formik.touched.dueDate && formik.errors.dueDate}
                           />
                         </Grid>
                       </Grid>

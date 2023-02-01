@@ -1,13 +1,15 @@
-import { string, object } from "yup";
+import { string, object, date } from "yup";
 
-export const CostingBillSchema = object().shape({
+const CostingBillSchema = object().shape({
   name: string().required("Required"),
   type: string().required("Required"),
+  dueDate: date(),
 });
 
 export const initialCostingBill = {
   name: "",
   type: "",
+  dueDate: new Date(),
 };
 
 export default CostingBillSchema;

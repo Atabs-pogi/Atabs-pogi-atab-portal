@@ -24,7 +24,7 @@ export default function FiberData() {
   const handleSearch = () => {
     setLoading(true);
     costingBillService
-      .searchBills(search)
+      .getAllBills()
       .then((e) => {
         setCostingBills(e);
       })
@@ -36,6 +36,8 @@ export default function FiberData() {
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID", width: 200 },
     { field: "name", headerName: "Name", width: 250 },
+    { field: "importDate", headerName: "Time Created", width: 250 },
+    { field: "dueDate", headerName: "Due Date", width: 250 },
     { field: "type", headerName: "Type", width: 350 },
     {
       field: "actions",
