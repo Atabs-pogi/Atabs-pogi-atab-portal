@@ -7,6 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
 import costingBillService from "services/costing-bill-service";
+import Moment from "react-moment";
 import CostingBillModal from "../modal/costing-bill/costingBill-add-modal";
 import CostingBillModalUpdateModal from "../modal/costing-bill/costingBill-update-modal";
 
@@ -36,8 +37,19 @@ export default function FiberData() {
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID", width: 200 },
     { field: "name", headerName: "Name", width: 250 },
-    { field: "importDate", headerName: "Time Created", width: 250 },
-    { field: "dueDate", headerName: "Due Date", width: 250 },
+    {
+      field: "importDate",
+      headerName: "Time Created",
+      renderCell: ({ row }) =>
+        row?.importDate && <Moment format="MM/DD/YYYY hh:mm">{row?.importDate}</Moment>,
+      width: 300,
+    },
+    {
+      field: "dueDate",
+      headerName: "Due Date",
+      renderCell: ({ row }) => row?.dueDate && <Moment format="MM/DD/YYYY">{row?.dueDate}</Moment>,
+      width: 270,
+    },
     { field: "type", headerName: "Type", width: 350 },
     {
       field: "actions",

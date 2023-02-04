@@ -6,6 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DownloadIcon from "@mui/icons-material/Download";
 import priceLogService from "services/price-log-service";
 import MDButton from "components/MDButton";
+import Moment from "react-moment";
 
 export default function PriceLogsData() {
   const [pricelogs, setPriceLogs] = React.useState([]);
@@ -27,7 +28,14 @@ export default function PriceLogsData() {
   const columns = React.useMemo(() => [
     { field: "tuxyName", headerName: "Tuxy Name", width: 150, sortable: true },
     { field: "action", headerName: "Action", type: "action:", width: 450 },
-    { field: "createDate", headerName: "Date Created", width: 300, sortable: true },
+    {
+      field: "createDate",
+      headerName: "Date Created",
+      renderCell: ({ row }) =>
+        row?.createDate && <Moment format="MM/DD/YYYY">{row?.createDate}</Moment>,
+      width: 300,
+      sortable: true,
+    },
   ]);
 
   const handleSearchChange = (evt) => {

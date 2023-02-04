@@ -118,6 +118,7 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={4}>
                           <TextFieldDatePicker
+                            label="Due Date"
                             name="dueDate"
                             disabled={loading}
                             value={formik.values.dueDate}

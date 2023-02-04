@@ -22,6 +22,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDButton from "components/MDButton";
 import generatingBills from "services/generating-bills";
+import TextFieldDatePicker from "layouts/tables/employee/admin/textfields/date-picker";
 
 const monthNames = [
   "Jan",
@@ -43,7 +44,7 @@ function BillSelect({ items, ...props }) {
     <Select
       labelId="demo-simple-select-label"
       id="demo-simple-select"
-      sx={{ width: "100%", height: "50px" }}
+      sx={{ width: "30%", height: "45px" }}
       {...props}
     >
       {items?.map?.((item) => (
@@ -103,6 +104,12 @@ export default function BillsModal({ open, onClose, onSuccess }) {
     setItems(nItems);
   };
 
+  const handleReferenceChange = (i) => (evt) => {
+    const nItems = [...items];
+    nItems[i].reference = evt.target.value;
+    setItems(nItems);
+  };
+
   const handleBillChange = (i) => (evt) => {
     const nItems = [...items];
     nItems[i].id = evt.target.value;
@@ -122,7 +129,10 @@ export default function BillsModal({ open, onClose, onSuccess }) {
           amount,
         })),
       })
-      .then(() => onSuccess?.())
+      .then(() => {
+        setItems([]);
+        onSuccess?.();
+      })
       .catch((err) => setError(err?.message))
       .finally(() => setSaving(false));
   };
@@ -211,6 +221,16 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                         items={bills}
                         value={item?.id}
                         onChange={handleBillChange(index)}
+                      />
+                      <TextFieldDatePicker
+                        label="Date of Payment"
+                        txprops={{ sx: { width: 200, mx: 2 } }}
+                      />
+                      <TextField
+                        label="Reference Code"
+                        value={item?.reference}
+                        onChange={handleReferenceChange(index)}
+                        disabled={saving}
                       />
                     </TableCell>
                     <TableCell align="right">

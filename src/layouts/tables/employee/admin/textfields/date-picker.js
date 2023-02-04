@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function TextFieldDatePicker({ value, onChange, ...rest }) {
+export default function TextFieldDatePicker({ value, onChange, txprops, ...rest }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
@@ -14,7 +14,7 @@ export default function TextFieldDatePicker({ value, onChange, ...rest }) {
         onChange={(newValue) => {
           onChange?.(newValue);
         }}
-        renderInput={(params) => <TextField {...params} fullWidth sx={{ pr: 7 }} />}
+        renderInput={(params) => <TextField {...params} fullWidth sx={{ pr: 7 }} {...txprops} />}
         {...rest}
       />
     </LocalizationProvider>
@@ -24,9 +24,12 @@ export default function TextFieldDatePicker({ value, onChange, ...rest }) {
 TextFieldDatePicker.defaultProps = {
   value: null,
   onChange: () => {},
+  txprops: {},
 };
 // Typechecking props of the MDAlert
 TextFieldDatePicker.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  txprops: PropTypes.object,
 };

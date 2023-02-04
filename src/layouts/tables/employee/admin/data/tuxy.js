@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import tuxyService from "services/tuxy-service";
+import Moment from "react-moment";
 import TuxyModal from "../modal/tuxy/tuxy-add-modal";
 import TuxyViewModal from "../modal/tuxy/tuxy-update-modal";
 
@@ -34,9 +35,15 @@ export default function TuxyData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "tuxyId", headerName: "ID", width: 200 },
+    { field: "tuxyId", headerName: "ID", width: 100 },
     { field: "name", headerName: "Name", width: 200 },
-    { field: "createDate", headerName: "Date Created", width: 200 },
+    {
+      field: "createDate",
+      headerName: "Date Created",
+      renderCell: ({ row }) =>
+        row?.row?.createDate && <Moment format="MM/DD/YYYY">{row?.createDate}</Moment>,
+      width: 300,
+    },
     {
       field: "goodPrice",
       headerName: "Good Quality",

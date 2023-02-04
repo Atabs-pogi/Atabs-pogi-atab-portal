@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import generatingBills from "services/generating-bills";
+import Moment from "react-moment";
 import BillsModal from "./bills-modal";
 import BillsViewModal from "./view";
 
@@ -40,9 +41,14 @@ export default function EmployeeData() {
       headerName: "Total Items",
       width: 150,
       valueGetter: (params) => params?.row?.items.length || 0,
-      type: "number",
     },
-    { field: "importDate", headerName: "Import Date", width: 200 },
+    {
+      field: "importDate",
+      headerName: "Import Date",
+      renderCell: ({ row }) =>
+        row?.importDate && <Moment format="MM/DD/YYYY">{row?.importDate}</Moment>,
+      width: 300,
+    },
     {
       field: "actions",
       type: "actions",
