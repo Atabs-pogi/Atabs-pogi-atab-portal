@@ -41,7 +41,7 @@ export default function TuxyData() {
       field: "createDate",
       headerName: "Date Created",
       renderCell: ({ row }) =>
-        row?.row?.createDate && <Moment format="MM/DD/YYYY">{row?.createDate}</Moment>,
+        row?.createDate && <Moment format="MM/DD/YYYY">{row?.createDate}</Moment>,
       width: 300,
     },
     {

@@ -28,6 +28,8 @@ import HistoryIcon from "@mui/icons-material/History";
 import StoreIcon from "@mui/icons-material/Store";
 import MerchantTransactionHistory from "layouts/pos-merchant";
 import GenerateBillTable from "layouts/generating-bills";
+import PayrollTable from "layouts/payroll";
+import PayrollHistory from "layouts/payroll/history";
 
 const registrationRoutes = [
   {
@@ -224,11 +226,44 @@ const posRoutes = [
   },
 ];
 
+const payrollRoutes = [
+  {
+    type: "divider",
+    key: "hr-divider",
+    role: ["cashier", "pos"],
+  },
+  {
+    type: "title",
+    title: "Payroll",
+    role: ["hr"],
+    key: "hr",
+  },
+  {
+    type: "collapse",
+    name: "Payroll",
+    key: "payroll",
+    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
+    route: "/payroll",
+    role: ["hr"],
+    component: <PayrollTable />,
+  },
+  {
+    type: "collapse",
+    name: "Payroll History",
+    key: "payroll-history",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/payroll-history",
+    role: ["hr"],
+    component: <PayrollHistory />,
+  },
+];
+
 const routes = [
   ...dashboardRoutes,
   ...registrationRoutes,
   ...storeRoutes,
   ...posRoutes,
+  ...payrollRoutes,
   ...userRoutes,
 ];
 

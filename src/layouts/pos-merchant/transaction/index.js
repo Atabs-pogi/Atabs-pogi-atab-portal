@@ -40,6 +40,7 @@ export default function TransactionPage() {
   };
 
   const handleItemSave = () => {
+    // eslint-disable-next-line no-console
     console.log("Item Saved");
   };
 
