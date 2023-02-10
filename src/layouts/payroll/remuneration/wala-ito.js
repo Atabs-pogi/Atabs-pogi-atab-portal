@@ -31,19 +31,19 @@ function PayrollPeriod({ ...props }) {
 export default function Remunuration() {
   const [loading, setLoading] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
-  const [search, setSearch] = React.useState("");
+  const [employee, setEmployee] = React.useState("");
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = React.useState("");
   React.useEffect(() => {
     setLoading(true);
     employeeService
-      .searchEmployee(search)
+      .searchEmployee(employee)
       .then((b) => setEmployees(b))
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
+  const handleEmployeeChange = (evt) => {
+    setEmployee(evt.target.value);
   };
 
   return (
@@ -61,9 +61,10 @@ export default function Remunuration() {
                 label="Employee"
                 items={employees}
                 name="firstName"
+                value={employee}
                 disabled={loading}
                 variant="outlined"
-                onChange={handleSearchChange}
+                onChange={handleEmployeeChange}
               />
             </Grid>
             <Grid item xs={12}>

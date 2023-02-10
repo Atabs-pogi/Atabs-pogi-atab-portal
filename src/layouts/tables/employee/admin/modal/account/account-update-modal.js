@@ -76,7 +76,7 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Account Information ({account?.id})
+                      Account Information ({account?.accountId})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>

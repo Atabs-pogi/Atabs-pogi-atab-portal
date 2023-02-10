@@ -24,12 +24,14 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PosPage from "layouts/pos";
 import ForestIcon from "@mui/icons-material/Forest";
 import PaymentsIcon from "@mui/icons-material/Payments";
+import PaidIcon from "@mui/icons-material/Paid";
+import WorkOffIcon from "@mui/icons-material/WorkOff";
 import HistoryIcon from "@mui/icons-material/History";
 import StoreIcon from "@mui/icons-material/Store";
 import MerchantTransactionHistory from "layouts/pos-merchant";
 import GenerateBillTable from "layouts/generating-bills";
 import PayrollTable from "layouts/payroll";
-import PayrollHistory from "layouts/payroll/history";
+import HolidayTable from "layouts/payroll/holiday";
 
 const registrationRoutes = [
   {
@@ -40,14 +42,6 @@ const registrationRoutes = [
     type: "title",
     title: "Registration",
     key: "registration",
-  },
-  {
-    type: "collapse",
-    name: "Employee",
-    key: "employee",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
-    route: "/employee",
-    component: <EmployeeTable />,
   },
   {
     type: "collapse",
@@ -240,21 +234,29 @@ const payrollRoutes = [
   },
   {
     type: "collapse",
-    name: "Payroll",
-    key: "payroll",
-    icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
-    route: "/payroll",
-    role: ["hr"],
-    component: <PayrollTable />,
+    name: "Employee",
+    key: "employee",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/employee",
+    component: <EmployeeTable />,
   },
   {
     type: "collapse",
-    name: "Payroll History",
-    key: "payroll-history",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
-    route: "/payroll-history",
+    name: "Holiday",
+    key: "holiday",
+    icon: <WorkOffIcon fontSize="small">table-view</WorkOffIcon>,
+    route: "/holiday",
     role: ["hr"],
-    component: <PayrollHistory />,
+    component: <HolidayTable />,
+  },
+  {
+    type: "collapse",
+    name: "Payroll",
+    key: "payroll",
+    icon: <PaidIcon fontSize="small">table-view</PaidIcon>,
+    route: "/payroll",
+    role: ["hr"],
+    component: <PayrollTable />,
   },
 ];
 

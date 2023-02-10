@@ -1,14 +1,12 @@
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Card } from "@mui/material";
-import PayrollData from "../remuneration/payroll";
+import Holiday from "./holiday";
 
-function PayrollHistory() {
+function HolidayTable() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -16,7 +14,7 @@ function PayrollHistory() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <PayrollData />
+              <Holiday />
             </Card>
           </Grid>
         </Grid>
@@ -26,4 +24,4 @@ function PayrollHistory() {
   );
 }
 
-export default PayrollHistory;
+export default HolidayTable;

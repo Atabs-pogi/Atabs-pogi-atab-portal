@@ -8,12 +8,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import accountImg from "assets/images/small-logos/account.jpg";
 import accountService from "services/account-service";
 import { useFormik } from "formik";
+import EmployeeSelect from "layouts/payroll/remuneration/select-employee";
+import employeeService from "services/employee-service";
 import AccSchema, { initialAccount } from "../schema/account-schema";
 import SelectRole from "../../textfields/select-role";
 
 export default function AccountModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [employees, setEmployees] = React.useState([]);
+  const [employee, setEmployee] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
@@ -38,6 +42,18 @@ export default function AccountModal({ open, onClose, onSuccess }) {
         });
     },
   });
+
+  React.useEffect(() => {
+    setLoading(true);
+    employeeService
+      .searchEmployee(employee)
+      .then((b) => setEmployees(b))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleEmployeeChange = (evt) => {
+    setEmployee(evt.target.value);
+  };
 
   return (
     <Modal
@@ -126,6 +142,17 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                             error={formik.touched.role && Boolean(formik.errors.role)}
                             helperText={formik.touched.role && formik.errors.role}
                             sx={{ py: 1.7, width: "26.5%" }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <EmployeeSelect
+                            label="Employee"
+                            items={employees}
+                            name="firstName"
+                            value={employee}
+                            disabled={loading}
+                            variant="outlined"
+                            onChange={handleEmployeeChange}
                           />
                         </Grid>
                       </Grid>

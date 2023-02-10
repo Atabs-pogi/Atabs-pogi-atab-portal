@@ -34,7 +34,7 @@ export default function AccountData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 230, textAlign: "center" },
+    { field: "accountId", headerName: "ID", width: 230, textAlign: "center" },
     { field: "username", headerName: "Username", width: 230 },
     { field: "role", headerName: "Role", width: 230 },
     {
@@ -56,7 +56,7 @@ export default function AccountData() {
           label="Update"
         />,
         <AccountUpdateModal
-          open={params.id === selected?.id}
+          open={params.id === selected?.accountId}
           onClose={UpdateHandleClose}
           selected={params.row}
           onSuccess={() => {
@@ -113,7 +113,7 @@ export default function AccountData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          getRowId={(row) => row?.id}
+          getRowId={(row) => row?.accountId}
           rows={accounts}
           columns={columns}
           pageSize={10}

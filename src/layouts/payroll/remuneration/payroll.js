@@ -1,14 +1,18 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import employeeService from "services/employee-service";
+import PaidIcon from "@mui/icons-material/Paid";
+import MDTypography from "components/MDTypography";
+import BasePay from "./base-pay";
 
-export default function PayrollData() {
+export default function Payroll() {
   const [employees, setEmployees] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
+  const [selected, setSelected] = React.useState(null);
 
   const handleSearch = () => {
     setLoading(true);
@@ -21,9 +25,32 @@ export default function PayrollData() {
         setLoading(false);
       });
   };
-
+  const UpdateHandleClose = () => setSelected(null);
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "id", headerName: "ID" },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 200,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<PaidIcon />}
+          onClick={() => setSelected(params.row)}
+          label="Update"
+        />,
+        <BasePay
+          open={params.id === selected?.id}
+          onClose={UpdateHandleClose}
+          selected={params.row}
+          onSuccess={() => {
+            setSelected(null);
+            handleSearch();
+          }}
+        />,
+      ],
+    },
     { field: "firstName", headerName: "Firstname", width: 200 },
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
@@ -47,7 +74,10 @@ export default function PayrollData() {
   return (
     <MDBox>
       <Grid container>
-        <Grid item xs={12} sx={{ textAlign: "right" }}>
+        <Grid item xs={6} p={2}>
+          <MDTypography>Date Here: </MDTypography>
+        </Grid>
+        <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{

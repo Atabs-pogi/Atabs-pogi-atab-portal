@@ -14,6 +14,7 @@ export default function SelectRole(props) {
           <MenuItem value="admin">admin</MenuItem>
           <MenuItem value="cashier">cashier</MenuItem>
           <MenuItem value="pos">pos</MenuItem>
+          <MenuItem value="hr">hr</MenuItem>
         </Select>
       </FormControl>
     </Box>
