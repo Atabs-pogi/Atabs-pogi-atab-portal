@@ -32,7 +32,6 @@ export default function Payroll() {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 200,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem

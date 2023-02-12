@@ -1,0 +1,33 @@
+.month {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.month::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+}
+
+/* Track */
+.month::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 50px;
+}
+
+/* Handle */
+.month::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 50px;
+
+}
+
+.month:hover::-webkit-scrollbar-thumb {
+  background: #777;
+  border-radius: 50px;
+
+}
+
+/* Handle on hover */
+.month::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
