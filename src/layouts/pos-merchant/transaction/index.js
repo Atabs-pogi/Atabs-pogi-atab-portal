@@ -77,10 +77,6 @@ export default function TransactionPage() {
     setItems(items?.filter((i) => i?.id !== item?.id));
   };
 
-  // React.useEffect(() => {
-  //   console.log(items);
-  // }, [items]);
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

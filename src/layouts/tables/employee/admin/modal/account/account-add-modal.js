@@ -89,8 +89,8 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                 <MDBox sx={{ flexGrow: 1 }}>
                   <MDBox sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
                     <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
-                      <IconButton>
-                        <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
+                      <IconButton onClick={handleClose}>
+                        <CloseIcon color="error" sx={{ cursor: "pointer" }} />
                       </IconButton>
                     </MDBox>
                     <MDBox>
@@ -134,6 +134,7 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={12}>
                           <SelectRole
+                            label="Role"
                             name="role"
                             disabled={loading}
                             value={formik.values.role}

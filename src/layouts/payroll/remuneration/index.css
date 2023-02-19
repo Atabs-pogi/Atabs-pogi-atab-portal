@@ -31,3 +31,7 @@
 .month::-webkit-scrollbar-thumb:hover {
   background: #666;
 }
+
+.tab{
+  padding: 0 !important;
+}
