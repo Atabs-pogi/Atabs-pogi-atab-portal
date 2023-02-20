@@ -34,7 +34,7 @@ export default function FarmerData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "farmerId", headerName: "ID", width: 200 },
     { field: "firstName", headerName: "Firstname", width: 200 },
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
@@ -52,7 +52,7 @@ export default function FarmerData() {
           label="Update"
         />,
         <FarmerUpdateModal
-          open={params.id === selected?.id}
+          open={params.id === selected?.farmerId}
           onClose={UpdateHandleClose}
           selected={params.row}
           onSuccess={() => {
@@ -63,10 +63,6 @@ export default function FarmerData() {
       ],
     },
   ]);
-
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
-  };
 
   React.useEffect(() => {
     handleSearch();
@@ -102,13 +98,14 @@ export default function FarmerData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
             value={search}
           />
         </Grid>
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
+          getRowId={(row) => row.farmerId}
           rows={farmers}
           columns={columns}
           pageSize={10}

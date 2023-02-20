@@ -1,20 +1,24 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import apiUrl from "env";
+// import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
 
-// const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://localhost:8080";
 
 function getEmployee(id) {
-  return axios.get(`${apiUrl}/employee/getEmployee/${id}`);
+  return axios.get(`${BASE_URL}/employee/getEmployee/${id}`);
+}
+
+function getEmployeeCount() {
+  return axios.get(`${BASE_URL}/employee/getEmployeeCount/`);
 }
 
 function searchEmployee(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/employee/search`, { params: { name: search } })
+        .get(`${BASE_URL}/employee/search`, { params: { name: search } })
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -24,7 +28,11 @@ function searchEmployee(search = "") {
 }
 
 function addEmployee(employee) {
-  return axios.post(`${apiUrl}/employee/addEmployee`, employee);
+  return axios.post(`${BASE_URL}/employee/addEmployee`, {
+    ...employee,
+    imageLocation:
+      employee.imageLocation && employee.imageLocation.replace(`${BASE_URL}/upload/`, ""),
+  });
 }
 
 function createImgPath(profile, type, img) {
@@ -32,15 +40,24 @@ function createImgPath(profile, type, img) {
   formData.append("profile", profile);
   formData.append("type", type);
   formData.append("img", img);
-  return axios.post(`${apiUrl}/image/addProfile`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  return axios
+    .post(`${BASE_URL}/image/addProfile`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => new URL(res.data, `${BASE_URL}/upload/`).href);
 }
 
 function updateEmployee(employee) {
-  return axios.put(`${apiUrl}/employee/updateEmployee`, employee);
+  return axios.put(`${BASE_URL}/employee/updateEmployee`, employee);
 }
 
-export default { getEmployee, searchEmployee, addEmployee, createImgPath, updateEmployee };
+export default {
+  getEmployee,
+  getEmployeeCount,
+  searchEmployee,
+  addEmployee,
+  createImgPath,
+  updateEmployee,
+};

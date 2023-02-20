@@ -34,9 +34,10 @@ export default function PosData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "Transaction ID", width: 250 },
-    { field: "farmerId", headerName: "Farmer ID", width: 250 },
-    { field: "plantTotal", headerName: "Plant Total", width: 150 },
+    { field: "item", headerName: "Item", width: 200 },
+    { field: "originalPrice", headerName: "Original Price", width: 200 },
+    { field: "price", headerName: "Price", width: 200 },
+    { field: "quantity", headerName: "Quantity", width: 200 },
     {
       field: "items",
       headerName: "Items",

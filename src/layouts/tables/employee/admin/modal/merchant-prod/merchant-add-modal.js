@@ -5,30 +5,27 @@ import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
-import accountImg from "assets/images/small-logos/account.jpg";
-import accountService from "services/account-service";
+import merchantImg from "assets/images/small-logos/merchant.jpg";
+import merchantService from "services/merchant-prod-service";
 import { useFormik } from "formik";
-import AccSchema from "../schema/account-schema";
-import SelectRole from "../../textfields/select-role";
+import EmpSchema, { initialMerchantProd } from "../schema/merchant-prod-schema";
 
-export default function AccountModal({ selected, open, onClose, onSuccess }) {
+export default function MerchantProdModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
 
-  const { id: empId, ...employee } = selected || {};
-
   const formik = useFormik({
-    initialValues: employee,
+    initialValues: initialMerchantProd,
 
-    validationSchema: AccSchema,
+    validationSchema: EmpSchema,
     onSubmit: () => {
       setError("");
       setLoading(true);
-      accountService
-        .addAccount(formik.values)
+      merchantService
+        .addMerchProd(formik.values)
         .then(() => {
           onSuccess?.();
         })
@@ -40,10 +37,6 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
         });
     },
   });
-
-  React.useEffect(() => {
-    formik.values.empId = empId;
-  }, []);
 
   return (
     <Modal
@@ -66,7 +59,7 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
               <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
                 <MDBox
                   component="img"
-                  src={accountImg}
+                  src={merchantImg}
                   alt="Logo"
                   height="100%"
                   width="20%"
@@ -85,7 +78,7 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Account Information ({empId})
+                        Merchant Product Information
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -93,14 +86,14 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            name="username"
-                            label="Username"
+                            name="item"
+                            label="Item"
                             disabled={loading}
-                            value={formik.values.username}
+                            value={formik.values.item}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.username && Boolean(formik.errors.username)}
-                            helperText={formik.touched.username && formik.errors.username}
+                            error={formik.touched.item && Boolean(formik.errors.item)}
+                            helperText={formik.touched.item && formik.errors.item}
                             variant="outlined"
                             sx={{ mb: 4, width: "25%" }}
                             fullWidth
@@ -109,30 +102,54 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            label="Password"
-                            name="password"
-                            type="password"
+                            name="originalPrice"
+                            label="Original Price"
+                            type="number"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.password}
+                            value={formik.values.originalPrice}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
+                            error={
+                              formik.touched.originalPrice && Boolean(formik.errors.originalPrice)
+                            }
+                            helperText={formik.touched.originalPrice && formik.errors.originalPrice}
                             sx={{ mb: 4, width: "25%" }}
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <SelectRole
-                            name="role"
+                          <TextField
+                            id="outlined-basic"
+                            name="price"
+                            label="Selling Price"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
                             disabled={loading}
-                            value={formik.values.role}
+                            value={formik.values.price}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.role && Boolean(formik.errors.role)}
-                            helperText={formik.touched.role && formik.errors.role}
-                            sx={{ mb: 4, py: 1.7, width: "25%" }}
+                            error={formik.touched.price && Boolean(formik.errors.price)}
+                            helperText={formik.touched.price && formik.errors.price}
+                            sx={{ mb: 4, width: "25%" }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            id="outlined-basic"
+                            name="quantity"
+                            label="Quantity"
+                            type="number"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.quantity}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+                            helperText={formik.touched.quantity && formik.errors.quantity}
+                            sx={{ mb: 4, width: "25%" }}
                           />
                         </Grid>
                       </Grid>
@@ -170,17 +187,14 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
   );
 }
 
-AccountModal.defaultProps = {
+MerchantProdModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
-  selected: null,
 };
 // Typechecking props of the MDAlert
-AccountModal.propTypes = {
+MerchantProdModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  selected: PropTypes.object,
 };
