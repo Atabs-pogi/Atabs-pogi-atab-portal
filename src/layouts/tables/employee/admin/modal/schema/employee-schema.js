@@ -1,20 +1,19 @@
-import { string, object, date } from "yup";
+import { string, object } from "yup";
 
 export const EmployeeSchema = object().shape({
   lastName: string().required("Required"),
   firstName: string().required("Required"),
-  middleName: string(""),
+  middleName: string().required("Required"),
   mobileNumber: string().required("Required"),
-  email: string(""),
+  email: string().required("Required"),
   sex: string().required("Required"),
-  birthday: date(),
   address: object().shape({
-    houseNo: string(""),
-    unit: string(""),
+    houseNo: string().required("Required"),
     barangay: string().required("Required"),
     city: string().required("Required"),
     province: string().required("Required"),
   }),
+  postalCode: string().required("Required"),
   imageLocation: string().required("Required"),
 });
 
@@ -25,14 +24,13 @@ export const initialEmployee = {
   mobileNumber: "",
   email: "",
   sex: "",
-  birthday: new Date(),
   address: {
     houseNo: "",
     barangay: "",
-    unit: "",
     city: "",
     province: "",
   },
+  postalCode: "",
   imageLocation: "",
 };
 export default EmployeeSchema;

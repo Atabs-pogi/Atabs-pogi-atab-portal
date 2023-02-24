@@ -24,6 +24,7 @@ import EmpSchema, { initialFarmer } from "../schema/farmer-schema";
 import "./index.css";
 
 export default function FarmerModal({ open, onClose, onSuccess }) {
+  const [farmerCount, setfarmerCount] = React.useState(null);
   const [image, setImg] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -43,6 +44,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
         .addFarmer(formik.values)
         .then(() => {
           formik?.resetForm();
+          setImg(null);
           onSuccess?.();
         })
         .catch((err) => {
@@ -53,13 +55,12 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
         });
     },
   });
-  console.log(formik?.values);
+
   function handleImage(e) {
     farmerService
-      .createImgPath("FirstName", "Farmer", e.target.files[0])
+      .createImgPath(farmerCount, "Farmer", e.target.files[0])
       .then((res) => {
-        formik.values.imageLocation = res.data;
-        // onSuccess?.();
+        formik.values.imageLocation = `http://localhost:8080/upload/${res}`;
       })
       .catch((err) => {
         setError(err?.message);
@@ -74,6 +75,22 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
       setImg(reader.result);
     };
   }
+  // console.log(image);
+  console.log(formik.values);
+
+  farmerService
+    .getFarmerCount()
+    .then((res) => {
+      setfarmerCount(res.data + 1);
+    })
+    .catch((err) => {
+      setError(err?.message);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+
+  // console.log(image);
 
   return (
     <Modal
@@ -125,7 +142,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                         mb: 2,
                       }}
                     >
-                      <MDBox>
+                      <MDBox sx={{ px: 2 }}>
                         <MDBox
                           id="farmerImg"
                           component="img"
@@ -133,7 +150,6 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           src={image}
                           sx={{
                             border: "solid 1px #aaa",
-                            padding: "20",
                             height: "230px",
                             width: "230px",
                             margin: "auto",
@@ -170,10 +186,10 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             Upload an Image
                           </Typography>
                         </MDBox>
-                        <input id="imgInput" type="file" name="farmer_img" onChange={handleImage} />
+                        <input id="imgInput" type="file" name="imgUpload" onChange={handleImage} />
                       </MDBox>
 
-                      <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
+                      <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4, mb: 4 }}>
                         <Grid container spacing={0}>
                           <Grid item xs={4}>
                             <TextField
@@ -239,7 +255,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               }
                               helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
                               type="number"
-                              sx={{ mt: 3, pr: 7 }}
+                              sx={{ mt: 2, pr: 7 }}
                               InputProps={{
                                 startAdornment: (
                                   <InputAdornment position="start">
@@ -268,10 +284,10 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               onBlur={formik.handleBLur}
                               error={formik.touched.email && Boolean(formik.errors.email)}
                               helperText={formik.touched.email && formik.errors.email}
-                              sx={{ mt: 3, pr: 7 }}
+                              sx={{ mt: 2, pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <SelectSex
                               name="sex"
                               disabled={loading}
@@ -282,7 +298,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               helperText={formik.touched.sex && formik.errors.sex}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextFieldDatePicker
                               name="birthday"
                               disabled={loading}
@@ -295,7 +311,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               helperText={formik.touched.birthday && formik.errors.birthday}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Facebook Account"
@@ -316,7 +332,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               sx={{ pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Viber Account"
@@ -334,7 +350,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               sx={{ pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Affiliation"
@@ -352,7 +368,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               sx={{ pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Civil Status"
@@ -370,7 +386,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               sx={{ pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Educational Attainment"
@@ -392,13 +408,13 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               sx={{ pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Estimated Annual Income"
                               name="estimatedAnnualIncome"
-                              variant="outlined"
                               type="number"
+                              variant="outlined"
                               fullWidth
                               disabled={loading}
                               value={formik.values.estimatedAnnualIncome}
@@ -416,7 +432,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                             />
                           </Grid>
 
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="No. Of Dependents"
@@ -438,7 +454,7 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                               sx={{ pr: 7 }}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={3}>
+                          <Grid item xs={4} mt={2}>
                             <TextField
                               id="outlined-basic"
                               label="Spouse"
@@ -571,20 +587,16 @@ export default function FarmerModal({ open, onClose, onSuccess }) {
                           <TextField
                             id="outlined-basic"
                             label="Postal No."
-                            name="address.postalNo"
+                            name="postalCode"
                             variant="outlined"
+                            type="number"
                             fullWidth
                             sx={{ mt: 2, pr: 7 }}
-                            value={formik.values?.address?.postalNo}
+                            value={formik.values?.postalCode}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={
-                              formik.touched?.address?.postalNo &&
-                              Boolean(formik.errors?.address?.postalNo)
-                            }
-                            helperText={
-                              formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
-                            }
+                            error={formik.touched?.postalCode && Boolean(formik.errors?.postalCode)}
+                            helperText={formik.touched?.postalCode && formik.errors?.postalCode}
                           />
                         </Grid>
                       </Grid>

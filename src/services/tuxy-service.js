@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import apiUrl from "env";
+// import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
+
+const BASE_URL = "http://localhost:8080";
 
 function getTuxyList() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/tuxy/getTuxyList`)
+        .get(`${BASE_URL}/tuxy/getTuxyList`)
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -27,12 +29,25 @@ function getTuxyList() {
   // );
 }
 
+function searchTuxy(search = "") {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      axios
+        .get(`${BASE_URL}/tuxy/search`, { params: { name: search } })
+        .then((res) => resolve(res.data))
+        .catch((err) => {
+          reject(err);
+        });
+    }, DEFAULT_DELAY);
+  });
+}
+
 function addTuxy(tuxy) {
-  return axios.post(`${apiUrl}/tuxy/addTuxy`, tuxy);
+  return axios.post(`${BASE_URL}/tuxy/addTuxy`, tuxy);
 }
 
 function updateTuxy(tuxy) {
-  return axios.put(`${apiUrl}/tuxy/updateTuxy`, tuxy);
+  return axios.put(`${BASE_URL}/tuxy/updateTuxy`, tuxy);
 }
 
-export default { addTuxy, getTuxyList, updateTuxy };
+export default { addTuxy, searchTuxy, getTuxyList, updateTuxy };

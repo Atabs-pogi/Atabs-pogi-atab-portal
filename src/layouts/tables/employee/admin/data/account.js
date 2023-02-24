@@ -3,8 +3,6 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
 import accountService from "services/account-service";
 import AccountUpdateModal from "../modal/account/account-update-modal";
@@ -12,10 +10,9 @@ import AccountModal from "../modal/account/account-add-modal";
 
 export default function AccountData() {
   const [accounts, setAccounts] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [selected, setSelected] = React.useState(null);
@@ -34,14 +31,14 @@ export default function AccountData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 230, textAlign: "center" },
+    { field: "accountId", headerName: "ID", width: 230, textAlign: "center" },
     { field: "username", headerName: "Username", width: 230 },
     { field: "role", headerName: "Role", width: 230 },
     {
       field: "status",
       headerName: "Status",
       width: 230,
-      valueGetter: (params) => ["Disabled", "Active", "Inactive"][params?.row?.status] || "Unknown",
+      valueGetter: (params) => ["Inactive", "Active", "Disabled"][params?.row?.status] || "Unknown",
     },
     {
       field: "actions",
@@ -56,7 +53,7 @@ export default function AccountData() {
           label="Update"
         />,
         <AccountUpdateModal
-          open={params.id === selected?.id}
+          open={params.id === selected?.accountId}
           onClose={UpdateHandleClose}
           selected={params.row}
           onSuccess={() => {
@@ -87,13 +84,7 @@ export default function AccountData() {
         }}
       />
       <Grid container>
-        <Grid item xs={6} sx={{ p: 1 }}>
-          <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
-            <AddIcon sx={{ mr: 1 }} />
-            Add Account
-          </MDButton>
-        </Grid>
-        <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={12} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
@@ -113,7 +104,7 @@ export default function AccountData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          getRowId={(row) => row?.id}
+          getRowId={(row) => row?.accountId}
           rows={accounts}
           columns={columns}
           pageSize={10}

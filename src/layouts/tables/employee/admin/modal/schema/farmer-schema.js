@@ -1,4 +1,4 @@
-import { string, object, date } from "yup";
+import { string, object } from "yup";
 
 export const FarmerSchema = object().shape({
   lastName: string().required("Required"),
@@ -7,7 +7,6 @@ export const FarmerSchema = object().shape({
   mobileNumber: string().required("Required"),
   email: string(""),
   sex: string().required("Required"),
-  birthday: date(),
   address: object().shape({
     houseNo: string(""),
     unit: string(""),
@@ -15,7 +14,8 @@ export const FarmerSchema = object().shape({
     city: string().required("Required"),
     province: string().required("Required"),
   }),
-  imageLocation: string().required("Required"),
+  postalCode: string().required("Required"),
+  imageLocation: string(),
   affiliation: string().required("Required"),
   civilStatus: string().required("Required"),
   educationalAttainment: string().required("Required"),
@@ -33,15 +33,14 @@ export const initialFarmer = {
   mobileNumber: "",
   email: "",
   sex: "",
-  birthday: new Date(),
   address: {
     houseNo: "",
-    barangay: "",
     unit: "",
+    barangay: "",
     city: "",
     province: "",
-    postalNo: "",
   },
+  postalCode: "",
   imageLocation: "",
   affiliation: "",
   civilStatus: "",
@@ -52,5 +51,4 @@ export const initialFarmer = {
   spouse: "",
   viberAccount: "",
 };
-
 export default FarmerSchema;

@@ -24,9 +24,9 @@ export default function MerchantData() {
   const handleSearch = () => {
     setLoading(true);
     merchantService
-      .getAllMerchProd(search)
+      .searchMerchProd(search)
       .then((res) => {
-        setMerchantProd(res?.data);
+        setMerchantProd(res);
       })
       .finally(() => {
         setLoading(false);
@@ -34,6 +34,7 @@ export default function MerchantData() {
   };
 
   const columns = React.useMemo(() => [
+    { field: "productId", headerName: "ID", width: 300 },
     { field: "item", headerName: "Item", width: 300 },
     { field: "price", headerName: "Price", width: 200, type: "number" },
     { field: "quantity", headerName: "Quantity", width: 200 },

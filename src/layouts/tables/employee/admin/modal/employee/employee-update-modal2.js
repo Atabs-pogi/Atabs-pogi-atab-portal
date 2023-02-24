@@ -22,8 +22,7 @@ import SelectSex from "../../textfields/select-sex";
 import EmpSchema from "../schema/employee-schema";
 
 export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
-  const [imagePath, setImgPath] = React.useState("");
-  const [image, setImg] = React.useState(null);
+  // const [image, setImg] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -53,12 +52,13 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
     },
   });
 
+  const [image, setImg] = React.useState(formik?.values?.imageLocation);
+
   function handleImage(e) {
     console.log(e.target.files[0]);
     employeeService
       .createImgPath("Matthew", "Farmer", e.target.files[0])
       .then((res) => {
-        setImgPath(res.data);
         formik.values.imageLocation = res.data;
         // onSuccess?.();
       })
@@ -77,7 +77,7 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
     };
   }
 
-  console.log(imagePath);
+  console.log(formik?.values);
 
   return (
     <Modal
@@ -130,9 +130,10 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
                     >
                       <MDBox>
                         <MDBox
-                          src={image}
+                          id="empimg"
                           component="img"
                           alt=""
+                          src={image}
                           sx={{
                             border: "solid 1px #aaa",
                             padding: "20",
@@ -157,7 +158,7 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
                           <Typography
                             variant="label"
                             component="label"
-                            htmlFor="farmerimg"
+                            htmlFor="empImg"
                             sx={{
                               display: "flex",
                               justifyContent: "center",
@@ -171,13 +172,7 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
                             Upload an Image
                           </Typography>
                         </MDBox>
-                        <input
-                          id="farmerimg"
-                          type="file"
-                          name="imgUpload"
-                          onChange={handleImage}
-                          sx={{ display: "none" }}
-                        />
+                        <input id="empImg" type="file" name="imgUpload" onChange={handleImage} />
                       </MDBox>
 
                       <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
@@ -419,21 +414,16 @@ export default function EmployeeModal2({ selected, open, onClose, onSuccess }) {
                           <TextField
                             id="outlined-basic"
                             label="Postal No."
-                            name="address.postalNo"
+                            name="postalCode"
                             type="number"
                             variant="outlined"
                             fullWidth
                             sx={{ mt: 2, pr: 7 }}
-                            value={formik.values?.address?.postalNo}
+                            value={formik.values?.postalCode}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={
-                              formik.touched?.address?.postalNo &&
-                              Boolean(formik.errors?.address?.postalNo)
-                            }
-                            helperText={
-                              formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
-                            }
+                            error={formik.touched?.postalCode && Boolean(formik.errors?.postalCode)}
+                            helperText={formik.touched?.postalCode && formik.errors?.postalCode}
                           />
                         </Grid>
                       </Grid>

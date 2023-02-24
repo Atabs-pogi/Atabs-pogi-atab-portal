@@ -30,6 +30,7 @@ import HistoryIcon from "@mui/icons-material/History";
 import StoreIcon from "@mui/icons-material/Store";
 import MerchantTransactionHistory from "layouts/pos-merchant";
 import GenerateBillTable from "layouts/generating-bills";
+import GenerateReport from "layouts/tables/employee/admin/reports";
 import PayrollTable from "layouts/payroll";
 import HolidayTable from "layouts/payroll/holiday";
 
@@ -98,6 +99,14 @@ const registrationRoutes = [
     icon: <PaymentIcon fontSize="small">table-view</PaymentIcon>,
     route: "/generate-bill",
     component: <GenerateBillTable />,
+  },
+  {
+    type: "collapse",
+    name: "Generate Report",
+    key: "generate-report",
+    icon: <PaymentIcon fontSize="small">table-view</PaymentIcon>,
+    route: "/generate-report",
+    component: <GenerateReport />,
   },
 ];
 

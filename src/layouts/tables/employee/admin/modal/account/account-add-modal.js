@@ -8,22 +8,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import accountImg from "assets/images/small-logos/account.jpg";
 import accountService from "services/account-service";
 import { useFormik } from "formik";
-import EmployeeSelect from "layouts/payroll/remuneration/select-employee";
-import employeeService from "services/employee-service";
-import AccSchema, { initialAccount } from "../schema/account-schema";
+import AccSchema from "../schema/account-schema";
 import SelectRole from "../../textfields/select-role";
 
-export default function AccountModal({ open, onClose, onSuccess }) {
+export default function AccountModal({ selected, open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
-  const [employees, setEmployees] = React.useState([]);
-  const [employee, setEmployee] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
 
+  const { id: empId, ...employee } = selected || {};
+
   const formik = useFormik({
-    initialValues: initialAccount,
+    initialValues: employee,
 
     validationSchema: AccSchema,
     onSubmit: () => {
@@ -44,16 +42,8 @@ export default function AccountModal({ open, onClose, onSuccess }) {
   });
 
   React.useEffect(() => {
-    setLoading(true);
-    employeeService
-      .searchEmployee(employee)
-      .then((b) => setEmployees(b))
-      .finally(() => setLoading(false));
+    formik.values.empId = empId;
   }, []);
-
-  const handleEmployeeChange = (evt) => {
-    setEmployee(evt.target.value);
-  };
 
   return (
     <Modal
@@ -89,13 +79,13 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                 <MDBox sx={{ flexGrow: 1 }}>
                   <MDBox sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
                     <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
-                      <IconButton onClick={handleClose}>
-                        <CloseIcon color="error" sx={{ cursor: "pointer" }} />
+                      <IconButton>
+                        <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
                       </IconButton>
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Account Information
+                        Account Information ({empId})
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -121,6 +111,7 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                             id="outlined-basic"
                             label="Password"
                             name="password"
+                            type="password"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
@@ -134,7 +125,6 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={12}>
                           <SelectRole
-                            label="Role"
                             name="role"
                             disabled={loading}
                             value={formik.values.role}
@@ -142,18 +132,7 @@ export default function AccountModal({ open, onClose, onSuccess }) {
                             onBlur={formik.handleBLur}
                             error={formik.touched.role && Boolean(formik.errors.role)}
                             helperText={formik.touched.role && formik.errors.role}
-                            sx={{ py: 1.7, width: "26.5%" }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <EmployeeSelect
-                            label="Employee"
-                            items={employees}
-                            name="firstName"
-                            value={employee}
-                            disabled={loading}
-                            variant="outlined"
-                            onChange={handleEmployeeChange}
+                            sx={{ mb: 4, py: 1.7, width: "25%" }}
                           />
                         </Grid>
                       </Grid>
@@ -195,10 +174,13 @@ AccountModal.defaultProps = {
   open: false,
   onClose: () => {},
   onSuccess: () => {},
+  selected: null,
 };
 // Typechecking props of the MDAlert
 AccountModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  selected: PropTypes.object,
 };
