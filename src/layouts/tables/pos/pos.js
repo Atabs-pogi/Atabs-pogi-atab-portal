@@ -7,7 +7,7 @@ import MDBox from "components/MDBox";
 import { Card, Grid } from "@mui/material";
 
 import ProductConfig from "./productConfig";
-import TransactionTable from "./transactionTable";
+// import TransactionTable from "./transactionTable";
 
 import "./style.css";
 
@@ -33,18 +33,6 @@ function POS() {
               }}
             >
               <ProductConfig />
-            </Card>
-          </Grid>
-          <Grid>
-            <Card
-              py={2}
-              px={2}
-              sx={{
-                borderRadius: "20px",
-                backgroundColor: "#fff",
-              }}
-            >
-              <TransactionTable />
             </Card>
           </Grid>
         </MDBox>

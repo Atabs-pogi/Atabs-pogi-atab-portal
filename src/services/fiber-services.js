@@ -5,7 +5,7 @@ const DEFAULT_DELAY = 1000;
 const BASE_URL = "http://localhost:8080";
 
 function getFibers() {
-  return axios.get(`${BASE_URL}/fiber/getFibers`);
+  return fetch(`${BASE_URL}/fiber/getFibers`);
   // return new Promise((resolve) => {
   //   setTimeout(() => {
   //     resolve({
