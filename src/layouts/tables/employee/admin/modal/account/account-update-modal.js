@@ -1,10 +1,12 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import accountImg from "assets/images/small-logos/account.jpg";
 import accountService from "services/account-service";
 import SelectRole from "../../textfields/select-role";
@@ -13,6 +15,11 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
   const [account, setAccount] = React.useState({ ...selected });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+
+  const [activeStatus, setActiveStatus] = React.useState(false);
+  const [unactiveStatus, setUnactiveStatus] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const handleClose = () => {
     onClose?.();
   };
@@ -36,6 +43,28 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
         setLoading(false);
       });
   };
+
+  const setStatusActive = () => {
+    setAccount({ ...account, status: 1 });
+    setActiveStatus(true);
+    setUnactiveStatus(false);
+  };
+
+  const setStatusUnactive = () => {
+    setAccount({ ...account, status: 0 });
+    setActiveStatus(false);
+    setUnactiveStatus(true);
+  };
+
+  const disableButton = () => account.status === 1;
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-lone-blocks
+    {
+      // eslint-disable-next-line no-unused-expressions
+      disableButton() ? setStatusActive() : setStatusUnactive();
+    }
+  }, []);
 
   return (
     <Modal
@@ -76,7 +105,7 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Account Information ({account?.id})
+                      Account Information ({account?.accountId})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -99,12 +128,30 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                           id="outlined-basic"
                           label="Password"
                           name="password"
+                          type={showPassword ? "text" : "password"}
                           variant="outlined"
                           fullWidth
                           sx={{ mb: 4, width: "25%" }}
                           disabled={loading}
                           defaultValue={account?.password}
                           onChange={(evt) => setAccount({ ...account, password: evt.target.value })}
+                          InputProps={{
+                            endAdornment: (
+                              <Box
+                                role="button"
+                                tabIndex={0}
+                                onClick={() => setShowPassword(!showPassword)}
+                                onKeyPress={() => setShowPassword(!showPassword)}
+                                sx={{ margin: 0, cursor: "pointer" }}
+                              >
+                                {showPassword ? (
+                                  <VisibilityIcon size={18} />
+                                ) : (
+                                  <VisibilityOffIcon size={18} />
+                                )}
+                              </Box>
+                            ),
+                          }}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -112,8 +159,33 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                           name="role"
                           defaultValue={account?.role}
                           onChange={(evt) => setAccount({ ...account, role: evt.target.value })}
-                          sx={{ py: 1.7, width: "26.5%" }}
+                          sx={{ mb: 3, py: 1.7, width: "25%" }}
                         />
+                      </Grid>
+                      <Grid item xs={3} sx={{ pb: 1, px: 1 }}>
+                        <Typography sx={{ ml: 1, fontSize: "12px", color: "Gray" }}>
+                          Status
+                        </Typography>
+                        <MDButton
+                          variant="contained"
+                          color={account.status === 1 ? "success" : "secondary"}
+                          size="sm"
+                          disabled={activeStatus}
+                          sx={{ mr: 2, width: "100px" }}
+                          onClick={setStatusActive}
+                        >
+                          Active
+                        </MDButton>
+                        <MDButton
+                          variant="contained"
+                          color={account.status === 0 ? "success" : "secondary"}
+                          size="sm"
+                          disabled={unactiveStatus}
+                          sx={{ width: "100px" }}
+                          onClick={setStatusUnactive}
+                        >
+                          Unactive
+                        </MDButton>
                       </Grid>
                     </Grid>
                   </MDBox>

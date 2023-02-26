@@ -4,9 +4,11 @@ import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import EmployeeUpdateModal from "../modal/employee/employee-update-modal2";
+import AccountModal from "../modal/account/account-add-modal";
+import EmployeeUpdateModal from "../modal/employee/employee-update-modal";
 import employeeService from "../../../../../services/employee-service";
 import EmployeeModal from "../modal/employee/employee-add-modal";
 
@@ -19,8 +21,9 @@ export default function EmployeeData() {
   const handleClose = () => setOpen(false);
 
   const [selected, setSelected] = React.useState(null);
+  const [updateModalOpen, setUpdateModalOpen] = React.useState(false);
+  const [accountModalOpen, setAccountModalOpen] = React.useState(false);
 
-  const UpdateHandleClose = () => setSelected(null);
   const handleSearch = () => {
     setLoading(true);
     employeeService
@@ -33,18 +36,38 @@ export default function EmployeeData() {
       });
   };
 
+  const handleUpdateClick = (params) => {
+    setSelected(params.row);
+    setUpdateModalOpen(true);
+  };
+
+  const handleAccountClick = (params) => {
+    setSelected(params.row);
+    setAccountModalOpen(true);
+  };
+
+  const handleUpdateClose = () => {
+    setUpdateModalOpen(false);
+    setSelected(null);
+  };
+
+  const handleAccountClose = () => {
+    setAccountModalOpen(false);
+    setSelected(null);
+  };
+
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID", width: 100 },
     { field: "firstName", headerName: "Firstname", width: 200 },
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
     { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 100,
-      valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
-    },
+    // {
+    //   field: "status",
+    //   headerName: "Status",
+    //   width: 100,
+    //   valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
+    // },
     {
       field: "actions",
       type: "actions",
@@ -54,12 +77,26 @@ export default function EmployeeData() {
       getActions: (params) => [
         <GridActionsCellItem
           icon={<EditIcon />}
-          onClick={() => setSelected(params.row)}
+          onClick={() => handleUpdateClick(params)}
           label="Update"
         />,
         <EmployeeUpdateModal
-          open={params.id === selected?.id}
-          onClose={UpdateHandleClose}
+          open={params.id === selected?.id && updateModalOpen}
+          onClose={handleUpdateClose}
+          selected={params.row}
+          onSuccess={() => {
+            setSelected(null);
+            handleSearch();
+          }}
+        />,
+        <GridActionsCellItem
+          icon={<PersonAddIcon />}
+          onClick={() => handleAccountClick(params)}
+          label="Add Account"
+        />,
+        <AccountModal
+          open={params.id === selected?.id && accountModalOpen}
+          onClose={handleAccountClose}
           selected={params.row}
           onSuccess={() => {
             setSelected(null);
@@ -69,10 +106,6 @@ export default function EmployeeData() {
       ],
     },
   ]);
-
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
-  };
 
   React.useEffect(() => {
     handleSearch();
@@ -108,7 +141,7 @@ export default function EmployeeData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
             value={search}
           />
         </Grid>

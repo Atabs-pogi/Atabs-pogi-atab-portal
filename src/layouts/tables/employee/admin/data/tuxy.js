@@ -25,7 +25,7 @@ export default function TuxyData() {
   const handleSearch = () => {
     setLoading(true);
     tuxyService
-      .getTuxyList(search)
+      .searchTuxy(search)
       .then((e) => {
         setTuxys(e);
       })
@@ -33,6 +33,8 @@ export default function TuxyData() {
         setLoading(false);
       });
   };
+
+  console.log(tuxys);
 
   const columns = React.useMemo(() => [
     { field: "tuxyId", headerName: "ID", width: 100 },

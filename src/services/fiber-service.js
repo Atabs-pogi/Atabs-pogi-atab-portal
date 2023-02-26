@@ -9,6 +9,10 @@ function getFiber(id) {
   return axios.get(`${BASE_URL}/fiber/getFiber/${id}`);
 }
 
+function getAllFibers() {
+  return axios.get(`${BASE_URL}/fiber/getAllFibers`);
+}
+
 function searchFiber(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -46,4 +50,4 @@ function updateFiber(fiber) {
   // });
 }
 
-export default { getFiber, searchFiber, addFiber, updateFiber };
+export default { getFiber, getAllFibers, searchFiber, addFiber, updateFiber };

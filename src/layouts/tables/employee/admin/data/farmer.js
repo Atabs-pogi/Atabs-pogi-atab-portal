@@ -64,10 +64,6 @@ export default function FarmerData() {
     },
   ]);
 
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
-  };
-
   React.useEffect(() => {
     handleSearch();
   }, []);
@@ -102,7 +98,7 @@ export default function FarmerData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
             value={search}
           />
         </Grid>
@@ -113,7 +109,7 @@ export default function FarmerData() {
           rows={farmers}
           columns={columns}
           pageSize={10}
-          rowsPerPageOptions={[10]}
+          rowsPerPageOptions={[1]}
           loading={loading}
         />
       </div>

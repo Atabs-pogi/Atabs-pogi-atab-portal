@@ -22,6 +22,7 @@ import SelectSex from "../../textfields/select-sex";
 import EmpSchema, { initialEmployee } from "../schema/employee-schema";
 
 export default function EmployeeModal({ open, onClose, onSuccess }) {
+  const [employeeCount, setemployeeCount] = React.useState(null);
   const [image, setImg] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -53,10 +54,13 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
   });
 
   function handleImage(e) {
+    console.log(e.target.files[0]);
+
     employeeService
-      .createImgPath("FirstName", "Employee", e.target.files[0])
+      .createImgPath(employeeCount, "Employee", e.target.files[0])
       .then((res) => {
-        formik.values.imageLocation = res.data;
+        formik.values.imageLocation = `http://localhost:8080/upload/${res}`;
+        setImg(res);
         // onSuccess?.();
       })
       .catch((err) => {
@@ -65,13 +69,21 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
       .finally(() => {
         setLoading(false);
       });
-
-    const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      setImg(reader.result);
-    };
   }
+  console.log(image);
+  console.log(formik.values);
+
+  employeeService
+    .getEmployeeCount()
+    .then((res) => {
+      setemployeeCount(res.data + 1);
+    })
+    .catch((err) => {
+      setError(err?.message);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
 
   return (
     <Modal
@@ -133,6 +145,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                             height: "230px",
                             width: "230px",
                             margin: "auto",
+                            mb: 2,
                           }}
                         />
 
@@ -258,7 +271,7 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           <Grid item xs={4}>
                             <TextField
                               id="outlined-basic"
-                              label="Email (Optional)"
+                              label="Email (Required)"
                               name="email"
                               variant="outlined"
                               fullWidth
@@ -412,20 +425,15 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                             id="outlined-basic"
                             type="number"
                             label="Postal No."
-                            name="address.postalNo"
+                            name="postalCode"
                             variant="outlined"
                             fullWidth
                             sx={{ mt: 2, pr: 7 }}
-                            value={formik.values?.address?.postalNo}
+                            value={formik.values?.postalCode}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={
-                              formik.touched?.address?.postalNo &&
-                              Boolean(formik.errors?.address?.postalNo)
-                            }
-                            helperText={
-                              formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
-                            }
+                            error={formik.touched?.postalCode && Boolean(formik.errors?.postalCode)}
+                            helperText={formik.touched?.postalCode && formik.errors?.postalCode}
                           />
                         </Grid>
                       </Grid>

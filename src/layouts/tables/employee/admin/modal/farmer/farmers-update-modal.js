@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "@mui/material/Modal";
 import {
   Card,
@@ -22,10 +22,8 @@ import TextFieldDatePicker from "../../textfields/date-picker";
 import farmerSchema from "../schema/farmer-schema";
 
 export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }) {
-  const [imagePath, setImgPath] = React.useState("");
-  const [image, setImg] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const handleClose = () => {
     onClose?.();
   };
@@ -53,13 +51,18 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
     },
   });
 
+  // const memoizedSetImg = React.useMemo(() => setImg, []);
+
+  const [image, setImg] = useState(formik?.values?.imageLocation);
+
   function handleImage(e) {
+    console.log(e.target.files[0]);
     farmerService
-      .createImgPath("Matthew", "Farmer", e.target.files[0])
+      .createImgPath((formik?.values?.firstName, 5), "Farmer", e.target.files[0])
       .then((res) => {
-        setImgPath(res.data);
-        formik.values.imageLocation = res.data;
-        // onSuccess?.();
+        formik.setFieldValue("imageLocation", res);
+        setImg(res);
+        // console.log(res);
       })
       .catch((err) => {
         setError(err?.message);
@@ -67,30 +70,17 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
       .finally(() => {
         setLoading(false);
       });
-
-    const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      setImg(reader.result);
-    };
   }
 
-  console.log(image);
-  console.log(imagePath);
-  console.log(formik?.values);
+  // React.useEffect(() => {
+  //   console.log(image);
+  // }, [image]);
 
-  // useEffect(() => {
-  //   const filePath =
-  //     "D:/Users/Matthew/Documents/GitHub/atabs-BE-master/atabs-BED/atabs-BED-main/src/main/imagedata/Farmer_.png";
-  //   const file = new File([], filePath);
-
-  //   console.log(file);
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     console.log(reader.result);
-  //   };
+  // React.useEffect(() => {
+  //   setImg(formik?.values?.imageLocation);
   // }, []);
+
+  console.log(image);
 
   return (
     <Modal
@@ -100,29 +90,30 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
       sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <MDBox>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ minHeight: "100vh", maxHeight: "100vh", overflowX: "auto" }}
-        >
-          <Grid item xs={6}>
-            <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
-              <MDBox
-                component="img"
-                src={farmerImg}
-                alt="Logo"
-                height="100%"
-                width="20%"
-                sx={{
-                  borderTopLeftRadius: 11,
-                  borderBottomLeftRadius: 11,
-                  mr: 7,
-                }}
-              />
-              <MDBox sx={{ flexGrow: 1 }}>
+        <form onSubmit={formik.handleSubmit} autoComplete="off" sx={{ flexGrow: 1 }}>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ minHeight: "100vh", maxHeight: "100vh", overflowX: "auto" }}
+          >
+            <Grid item xs={6}>
+              <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
+                <MDBox
+                  component="img"
+                  src={farmerImg}
+                  alt="Logo"
+                  height="100%"
+                  width="20%"
+                  sx={{
+                    borderTopLeftRadius: 11,
+                    borderBottomLeftRadius: 11,
+                    mr: 7,
+                  }}
+                />
+
                 <MDBox sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
                   <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
                     <IconButton>
@@ -142,7 +133,6 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                   >
                     <MDBox>
                       <MDBox
-                        id="farmerImg"
                         component="img"
                         alt=""
                         src={image}
@@ -155,7 +145,6 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                           mb: 2,
                         }}
                       />
-
                       <MDBox
                         className="upload-btn"
                         mx={2}
@@ -184,10 +173,10 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                           Upload an Image
                         </Typography>
                       </MDBox>
-                      <input id="farmerimg" type="file" name="imgUpload" onChange={handleImage} />
+                      <input id="empImg" type="file" name="imgUpload" onChange={handleImage} />
                     </MDBox>
 
-                    <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
+                    <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4, mb: 4 }}>
                       <Grid container spacing={0}>
                         <Grid item xs={4}>
                           <TextField
@@ -466,7 +455,6 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                       </Grid>
                     </MDBox>
                   </MDBox>
-
                   <Divider sx={{ py: 0.1, opacity: 10 }} />
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
@@ -576,21 +564,16 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                         <TextField
                           id="outlined-basic"
                           label="Postal No."
-                          name="address.postalNo"
+                          name="postalCode"
                           type="number"
                           variant="outlined"
                           fullWidth
                           sx={{ mt: 2, pr: 7 }}
-                          value={formik.values?.address?.postalNo}
+                          value={formik.values?.postalCode}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBLur}
-                          error={
-                            formik.touched?.address?.postalNo &&
-                            Boolean(formik.errors?.address?.postalNo)
-                          }
-                          helperText={
-                            formik.touched?.address?.postalNo && formik.errors?.address?.postalNo
-                          }
+                          error={formik.touched?.postalCode && Boolean(formik.errors?.postalCode)}
+                          helperText={formik.touched?.postalCode && formik.errors?.postalCode}
                         />
                       </Grid>
                     </Grid>
@@ -618,10 +601,10 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                     </MDBox>
                   )}
                 </MDBox>
-              </MDBox>
-            </Card>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
+        </form>
       </MDBox>
     </Modal>
   );
