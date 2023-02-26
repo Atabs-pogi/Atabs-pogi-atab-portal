@@ -1,11 +1,11 @@
-import * as React from "react";
+import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
-import employeeService from "services/employee-service";
-import PaidIcon from "@mui/icons-material/Paid";
 import MDTypography from "components/MDTypography";
+import payrollService from "services/payroll-service";
+import MDButton from "components/MDButton";
 import BasePay from "./base-pay";
 
 export default function Payroll() {
@@ -13,11 +13,12 @@ export default function Payroll() {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [selected, setSelected] = React.useState(null);
-
+  const current = new Date();
+  const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
   const handleSearch = () => {
     setLoading(true);
-    employeeService
-      .searchEmployee(search)
+    payrollService
+      .getEmployees()
       .then((e) => {
         setEmployees(e);
       })
@@ -25,9 +26,14 @@ export default function Payroll() {
         setLoading(false);
       });
   };
+
   const UpdateHandleClose = () => setSelected(null);
+
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID" },
+    { field: "firstName", headerName: "Firstname", width: 200 },
+    { field: "middleName", headerName: "Middlename", width: 200 },
+    { field: "lastName", headerName: "Lastname", width: 200 },
     {
       field: "actions",
       type: "actions",
@@ -35,30 +41,15 @@ export default function Payroll() {
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<PaidIcon />}
+          icon={
+            <MDButton variant="contained" color="success" size="small">
+              Review
+            </MDButton>
+          }
           onClick={() => setSelected(params.row)}
           label="Update"
         />,
-        <BasePay
-          open={params.id === selected?.id}
-          onClose={UpdateHandleClose}
-          selected={params.row}
-          onSuccess={() => {
-            setSelected(null);
-            handleSearch();
-          }}
-        />,
       ],
-    },
-    { field: "firstName", headerName: "Firstname", width: 200 },
-    { field: "middleName", headerName: "Middlename", width: 200 },
-    { field: "lastName", headerName: "Lastname", width: 200 },
-    { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 100,
-      valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
     },
   ]);
 
@@ -72,9 +63,18 @@ export default function Payroll() {
 
   return (
     <MDBox>
+      <BasePay
+        open={selected?.id}
+        onClose={UpdateHandleClose}
+        selected={selected}
+        onSuccess={() => {
+          setSelected(null);
+          handleSearch();
+        }}
+      />
       <Grid container>
         <Grid item xs={6} p={2}>
-          <MDTypography>Date Here: </MDTypography>
+          <MDTypography>Date: {date} </MDTypography>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField

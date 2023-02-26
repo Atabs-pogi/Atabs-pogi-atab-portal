@@ -12,19 +12,12 @@ import {
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import MDButton from "components/MDButton";
-// import MiniModal from "components/Modal/mini";
 import PropTypes from "prop-types";
-// import { useNavigate } from "react-router-dom";
 
-export default function SummaryModal({ open, onClose }) {
-  // const navigate = useNavigate();
+export default function SummaryModal({ open, onClose, pay }) {
   const handleClose = () => {
     onClose?.();
   };
-
-  // const handleViewHistory = () => {
-  //   navigate("/payroll");
-  // };
 
   return (
     <Modal open={open} onClose={handleClose} title="Summary">
@@ -51,7 +44,7 @@ export default function SummaryModal({ open, onClose }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Value Here
+                      {pay.totalHours}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -63,7 +56,7 @@ export default function SummaryModal({ open, onClose }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Value Here
+                      {pay.otHours}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -75,7 +68,67 @@ export default function SummaryModal({ open, onClose }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Value Here
+                      {pay.deductions}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Gross Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.grossPay}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Tardiness Deductions :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.tardinessDeduction}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Net Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.netpay}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Withholding Tax :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.withholdingTax}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Total Deduction :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.totalDeduction}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -96,9 +149,12 @@ export default function SummaryModal({ open, onClose }) {
 SummaryModal.defaultProps = {
   open: false,
   onClose: () => {},
+  pay: null,
 };
 
 SummaryModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  pay: PropTypes.object,
 };
