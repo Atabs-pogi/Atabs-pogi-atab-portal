@@ -96,6 +96,7 @@ export default function Payroll() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
+          getRowClassName={(params) => (params.row.reviewed ? "reviewed" : "")}
           rows={employees}
           columns={columns}
           pageSize={10}

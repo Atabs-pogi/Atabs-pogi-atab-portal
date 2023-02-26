@@ -63,48 +63,12 @@ export default function SummaryModal({ open, onClose, pay }) {
                 <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Deductions :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.deductions}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
                       Gross Pay :
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
                       {pay.grossPay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Tardiness Deductions :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.tardinessDeduction}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Net Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.netpay}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -132,12 +96,24 @@ export default function SummaryModal({ open, onClose, pay }) {
                     </Typography>
                   </TableCell>
                 </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Net Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.netpay}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           )}
           <MDBox m={3} align="center">
             <MDButton variant="contained" color="success" size="sm" sx={{ mr: 2 }}>
-              Save
+              Exit
             </MDButton>
           </MDBox>
         </Card>

@@ -35,3 +35,7 @@
 .tab{
   padding: 0 !important;
 }
+
+.reviewed{
+  color: green;
+}

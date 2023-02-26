@@ -25,14 +25,14 @@ import PosPage from "layouts/pos";
 import ForestIcon from "@mui/icons-material/Forest";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import PaidIcon from "@mui/icons-material/Paid";
-import WorkOffIcon from "@mui/icons-material/WorkOff";
+// import WorkOffIcon from "@mui/icons-material/WorkOff";
 import HistoryIcon from "@mui/icons-material/History";
 import StoreIcon from "@mui/icons-material/Store";
 import MerchantTransactionHistory from "layouts/pos-merchant";
 import GenerateBillTable from "layouts/generating-bills";
 import GenerateReport from "layouts/tables/employee/admin/reports";
 import PayrollTable from "layouts/payroll";
-import HolidayTable from "layouts/payroll/holiday";
+// import HolidayTable from "layouts/payroll/holiday";
 
 const registrationRoutes = [
   {
@@ -249,15 +249,15 @@ const payrollRoutes = [
     route: "/employee",
     component: <EmployeeTable />,
   },
-  {
-    type: "collapse",
-    name: "Holiday",
-    key: "holiday",
-    icon: <WorkOffIcon fontSize="small">table-view</WorkOffIcon>,
-    route: "/holiday",
-    role: ["hr"],
-    component: <HolidayTable />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Holiday",
+  //   key: "holiday",
+  //   icon: <WorkOffIcon fontSize="small">table-view</WorkOffIcon>,
+  //   route: "/holiday",
+  //   role: ["hr"],
+  //   component: <HolidayTable />,
+  // },
   {
     type: "collapse",
     name: "Payroll",
