@@ -1,16 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import React from "react";
-import {
-  Grid,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Grid, Tab, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import tuxyImg from "assets/images/small-logos/account.jpg";
@@ -21,8 +12,9 @@ import payrollService from "services/payroll-service";
 import SummaryModal from "./summary";
 import Payday from "./payday";
 import Deduction from "./deduction";
+import Incentive from "./incentive";
 
-export default function RemunerationModal({ open, onClose, selected }) {
+export default function RemunerationModal({ open, onClose, selected, period }) {
   const [value, setValue] = React.useState("1");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -35,14 +27,14 @@ export default function RemunerationModal({ open, onClose, selected }) {
 
   React.useEffect(() => {
     if (open) {
-      const now = new Date();
+      const now = new Date(period);
       const st = now.getDate() > 15 ? 16 : 1;
       const ed =
         now.getDate() < 16 ? 15 : new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
       const dts = [];
       // eslint-disable-next-line no-plusplus
       for (let i = st; i <= ed; i++) {
-        const date = new Date();
+        const date = new Date(period);
         date.setDate(i);
         dts.push({
           date,
@@ -53,9 +45,9 @@ export default function RemunerationModal({ open, onClose, selected }) {
           sick: 0,
         });
       }
-      const st1 = new Date();
+      const st1 = new Date(period);
       st1.setDate(st);
-      const ed1 = new Date();
+      const ed1 = new Date(period);
       ed1.setDate(ed);
       setDays(dts);
       setStart(st1);
@@ -145,11 +137,15 @@ export default function RemunerationModal({ open, onClose, selected }) {
       <SummaryModal open={!!transaction} onClose={handleCloseSummary} pay={transaction} />
       <form autoComplete="off">
         <TabContext value={value}>
-          <MDBox sx={{ width: 300 }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Compute" value="1" />
-              <Tab label="Deductions" value="2" />
-            </TabList>
+          <MDBox sx={{ width: 400 }}>
+            {open && (
+              <TabList onChange={handleChange} aria-label="lab API tabs example">
+                <Tab label="Compute" value="1" />
+                <Tab label="Deductions" value="2" />
+                <Tab label="Benefits" value="3" />
+                <Tab label="Incentives" value="4" />
+              </TabList>
+            )}
           </MDBox>
           <TabPanel value="1" className="tab">
             <Grid container spacing={0}>
@@ -195,6 +191,20 @@ export default function RemunerationModal({ open, onClose, selected }) {
               />
             ))}
           </TabPanel>
+          <TabPanel value="3">
+            {deductions.map?.((d, index) => (
+              <Deduction
+                key={d.description}
+                label={d.description}
+                value={d.value}
+                onChange={handleDeductionChange(index)}
+                loading={loading}
+              />
+            ))}
+          </TabPanel>
+          <TabPanel value="4">
+            <Incentive label="Description" />
+          </TabPanel>
         </TabContext>
       </form>
       {error}
@@ -206,6 +216,7 @@ RemunerationModal.defaultProps = {
   open: false,
   onClose: () => {},
   selected: null,
+  period: new Date(),
 };
 
 RemunerationModal.propTypes = {
@@ -213,4 +224,5 @@ RemunerationModal.propTypes = {
   onClose: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
   selected: PropTypes.object,
+  period: PropTypes.instanceOf(Date),
 };

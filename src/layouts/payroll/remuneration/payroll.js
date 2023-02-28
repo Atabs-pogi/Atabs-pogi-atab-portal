@@ -1,11 +1,14 @@
 import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import MDTypography from "components/MDTypography";
 import payrollService from "services/payroll-service";
 import MDButton from "components/MDButton";
+import Moment from "react-moment";
 import BasePay from "./base-pay";
 
 export default function Payroll() {
@@ -13,12 +16,22 @@ export default function Payroll() {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [selected, setSelected] = React.useState(null);
-  const current = new Date();
-  const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
+  const [date, setDate] = React.useState(new Date());
+  const [start, end] = React.useMemo(() => {
+    const st = date.getDate() > 15 ? 16 : 1;
+    const ed =
+      date.getDate() < 16 ? 15 : new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const st1 = new Date(date);
+    st1.setDate(st);
+    const ed1 = new Date(date);
+    ed1.setDate(ed);
+    return [st1, ed1];
+  }, [date]);
+
   const handleSearch = () => {
     setLoading(true);
     payrollService
-      .getEmployees()
+      .getEmployees(date)
       .then((e) => {
         setEmployees(e);
       })
@@ -27,6 +40,10 @@ export default function Payroll() {
       });
   };
 
+  React.useEffect(() => {
+    handleSearch();
+  }, [date]);
+
   const UpdateHandleClose = () => setSelected(null);
 
   const columns = React.useMemo(() => [
@@ -34,6 +51,12 @@ export default function Payroll() {
     { field: "firstName", headerName: "Firstname", width: 200 },
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
+    {
+      field: "reviewed",
+      headerName: "Status",
+      width: 200,
+      valueGetter: (params) => (params.row.reviewed ? "Reviewed" : ""),
+    },
     {
       field: "actions",
       type: "actions",
@@ -61,10 +84,33 @@ export default function Payroll() {
     handleSearch();
   }, []);
 
+  const handleNextPeriod = () => {
+    const st = new Date(date);
+    if (st.getDate() > 15) {
+      st.setMonth(st.getMonth() + 1);
+      st.setDate(1);
+    } else {
+      st.setDate(16);
+    }
+    setDate(st);
+  };
+
+  const handlePrevPeriod = () => {
+    const st = new Date(date);
+    if (st.getDate() > 15) {
+      st.setDate(1);
+    } else {
+      st.setMonth(st.getMonth() - 1);
+      st.setDate(16);
+    }
+    setDate(st);
+  };
+
   return (
     <MDBox>
       <BasePay
         open={selected?.id}
+        period={date}
         onClose={UpdateHandleClose}
         selected={selected}
         onSuccess={() => {
@@ -73,8 +119,20 @@ export default function Payroll() {
         }}
       />
       <Grid container>
-        <Grid item xs={6} p={2}>
-          <MDTypography>Date: {date} </MDTypography>
+        <Grid item xs={6} p={2} pt={1} pb={0}>
+          <IconButton sx={{ display: "inline-block" }} onClick={handlePrevPeriod}>
+            <ChevronLeftIcon />
+          </IconButton>
+          <MDTypography sx={{ display: "inline-block" }}>
+            <Moment format="MM/DD/YYYY">{start}</Moment>
+          </MDTypography>
+          -
+          <MDTypography sx={{ display: "inline-block" }}>
+            <Moment format="MM/DD/YYYY">{end}</Moment>
+          </MDTypography>
+          <IconButton sx={{ display: "inline-block" }} onClick={handleNextPeriod}>
+            <ChevronRightIcon />
+          </IconButton>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField
