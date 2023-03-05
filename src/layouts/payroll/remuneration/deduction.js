@@ -1,44 +1,29 @@
+import { Grid, TextField } from "@mui/material";
 import React from "react";
-import { Grid, TextField, Typography } from "@mui/material";
-import MDBox from "components/MDBox";
-import PropTypes from "prop-types";
 
-export default function Deduction({ loading, value, onChange, label }) {
+export default function Deduction() {
   return (
-    <MDBox sx={{ mx: 5 }}>
-      <Grid container>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-            {label} :
-          </Typography>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            id="outlined-basic"
-            name="sss"
-            value={value}
-            label={label}
-            onChange={onChange}
-            disabled={loading}
-            variant="outlined"
-            fullWidth
-            sx={{ mb: 2 }}
-          />
-        </Grid>
+    <Grid container>
+      <Grid xs={12} md={6}>
+        <TextField
+          id="outlined-basic"
+          name="type"
+          label="Type"
+          variant="outlined"
+          sx={{ mb: 4, width: "25%" }}
+          fullWidth
+        />
       </Grid>
-    </MDBox>
+      <Grid xs={12} md={6} sx={{ textAlign: "right" }}>
+        <TextField
+          id="outlined-basic"
+          name="amount"
+          label="Amount"
+          variant="outlined"
+          sx={{ mb: 4, width: "25%" }}
+          fullWidth
+        />
+      </Grid>
+    </Grid>
   );
 }
-
-Deduction.defaultProps = {
-  loading: false,
-  value: 0,
-  onChange: () => {},
-};
-
-Deduction.propTypes = {
-  loading: PropTypes.bool,
-  value: PropTypes.number,
-  onChange: PropTypes.func,
-  label: PropTypes.string.isRequired,
-};

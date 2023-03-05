@@ -9,10 +9,10 @@ import "./index.css";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import Modal from "components/Modal";
 import payrollService from "services/payroll-service";
-import SummaryModal from "./summary";
 import Payday from "./payday";
-import Deduction from "./deduction";
 import Incentive from "./incentive";
+import Benefits from "./benefits";
+import Deduction from "./deduction";
 
 export default function RemunerationModal({ open, onClose, selected, period }) {
   const [value, setValue] = React.useState("1");
@@ -23,7 +23,7 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
   const [salary, setSalary] = React.useState(0);
   const [start, setStart] = React.useState(new Date());
   const [end, setEnd] = React.useState(new Date());
-  const [deductions, setDeductions] = React.useState([]);
+  const [benefits, setBenefits] = React.useState([]);
 
   React.useEffect(() => {
     if (open) {
@@ -53,18 +53,18 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
       setStart(st1);
       setEnd(ed1);
       setSalary(0);
-      setDeductions([
+      setBenefits([
         {
-          description: "SSS",
-          value: 0,
+          benefitType: "SSS",
+          contributionAmount: 0,
         },
         {
-          description: "PhilHealth",
-          value: 0,
+          benefitType: "PhilHealth",
+          contributionAmount: 0,
         },
         {
-          description: "HDMF",
-          value: 0,
+          benefitType: "HDMF",
+          contributionAmount: 0,
         },
       ]);
     }
@@ -83,7 +83,7 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
       periodEnd: end.toJSON(),
       employeeId: selected?.id,
       items: days.map((day) => ({ ...day, date: day.date.toJSON() })),
-      deductibles: deductions,
+      benefits,
     };
     payrollService
       .submit(params)
@@ -118,9 +118,9 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
   };
 
   const handleDeductionChange = (index) => (evt) => {
-    const dds = [...deductions];
+    const dds = [...benefits];
     dds[index].value = parseFloat(evt.target.value) || 0;
-    setDeductions(dds);
+    setBenefits(dds);
   };
 
   return (
@@ -134,18 +134,15 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
       noCancel
       saveText="Save"
     >
-      <SummaryModal open={!!transaction} onClose={handleCloseSummary} pay={transaction} />
       <form autoComplete="off">
         <TabContext value={value}>
           <MDBox sx={{ width: 400 }}>
-            {open && (
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Compute" value="1" />
-                <Tab label="Deductions" value="2" />
-                <Tab label="Benefits" value="3" />
-                <Tab label="Incentives" value="4" />
-              </TabList>
-            )}
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Compute" value="1" />
+              <Tab label="Benefits" value="2" />
+              <Tab label="Deductions" value="3" />
+              <Tab label="Incentives" value="4" />
+            </TabList>
           </MDBox>
           <TabPanel value="1" className="tab">
             <Grid container spacing={0}>
@@ -181,26 +178,10 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
             </Grid>
           </TabPanel>
           <TabPanel value="2">
-            {deductions.map?.((d, index) => (
-              <Deduction
-                key={d.description}
-                label={d.description}
-                value={d.value}
-                onChange={handleDeductionChange(index)}
-                loading={loading}
-              />
-            ))}
+            <Benefits />
           </TabPanel>
           <TabPanel value="3">
-            {deductions.map?.((d, index) => (
-              <Deduction
-                key={d.description}
-                label={d.description}
-                value={d.value}
-                onChange={handleDeductionChange(index)}
-                loading={loading}
-              />
-            ))}
+            <Deduction label="description" />
           </TabPanel>
           <TabPanel value="4">
             <Incentive label="Description" />
