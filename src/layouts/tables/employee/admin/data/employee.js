@@ -5,9 +5,11 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AccountModal from "../modal/account/account-add-modal";
+import SalaryModal from "../modal/employee/employee-salary";
 import EmployeeUpdateModal from "../modal/employee/employee-update-modal";
 import employeeService from "../../../../../services/employee-service";
 import EmployeeModal from "../modal/employee/employee-add-modal";
@@ -23,6 +25,7 @@ export default function EmployeeData() {
   const [selected, setSelected] = React.useState(null);
   const [updateModalOpen, setUpdateModalOpen] = React.useState(false);
   const [accountModalOpen, setAccountModalOpen] = React.useState(false);
+  const [SalaryModalOpen, setSalaryModalOpen] = React.useState(false);
 
   const handleSearch = () => {
     setLoading(true);
@@ -46,6 +49,11 @@ export default function EmployeeData() {
     setAccountModalOpen(true);
   };
 
+  const handleSalaryClick = (params) => {
+    setSelected(params.row);
+    setSalaryModalOpen(true);
+  };
+
   const handleUpdateClose = () => {
     setUpdateModalOpen(false);
     setSelected(null);
@@ -53,6 +61,11 @@ export default function EmployeeData() {
 
   const handleAccountClose = () => {
     setAccountModalOpen(false);
+    setSelected(null);
+  };
+
+  const handleSalaryClose = () => {
+    setSalaryModalOpen(false);
     setSelected(null);
   };
 
@@ -97,6 +110,20 @@ export default function EmployeeData() {
         <AccountModal
           open={params.id === selected?.id && accountModalOpen}
           onClose={handleAccountClose}
+          selected={params.row}
+          onSuccess={() => {
+            setSelected(null);
+            handleSearch();
+          }}
+        />,
+        <GridActionsCellItem
+          icon={<MonetizationOnIcon />}
+          onClick={() => handleSalaryClick(params)}
+          label="Add Salary"
+        />,
+        <SalaryModal
+          open={params.id === selected?.id && SalaryModalOpen}
+          onClose={handleSalaryClose}
           selected={params.row}
           onSuccess={() => {
             setSelected(null);

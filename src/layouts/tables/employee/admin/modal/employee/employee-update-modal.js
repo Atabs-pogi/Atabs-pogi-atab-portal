@@ -52,7 +52,7 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
     },
   });
 
-  const [image, setImg] = React.useState(null);
+  const [image, setImg] = React.useState(formik.values.imageLocation);
 
   function handleImage(e) {
     employeeService
@@ -75,9 +75,9 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
   //   setImg(dataFromJSFile);
   // }, [image]);
 
-  console.log(image);
-  console.log(employee.imageLocation);
-  console.log(formik.values.imageLocation);
+  // console.log(image);
+  // console.log(employee.imageLocation);
+  // console.log(formik.values.imageLocation);
 
   return (
     <Modal
@@ -179,7 +179,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                         <Grid container spacing={0}>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               name="lastName"
                               label="Lastname"
                               disabled={loading}
@@ -195,7 +194,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Firstname"
                               name="firstName"
                               variant="outlined"
@@ -211,7 +209,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Middlename (Optional)"
                               name="middleName"
                               variant="outlined"
@@ -227,7 +224,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Mobile Number"
                               name="mobileNumber"
                               variant="outlined"
@@ -259,7 +255,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Email (Optional)"
                               name="email"
                               variant="outlined"
@@ -284,9 +279,9 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                               helperText={formik.touched.sex && formik.errors.sex}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={2}>
+                          <Grid item xs={4} mt={2} pr={7}>
                             <TextFieldDatePicker
-                              name="birthday"
+                              label="Birthday"
                               disabled={loading}
                               value={formik.values.birthday}
                               onChange={(evt) =>
@@ -311,7 +306,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                       <Grid container spacing={0}>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="House no."
                             name="address.houseNo"
                             variant="outlined"
@@ -332,7 +326,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Unit"
                             name="address.unit"
                             variant="outlined"
@@ -352,7 +345,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Barangay"
                             name="address.barangay"
                             variant="outlined"
@@ -372,7 +364,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="City"
                             name="address.city"
                             variant="outlined"
@@ -392,7 +383,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Province"
                             name="address.province"
                             variant="outlined"
@@ -412,7 +402,6 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Postal No."
                             name="postalCode"
                             type="number"

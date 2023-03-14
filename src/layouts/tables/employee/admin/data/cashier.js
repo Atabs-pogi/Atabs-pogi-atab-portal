@@ -73,8 +73,10 @@ export default function CashierPosData() {
       ],
     },
   ]);
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   React.useEffect(() => {
@@ -105,7 +107,8 @@ export default function CashierPosData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>

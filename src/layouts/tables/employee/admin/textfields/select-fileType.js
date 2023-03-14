@@ -8,13 +8,13 @@ import Select from "@mui/material/Select";
 export default function SelectFileType(props) {
   return (
     <Box>
-      <FormControl fullWidth sx={{ py: 0.5 }}>
+      <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">File Type</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           label="File Type"
-          sx={{ py: 1, pr: 2 }}
+          sx={{ py: 1.5 }}
           {...props}
         >
           <MenuItem value="pdf">pdf</MenuItem>

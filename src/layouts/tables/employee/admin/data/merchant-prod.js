@@ -34,8 +34,8 @@ export default function MerchantData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "productId", headerName: "ID", width: 300 },
-    { field: "item", headerName: "Item", width: 300 },
+    { field: "productId", headerName: "ID", width: 150 },
+    { field: "item", headerName: "Item", width: 150 },
     { field: "price", headerName: "Price", width: 200, type: "number" },
     { field: "quantity", headerName: "Quantity", width: 200 },
     {
@@ -69,8 +69,10 @@ export default function MerchantData() {
     },
   ]);
 
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   React.useEffect(() => {
@@ -107,7 +109,8 @@ export default function MerchantData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>

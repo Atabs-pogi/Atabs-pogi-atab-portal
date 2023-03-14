@@ -4,35 +4,38 @@ import Profile from "layouts/profile";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import BackupIcon from "@mui/icons-material/Backup";
 import BadgeIcon from "@mui/icons-material/Badge";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import ForestIcon from "@mui/icons-material/Forest";
 import GrassIcon from "@mui/icons-material/Grass";
+import HistoryIcon from "@mui/icons-material/History";
+import PaymentIcon from "@mui/icons-material/Payment";
+import PaymentsIcon from "@mui/icons-material/Payments";
 import StorefrontIcon from "@mui/icons-material/Storefront";
+import StoreIcon from "@mui/icons-material/Store";
+import PaidIcon from "@mui/icons-material/Paid";
+import WorkOffIcon from "@mui/icons-material/WorkOff";
+
+import AccountTable from "layouts/tables/employee/admin/account-role";
+import BackupTable from "layouts/tables/employee/admin/backup";
+import CostingBillTable from "layouts/tables/employee/admin/costing-bill";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
-import AccountTable from "layouts/tables/employee/admin/account-role";
-import SignOut from "layouts/authentication/sign-out";
-import PaymentIcon from "@mui/icons-material/Payment";
-import TuxyTable from "layouts/tables/employee/admin/tuxy";
-import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
-import MerchantProdTable from "layouts/tables/employee/admin/merchant-prod";
-import CostingBillTable from "layouts/tables/employee/admin/costing-bill";
-import TransactionPage from "layouts/pos/transaction";
-import MechantTransactionPage from "layouts/pos-merchant/transaction";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import PosPage from "layouts/pos";
-import ForestIcon from "@mui/icons-material/Forest";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import PaidIcon from "@mui/icons-material/Paid";
-// import WorkOffIcon from "@mui/icons-material/WorkOff";
-import HistoryIcon from "@mui/icons-material/History";
-import StoreIcon from "@mui/icons-material/Store";
-import MerchantTransactionHistory from "layouts/pos-merchant";
 import GenerateBillTable from "layouts/generating-bills";
-import GenerateReport from "layouts/tables/employee/admin/reports";
+import HolidayTable from "layouts/payroll/holiday";
+import MerchantProdTable from "layouts/tables/employee/admin/merchant-prod";
+import MerchantTransactionHistory from "layouts/pos-merchant";
+import MerchantTransactionPage from "layouts/pos-merchant/transaction";
 import PayrollTable from "layouts/payroll";
-// import HolidayTable from "layouts/payroll/holiday";
+import PosPage from "layouts/pos";
+import PriceLogsTable from "layouts/tables/employee/admin/pricelogs";
+import Reports from "layouts/tables/employee/admin/reports";
+import SignOut from "layouts/authentication/sign-out";
+import TuxyTable from "layouts/tables/employee/admin/tuxy";
+import TransactionPage from "layouts/pos/transaction";
 
 const registrationRoutes = [
   {
@@ -84,6 +87,7 @@ const registrationRoutes = [
     route: "/pricelogs",
     component: <PriceLogsTable />,
   },
+
   {
     type: "collapse",
     name: "Costing Bill",
@@ -102,11 +106,19 @@ const registrationRoutes = [
   },
   {
     type: "collapse",
-    name: "Generate Report",
-    key: "generate-report",
-    icon: <PaymentIcon fontSize="small">table-view</PaymentIcon>,
-    route: "/generate-report",
-    component: <GenerateReport />,
+    name: "Backup Data",
+    key: "backup",
+    icon: <BackupIcon fontSize="small">table-view</BackupIcon>,
+    route: "/backup",
+    component: <BackupTable />,
+  },
+  {
+    type: "collapse",
+    name: "Reports",
+    key: "reports",
+    icon: <FileDownloadIcon fontSize="small">table-view</FileDownloadIcon>,
+    route: "/reports",
+    component: <Reports />,
   },
 ];
 
@@ -137,7 +149,7 @@ const storeRoutes = [
     icon: <AddShoppingCartIcon fontSize="small">table-view</AddShoppingCartIcon>,
     route: "/new-merchant-transaction",
     role: ["cashier"],
-    component: <MechantTransactionPage />,
+    component: <MerchantTransactionPage />,
   },
   {
     type: "collapse",
@@ -249,15 +261,15 @@ const payrollRoutes = [
     route: "/employee",
     component: <EmployeeTable />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Holiday",
-  //   key: "holiday",
-  //   icon: <WorkOffIcon fontSize="small">table-view</WorkOffIcon>,
-  //   route: "/holiday",
-  //   role: ["hr"],
-  //   component: <HolidayTable />,
-  // },
+  {
+    type: "collapse",
+    name: "Holiday",
+    key: "holiday",
+    icon: <WorkOffIcon fontSize="small">table-view</WorkOffIcon>,
+    route: "/holiday",
+    role: ["hr"],
+    component: <HolidayTable />,
+  },
   {
     type: "collapse",
     name: "Payroll",

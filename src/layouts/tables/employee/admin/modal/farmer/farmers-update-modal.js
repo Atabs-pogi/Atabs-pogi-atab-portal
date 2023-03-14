@@ -285,9 +285,9 @@ export default function FarmerUpdateModal({ selected, open, onClose, onSuccess }
                             helperText={formik.touched.sex && formik.errors.sex}
                           />
                         </Grid>
-                        <Grid item xs={4} mt={3}>
+                        <Grid item xs={4} mt={3} pr={7}>
                           <TextFieldDatePicker
-                            name="birthday"
+                            label="Birthday"
                             disabled={loading}
                             value={formik.values.birthday}
                             onChange={(evt) =>

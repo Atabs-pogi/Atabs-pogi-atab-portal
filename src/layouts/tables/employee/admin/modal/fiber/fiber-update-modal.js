@@ -75,7 +75,7 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Fiber Information ({fiber?.id})
+                      Fiber Information ({fiber?.fiberId})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -91,31 +91,6 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                           disabled={loading}
                           defaultValue={fiber?.name}
                           onChange={(evt) => setFiber({ ...fiber, name: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Grade"
-                          name="grade"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          disabled={loading}
-                          defaultValue={fiber?.grade}
-                          onChange={(evt) => setFiber({ ...fiber, grade: evt.target.value })}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Price"
-                          name="price"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          defaultValue={fiber?.price}
-                          onChange={(evt) => setFiber({ ...fiber, price: evt.target.value })}
                         />
                       </Grid>
                     </Grid>

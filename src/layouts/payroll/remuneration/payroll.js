@@ -7,6 +7,7 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import MDTypography from "components/MDTypography";
 import payrollService from "services/payroll-service";
+import employeeService from "services/employee-service";
 import MDButton from "components/MDButton";
 import Moment from "react-moment";
 import BasePay from "./base-pay";
@@ -17,6 +18,9 @@ export default function Payroll() {
   const [search, setSearch] = React.useState("");
   const [selected, setSelected] = React.useState(null);
   const [date, setDate] = React.useState(new Date());
+  // const [wala, setWala] = React.useState([]);
+  // const [salaryExist, setSalaryExist] = React.useState(true);
+
   const [start, end] = React.useMemo(() => {
     const st = date.getDate() > 15 ? 16 : 1;
     const ed =
@@ -27,6 +31,25 @@ export default function Payroll() {
     ed1.setDate(ed);
     return [st1, ed1];
   }, [date]);
+
+  const SalaryExists = (params) => {
+    setLoading(true);
+    employeeService
+      .getSalary()
+      .then((res) => {
+        const ids = res.map((salary) => salary.employee.id);
+        const exists = ids.some((id) => id === params.row.id);
+        if (exists) {
+          setSelected(params.row);
+        } else {
+          // eslint-disable-next-line no-alert
+          alert("No salary configuration for this employee yet.");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const handleSearch = () => {
     setLoading(true);
@@ -43,6 +66,8 @@ export default function Payroll() {
   React.useEffect(() => {
     handleSearch();
   }, [date]);
+
+  // console.log(salaryExist);
 
   const UpdateHandleClose = () => setSelected(null);
 
@@ -69,7 +94,7 @@ export default function Payroll() {
               Review
             </MDButton>
           }
-          onClick={() => setSelected(params.row)}
+          onClick={() => SalaryExists(params)}
           label="Update"
         />,
       ],

@@ -28,26 +28,10 @@ function searchFiber(search = "") {
 
 function addFiber(fiber) {
   return axios.post(`${BASE_URL}/fiber/addFiber`, fiber);
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       id: 1000,
-  //       ...employee,
-  //     });
-  //   }, DEFAULT_DELAY);
-  // });
 }
 
 function updateFiber(fiber) {
   return axios.put(`${BASE_URL}/fiber/updateFiber`, fiber);
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     // resolve({
-  //     //   ...employee,
-  //     // });
-  //     reject(new Error("Invalid Char"));
-  //   }, DEFAULT_DELAY);
-  // });
 }
 
 export default { getFiber, getAllFibers, searchFiber, addFiber, updateFiber };

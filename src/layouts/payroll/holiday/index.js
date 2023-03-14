@@ -4,7 +4,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { Card } from "@mui/material";
-import Holiday from "./holiday";
+import Holiday from "./holiday1";
 
 function HolidayTable() {
   return (

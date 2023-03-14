@@ -65,8 +65,10 @@ export default function AccountData() {
     },
   ]);
 
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   React.useEffect(() => {
@@ -97,7 +99,8 @@ export default function AccountData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>

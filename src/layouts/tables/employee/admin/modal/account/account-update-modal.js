@@ -112,7 +112,6 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                     <Grid container spacing={0}>
                       <Grid item xs={12}>
                         <TextField
-                          id="outlined-basic"
                           label="Username"
                           name="username"
                           variant="outlined"
@@ -125,7 +124,6 @@ export default function AccountUpdateModal({ selected, open, onClose, onSuccess 
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
-                          id="outlined-basic"
                           label="Password"
                           name="password"
                           type={showPassword ? "text" : "password"}

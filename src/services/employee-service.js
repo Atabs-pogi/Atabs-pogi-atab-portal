@@ -1,24 +1,24 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-// import apiUrl from "env";
+import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
 
-const BASE_URL = "http://localhost:8080";
+// const BASE_URL = "http://localhost:8080";
 
 function getEmployee(id) {
-  return axios.get(`${BASE_URL}/employee/getEmployee/${id}`);
+  return axios.get(`${apiUrl}/employee/getEmployee/${id}`);
 }
 
 function getEmployeeCount() {
-  return axios.get(`${BASE_URL}/employee/getEmployeeCount/`);
+  return axios.get(`${apiUrl}/employee/getEmployeeCount/`);
 }
 
 function searchEmployee(search = "") {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${BASE_URL}/employee/search`, { params: { name: search } })
+        .get(`${apiUrl}/employee/search`, { params: { name: search } })
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -28,10 +28,10 @@ function searchEmployee(search = "") {
 }
 
 function addEmployee(employee) {
-  return axios.post(`${BASE_URL}/employee/addEmployee`, {
+  return axios.post(`${apiUrl}/employee/addEmployee`, {
     ...employee,
     imageLocation:
-      employee.imageLocation && employee.imageLocation.replace(`${BASE_URL}/upload/`, ""),
+      employee.imageLocation && employee.imageLocation.replace(`${apiUrl}/upload/`, ""),
   });
 }
 
@@ -41,16 +41,24 @@ function createImgPath(profile, type, img) {
   formData.append("type", type);
   formData.append("img", img);
   return axios
-    .post(`${BASE_URL}/image/addProfile`, formData, {
+    .post(`${apiUrl}/image/addProfile`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
-    .then((res) => new URL(res.data, `${BASE_URL}/upload/`).href);
+    .then((res) => new URL(res.data, `${apiUrl}/upload/`).href);
 }
 
 function updateEmployee(employee) {
-  return axios.put(`${BASE_URL}/employee/updateEmployee`, employee);
+  return axios.put(`${apiUrl}/employee/updateEmployee`, employee);
+}
+
+function addSalary(employee) {
+  return axios.post(`${BASE_URL}/salary/`, employee);
+}
+
+function getSalary(employee) {
+  return axios.get(`${BASE_URL}/salary/`, employee).then((res) => res.data);
 }
 
 export default {
@@ -60,4 +68,6 @@ export default {
   addEmployee,
   createImgPath,
   updateEmployee,
+  addSalary,
+  getSalary,
 };

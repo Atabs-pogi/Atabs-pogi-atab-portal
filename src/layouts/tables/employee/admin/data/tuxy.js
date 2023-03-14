@@ -34,8 +34,6 @@ export default function TuxyData() {
       });
   };
 
-  console.log(tuxys);
-
   const columns = React.useMemo(() => [
     { field: "tuxyId", headerName: "ID", width: 100 },
     { field: "name", headerName: "Name", width: 200 },
@@ -89,8 +87,10 @@ export default function TuxyData() {
     },
   ]);
 
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   React.useEffect(() => {
@@ -127,7 +127,8 @@ export default function TuxyData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>

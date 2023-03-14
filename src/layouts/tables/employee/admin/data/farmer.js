@@ -34,11 +34,17 @@ export default function FarmerData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "farmerId", headerName: "ID", width: 200 },
+    { field: "farmerId", headerName: "ID", width: 150 },
     { field: "firstName", headerName: "Firstname", width: 200 },
     { field: "middleName", headerName: "Middlename", width: 200 },
     { field: "lastName", headerName: "Lastname", width: 200 },
     { field: "mobileNumber", headerName: "Mobile Number", type: "string", width: 200 },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 100,
+      valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
+    },
     {
       field: "actions",
       type: "actions",
@@ -63,6 +69,12 @@ export default function FarmerData() {
       ],
     },
   ]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   React.useEffect(() => {
     handleSearch();
@@ -99,6 +111,7 @@ export default function FarmerData() {
             }}
             sx={{ my: 1, mx: 1 }}
             onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>

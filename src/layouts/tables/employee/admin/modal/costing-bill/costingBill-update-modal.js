@@ -7,34 +7,39 @@ import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
 import costingBillService from "services/costing-bill-service";
+import { useFormik } from "formik";
+import CostingBillSchema from "../schema/costing-bill-schema";
+// import TextFieldDatePicker from "../../textfields/date-picker";
 
 export default function CostingBillUpdateModal({ selected, open, onClose, onSuccess }) {
-  const [costingBill, setCostingBill] = React.useState({ ...selected });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
     onClose?.();
   };
 
-  const handleSave = () => {
-    setError("");
-    setLoading(true);
-    const newCostingBill = {
-      ...costingBill,
-    };
-    costingBillService
-      .updateBills(newCostingBill)
-      .then(() => {
-        setCostingBill({});
-        onSuccess?.();
-      })
-      .catch((err) => {
-        setError(err?.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  const { id, ...costingBill } = selected || {};
+
+  const formik = useFormik({
+    initialValues: costingBill,
+
+    validationSchema: CostingBillSchema,
+    onSubmit: () => {
+      setError("");
+      setLoading(true);
+      costingBillService
+        .updateBills({ ...formik?.values, id })
+        .then(() => {
+          onSuccess?.();
+        })
+        .catch((err) => {
+          setError(err?.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+  });
 
   return (
     <Modal
@@ -44,102 +49,149 @@ export default function CostingBillUpdateModal({ selected, open, onClose, onSucc
       sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <MDBox>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ minHeight: "100vh", maxHeight: "100vh", overflowX: "auto" }}
-        >
-          <Grid item xs={6}>
-            <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
-              <MDBox
-                component="img"
-                src={fiberImg}
-                alt="Logo"
-                height="100%"
-                width="20%"
-                sx={{
-                  borderTopLeftRadius: 11,
-                  borderBottomLeftRadius: 11,
-                  mr: 7,
-                }}
-              />
-              <MDBox sx={{ flexGrow: 1 }}>
-                <MDBox sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                  <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
-                    <IconButton>
-                      <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
-                    </IconButton>
-                  </MDBox>
-                  <MDBox>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Costing Bill Information ({costingBill?.id})
-                    </Typography>
-                  </MDBox>
-                  <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={0} sx={{ mt: 2 }}>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Name"
-                          name="name"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7, mb: 4 }}
-                          disabled={loading}
-                          defaultValue={costingBill?.name}
-                          onChange={(evt) =>
-                            setCostingBill({ ...costingBill, name: evt.target.value })
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          id="outlined-basic"
-                          label="Type"
-                          name="type"
-                          variant="outlined"
-                          fullWidth
-                          sx={{ pr: 7, mb: 4 }}
-                          disabled={loading}
-                          defaultValue={costingBill?.type}
-                          onChange={(evt) =>
-                            setCostingBill({ ...costingBill, type: evt.target.value })
-                          }
-                        />
-                      </Grid>
-                    </Grid>
-                  </MDBox>
-                  <Divider sx={{ py: 0.1, opacity: 10 }} />
-                  {/* ERROR MESSAGE */}
-                  {error}
-                  {open && (
-                    <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
-                      <MDButton
-                        onClick={handleSave}
-                        variant="contained"
-                        color="success"
-                        sx={{ mr: 2, mt: 5, width: 80 }}
-                      >
-                        Save
-                      </MDButton>
-                      <MDButton
-                        variant="contained"
-                        color="secondary"
-                        sx={{ mr: 2, mt: 5, width: 80 }}
-                        onClick={handleClose}
-                      >
-                        Cancel
-                      </MDButton>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ minHeight: "100vh", maxHeight: "100vh", overflowX: "auto" }}
+          >
+            <Grid item xs={6}>
+              <Card sx={{ width: "180vh", height: "95vh", flexDirection: "row", display: "flex" }}>
+                <MDBox
+                  component="img"
+                  src={fiberImg}
+                  alt="Logo"
+                  height="100%"
+                  width="20%"
+                  sx={{
+                    borderTopLeftRadius: 11,
+                    borderBottomLeftRadius: 11,
+                    mr: 7,
+                  }}
+                />
+                <MDBox sx={{ flexGrow: 1 }}>
+                  <MDBox sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                    <MDBox className="modal-header" sx={{ textAlign: "right", fontSize: "25px" }}>
+                      <IconButton>
+                        <CloseIcon color="error" onClick={handleClose} sx={{ cursor: "pointer" }} />
+                      </IconButton>
                     </MDBox>
-                  )}
+                    <MDBox>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
+                        Costing Bill Information ({id})
+                      </Typography>
+                    </MDBox>
+                    <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={0} sx={{ mt: 2 }}>
+                        {/* <Grid item xs={6} pr={7} mb={6}>
+                          <TextFieldDatePicker
+                            label="Due Date"
+                            name="dueDate"
+                            disabled={loading}
+                            value={formik.values.dueDate}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("dueDate", evt?.toISOString(), true)
+                            }
+                            error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
+                            helperText={formik.touched.dueDate && formik.errors.dueDate}
+                          />
+                        </Grid>
+                        <Grid item xs={6} pr={7} mb={6}>
+                          <TextFieldDatePicker
+                            label="Payment Date"
+                            name="paymentDate"
+                            disabled={loading}
+                            value={formik.values.paymentDate}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("paymentDate", evt?.toISOString(), true)
+                            }
+                            error={formik.touched.paymentDate && Boolean(formik.errors.paymentDate)}
+                            helperText={formik.touched.paymentDate && formik.errors.paymentDate}
+                          />
+                        </Grid> */}
+                        <Grid item xs={6}>
+                          <TextField
+                            id="outlined-basic"
+                            name="name"
+                            label="Name"
+                            disabled={loading}
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
+                            variant="outlined"
+                            sx={{ pr: 7, mb: 6 }}
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            id="outlined-basic"
+                            name="type"
+                            label="Type"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.type}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.type && Boolean(formik.errors.type)}
+                            helperText={formik.touched.type && formik.errors.type}
+                            sx={{ pr: 7, mb: 6 }}
+                          />
+                        </Grid>
+                        <Grid item xs={6} pr={7} mb={6}>
+                          <TextField
+                            id="outlined-basic"
+                            name="referenceCode"
+                            label="Reference Code"
+                            variant="outlined"
+                            fullWidth
+                            disabled={loading}
+                            value={formik.values.referenceCode}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.referenceCode && Boolean(formik.errors.referenceCode)
+                            }
+                            helperText={formik.touched.referenceCode && formik.errors.referenceCode}
+                          />
+                        </Grid>
+                      </Grid>
+                    </MDBox>
+                    <Divider sx={{ py: 0.1, opacity: 10 }} />
+                    {/* ERROR MESSAGE */}
+                    {error}
+                    {open && (
+                      <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
+                        <MDButton
+                          type="submit"
+                          variant="contained"
+                          color="success"
+                          sx={{ mr: 2, mt: 5, width: 80 }}
+                        >
+                          Save
+                        </MDButton>
+                        <MDButton
+                          variant="contained"
+                          color="secondary"
+                          sx={{ mr: 2, mt: 5, width: 80 }}
+                          onClick={handleClose}
+                        >
+                          Cancel
+                        </MDButton>
+                      </MDBox>
+                    )}
+                  </MDBox>
                 </MDBox>
-              </MDBox>
-            </Card>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
+        </form>
       </MDBox>
     </Modal>
   );

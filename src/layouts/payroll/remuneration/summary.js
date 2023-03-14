@@ -44,7 +44,7 @@ export default function SummaryModal({ open, onClose, pay }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalHours}
+                      {pay.totalWorkHours}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -56,7 +56,7 @@ export default function SummaryModal({ open, onClose, pay }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.otHours}
+                      {pay.totalOTHours}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -92,7 +92,7 @@ export default function SummaryModal({ open, onClose, pay }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalDeduction}
+                      {pay.totalDeductions}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -104,7 +104,7 @@ export default function SummaryModal({ open, onClose, pay }) {
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.netpay}
+                      {pay.netPay}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -112,7 +112,13 @@ export default function SummaryModal({ open, onClose, pay }) {
             </Table>
           )}
           <MDBox m={3} align="center">
-            <MDButton variant="contained" color="success" size="sm" sx={{ mr: 2 }}>
+            <MDButton
+              variant="contained"
+              color="success"
+              size="sm"
+              onClick={handleClose}
+              sx={{ mr: 2 }}
+            >
               Exit
             </MDButton>
           </MDBox>

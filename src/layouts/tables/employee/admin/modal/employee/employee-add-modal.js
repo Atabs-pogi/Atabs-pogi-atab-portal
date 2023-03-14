@@ -70,8 +70,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
         setLoading(false);
       });
   }
-  console.log(image);
-  console.log(formik.values);
 
   employeeService
     .getEmployeeCount()
@@ -183,14 +181,12 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           type="file"
                           name="employee_img"
                           onChange={handleImage}
-                          sx={{ display: "none" }}
                         />
                       </MDBox>
                       <MDBox className="modal-content" sx={{ flexGrow: 1, ml: 4 }}>
                         <Grid container spacing={0}>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               name="lastName"
                               label="Lastname"
                               disabled={loading}
@@ -206,7 +202,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Firstname"
                               name="firstName"
                               variant="outlined"
@@ -222,7 +217,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Middlename (Optional)"
                               name="middleName"
                               variant="outlined"
@@ -238,7 +232,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Mobile Number"
                               name="mobileNumber"
                               variant="outlined"
@@ -270,7 +263,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                           </Grid>
                           <Grid item xs={4}>
                             <TextField
-                              id="outlined-basic"
                               label="Email (Required)"
                               name="email"
                               variant="outlined"
@@ -295,9 +287,9 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                               helperText={formik.touched.sex && formik.errors.sex}
                             />
                           </Grid>
-                          <Grid item xs={4} mt={2}>
+                          <Grid item xs={4} mt={2} pr={7}>
                             <TextFieldDatePicker
-                              name="birthday"
+                              label="Birthday"
                               disabled={loading}
                               value={formik.values.birthday}
                               onChange={(evt) =>
@@ -321,7 +313,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                       <Grid container spacing={0}>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="House no."
                             name="address.houseNo"
                             variant="outlined"
@@ -342,7 +333,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Unit"
                             name="address.unit"
                             variant="outlined"
@@ -362,7 +352,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Barangay"
                             name="address.barangay"
                             variant="outlined"
@@ -382,7 +371,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="City"
                             name="address.city"
                             variant="outlined"
@@ -402,7 +390,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             label="Province"
                             name="address.province"
                             variant="outlined"
@@ -422,7 +409,6 @@ export default function EmployeeModal({ open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={4}>
                           <TextField
-                            id="outlined-basic"
                             type="number"
                             label="Postal No."
                             name="postalCode"

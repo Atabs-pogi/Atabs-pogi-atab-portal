@@ -9,20 +9,21 @@ import "./index.css";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import Modal from "components/Modal";
 import payrollService from "services/payroll-service";
-import SummaryModal from "./summary";
 import Payday from "./payday";
-import Deduction from "./deduction";
-import Incentive from "./incentive";
+import Deductions from "./deduction";
+import Benefits from "./benefits";
+import SelectPayMethod from "../../tables/employee/admin/textfields/select-paymethod";
 
-export default function RemunerationModal({ open, onClose, selected, period }) {
+export default function RemunerationModal({ open, onClose, selected, period, onSuccess }) {
   const [value, setValue] = React.useState("1");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [transaction, setTransaction] = React.useState(null);
   const [days, setDays] = React.useState([]);
-  const [salary, setSalary] = React.useState(0);
+  const [payMethod, setMethod] = React.useState("");
   const [start, setStart] = React.useState(new Date());
   const [end, setEnd] = React.useState(new Date());
+  const [benefits, setBenefits] = React.useState([]);
   const [deductions, setDeductions] = React.useState([]);
 
   React.useEffect(() => {
@@ -52,19 +53,18 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
       setDays(dts);
       setStart(st1);
       setEnd(ed1);
-      setSalary(0);
-      setDeductions([
+      setBenefits([
         {
-          description: "SSS",
-          value: 0,
+          benefitType: "SSS",
+          contributionAmount: 0,
         },
         {
-          description: "PhilHealth",
-          value: 0,
+          benefitType: "PhilHealth",
+          contributionAmount: 0,
         },
         {
-          description: "HDMF",
-          value: 0,
+          benefitType: "HDMF",
+          contributionAmount: 0,
         },
       ]);
     }
@@ -76,31 +76,36 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
 
   const handleSave = () => {
     setError("");
-    setLoading(true);
+    setLoading(false);
     const params = {
-      baseSalary: salary,
       periodStart: start.toJSON(),
       periodEnd: end.toJSON(),
+      paymentDate: start.toJSON(),
+      paymentMethod: payMethod,
       employeeId: selected?.id,
       items: days.map((day) => ({ ...day, date: day.date.toJSON() })),
+      benefits,
       deductibles: deductions,
     };
-    payrollService
-      .submit(params)
-      .then((t) => {
-        onClose();
-        setTransaction(t);
-      })
-      .catch((err) => {
-        setError(err?.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
-  const handleChangeSalary = (evt) => {
-    setSalary(parseFloat(evt.target.value) || 0);
+    if (payMethod !== "") {
+      payrollService
+        .submit(params)
+        .then((t) => {
+          onClose();
+          setTransaction(t);
+          setDeductions([]);
+          onSuccess?.();
+        })
+        .catch((err) => {
+          setError(err?.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      alert("Payment Method not specified");
+    }
   };
 
   const handleChange = (event, newValue) => {
@@ -117,10 +122,14 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
     setDays(dts);
   };
 
-  const handleDeductionChange = (index) => (evt) => {
-    const dds = [...deductions];
-    dds[index].value = parseFloat(evt.target.value) || 0;
-    setDeductions(dds);
+  const handleBenefitsChange = (index) => (evt) => {
+    const bfs = [...benefits];
+    bfs[index].contributionAmount = parseFloat(evt.target.value) || 0;
+    setBenefits(bfs);
+  };
+
+  const handleDeductionsChange = (newDeductions) => {
+    setDeductions(newDeductions);
   };
 
   return (
@@ -129,45 +138,41 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
       onClose={handleClose}
       onSave={handleSave}
       title=""
-      disabled={salary === 0}
+      disabled={false}
       picture={tuxyImg}
       noCancel
       saveText="Save"
     >
-      <SummaryModal open={!!transaction} onClose={handleCloseSummary} pay={transaction} />
       <form autoComplete="off">
+        <Grid container>
+          <Grid item xs={6}>
+            <Typography variant="h3" component="h2" sx={{ fontSize: 18 }}>
+              Payslip ({selected?.id})
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <SelectPayMethod
+              variant="outlined"
+              value={payMethod}
+              onChange={(evt) => setMethod(evt.target.value)}
+              sx={{ fontSize: 18, my: 3 }}
+            />
+          </Grid>
+        </Grid>
         <TabContext value={value}>
           <MDBox sx={{ width: 400 }}>
             {open && (
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 <Tab label="Compute" value="1" />
-                <Tab label="Deductions" value="2" />
-                <Tab label="Benefits" value="3" />
-                <Tab label="Incentives" value="4" />
+                <Tab label="Benefits" value="2" />
+                <Tab label="Deductions" value="3" />
               </TabList>
             )}
           </MDBox>
           <TabPanel value="1" className="tab">
             <Grid container spacing={0}>
               <Grid item xs={12}>
-                <MDBox sx={{ display: "flex", flexDirection: "row", mt: 2 }}>
-                  <Typography variant="h3" component="h2" sx={{ fontSize: 17, m: 1 }}>
-                    Base Pay
-                  </Typography>
-                  <TextField
-                    id="outlined-basic"
-                    name="basepay"
-                    label="Base Pay"
-                    variant="outlined"
-                    value={salary}
-                    onChange={handleChangeSalary}
-                    sx={{ mb: 4, width: "25%" }}
-                    fullWidth
-                  />
-                </MDBox>
-              </Grid>
-              <Grid item xs={12}>
-                <MDBox className="month" sx={{ overflow: "auto", maxHeight: "50vh", pt: 1 }}>
+                <MDBox className="month" sx={{ overflow: "auto", maxHeight: "50vh", pt: 2 }}>
                   {days.map?.((day, index) => (
                     <Payday
                       {...day}
@@ -181,29 +186,29 @@ export default function RemunerationModal({ open, onClose, selected, period }) {
             </Grid>
           </TabPanel>
           <TabPanel value="2">
-            {deductions.map?.((d, index) => (
-              <Deduction
-                key={d.description}
-                label={d.description}
-                value={d.value}
-                onChange={handleDeductionChange(index)}
+            {benefits.map?.((b, index) => (
+              <Benefits
+                key={b.benefitType}
+                label={b.benefitType}
+                value={b.contributionAmount}
+                onChange={handleBenefitsChange(index)}
                 loading={loading}
+                fullWidth
               />
             ))}
           </TabPanel>
           <TabPanel value="3">
-            {deductions.map?.((d, index) => (
-              <Deduction
-                key={d.description}
-                label={d.description}
-                value={d.value}
-                onChange={handleDeductionChange(index)}
-                loading={loading}
-              />
-            ))}
-          </TabPanel>
-          <TabPanel value="4">
-            <Incentive label="Description" />
+            <Grid container spacing={0}>
+              <Grid item xs={12}>
+                <MDBox className="month" sx={{ overflow: "auto", maxHeight: "50vh", pt: 2 }}>
+                  <Deductions
+                    deductions={deductions}
+                    onDeductionsChange={handleDeductionsChange}
+                    loading={loading}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
           </TabPanel>
         </TabContext>
       </form>
@@ -217,6 +222,7 @@ RemunerationModal.defaultProps = {
   onClose: () => {},
   selected: null,
   period: new Date(),
+  onSuccess: () => {},
 };
 
 RemunerationModal.propTypes = {
@@ -225,4 +231,5 @@ RemunerationModal.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   selected: PropTypes.object,
   period: PropTypes.instanceOf(Date),
+  onSuccess: PropTypes.func,
 };

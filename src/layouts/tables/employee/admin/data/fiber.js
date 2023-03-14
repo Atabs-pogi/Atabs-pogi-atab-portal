@@ -1,7 +1,8 @@
 import React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { Grid } from "@mui/material";
+import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
+import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,7 +13,7 @@ import FiberUpdateModal from "../modal/fiber/fiber-update-modal";
 export default function FiberData() {
   const [fibers, setFibers] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  // const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -23,9 +24,9 @@ export default function FiberData() {
   const handleSearch = () => {
     setLoading(true);
     fiberService
-      .getAllFibers()
+      .searchFiber(search)
       .then((e) => {
-        setFibers(e.data);
+        setFibers(e);
       })
       .finally(() => {
         setLoading(false);
@@ -35,8 +36,6 @@ export default function FiberData() {
   const columns = React.useMemo(() => [
     { field: "fiberId", headerName: "ID", width: 200 },
     { field: "name", headerName: "Name", width: 200 },
-    // { field: "grade", headerName: "Grade", width: 200 },
-    // { field: "price", headerName: "Price", width: 200 },
     { field: "status", headerName: "Status", width: 200 },
     {
       field: "actions",
@@ -63,9 +62,11 @@ export default function FiberData() {
     },
   ]);
 
-  // const handleSearchChange = (evt) => {
-  //   setSearch(evt.target.value);
-  // };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   React.useEffect(() => {
     handleSearch();
@@ -88,7 +89,7 @@ export default function FiberData() {
             Add Fiber
           </MDButton>
         </Grid>
-        {/* <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={6} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
@@ -101,10 +102,11 @@ export default function FiberData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
-        </Grid> */}
+        </Grid>
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid

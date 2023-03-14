@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
 import costingBillService from "services/costing-bill-service";
 import { useFormik } from "formik";
+
 import CostingBillSchema, { initialCostingBill } from "../schema/costing-bill-schema";
 import TextFieldDatePicker from "../../textfields/date-picker";
 
@@ -28,6 +29,7 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
       costingBillService
         .addBills(formik.values)
         .then(() => {
+          formik?.resetForm();
           onSuccess?.();
         })
         .catch((err) => {
@@ -83,8 +85,34 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                      <Grid container spacing={0} sx={{ mt: 2 }}>
-                        <Grid item xs={4}>
+                      <Grid container spacing={0} sx={{ mt: 2, width: "70%" }}>
+                        <Grid item xs={6} pr={7} mb={6}>
+                          <TextFieldDatePicker
+                            label="Due Date"
+                            name="dueDate"
+                            disabled={loading}
+                            value={formik.values.dueDate}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("dueDate", evt?.toISOString(), true)
+                            }
+                            error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
+                            helperText={formik.touched.dueDate && formik.errors.dueDate}
+                          />
+                        </Grid>
+                        <Grid item xs={6} pr={7} mb={6}>
+                          <TextFieldDatePicker
+                            label="Payment Date"
+                            name="paymentDate"
+                            disabled={loading}
+                            value={formik.values.paymentDate}
+                            onChange={(evt) =>
+                              formik?.setFieldValue("paymentDate", evt?.toISOString(), true)
+                            }
+                            error={formik.touched.paymentDate && Boolean(formik.errors.paymentDate)}
+                            helperText={formik.touched.paymentDate && formik.errors.paymentDate}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
                             name="name"
@@ -96,11 +124,11 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                             error={formik.touched.name && Boolean(formik.errors.name)}
                             helperText={formik.touched.name && formik.errors.name}
                             variant="outlined"
-                            sx={{ pr: 7, mb: 4 }}
+                            sx={{ pr: 7, mb: 6 }}
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
                             name="type"
@@ -113,20 +141,25 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                             onBlur={formik.handleBLur}
                             error={formik.touched.type && Boolean(formik.errors.type)}
                             helperText={formik.touched.type && formik.errors.type}
-                            sx={{ pr: 7, mb: 4 }}
+                            sx={{ pr: 7, mb: 6 }}
                           />
                         </Grid>
-                        <Grid item xs={4}>
-                          <TextFieldDatePicker
-                            label="Due Date"
-                            name="dueDate"
+
+                        <Grid item xs={6} pr={7} mb={6}>
+                          <TextField
+                            id="outlined-basic"
+                            name="referenceCode"
+                            label="Reference Code"
+                            variant="outlined"
+                            fullWidth
                             disabled={loading}
-                            value={formik.values.dueDate}
-                            onChange={(evt) =>
-                              formik?.setFieldValue("dueDate", evt?.toISOString(), true)
+                            value={formik.values.referenceCode}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.referenceCode && Boolean(formik.errors.referenceCode)
                             }
-                            error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
-                            helperText={formik.touched.dueDate && formik.errors.dueDate}
+                            helperText={formik.touched.referenceCode && formik.errors.referenceCode}
                           />
                         </Grid>
                       </Grid>

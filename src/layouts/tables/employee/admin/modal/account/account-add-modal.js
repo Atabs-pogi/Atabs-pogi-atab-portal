@@ -1,27 +1,31 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import accountImg from "assets/images/small-logos/account.jpg";
 import accountService from "services/account-service";
 import { useFormik } from "formik";
-import AccSchema from "../schema/account-schema";
+import AccSchema, { initialAccount } from "../schema/account-schema";
 import SelectRole from "../../textfields/select-role";
 
 export default function AccountModal({ selected, open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const handleClose = () => {
     onClose?.();
   };
 
-  const { id: empId, ...employee } = selected || {};
+  const { id: empId } = selected || {};
 
   const formik = useFormik({
-    initialValues: employee,
+    initialValues: initialAccount,
 
     validationSchema: AccSchema,
     onSubmit: () => {
@@ -92,7 +96,6 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
                       <Grid container spacing={0}>
                         <Grid item xs={12}>
                           <TextField
-                            id="outlined-basic"
                             name="username"
                             label="Username"
                             disabled={loading}
@@ -108,15 +111,31 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={12}>
                           <TextField
-                            id="outlined-basic"
                             label="Password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             variant="outlined"
                             fullWidth
                             disabled={loading}
                             value={formik.values.password}
                             onChange={formik.handleChange}
+                            InputProps={{
+                              endAdornment: (
+                                <Box
+                                  role="button"
+                                  tabIndex={0}
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  onKeyPress={() => setShowPassword(!showPassword)}
+                                  sx={{ margin: 0, cursor: "pointer" }}
+                                >
+                                  {showPassword ? (
+                                    <VisibilityIcon size={18} />
+                                  ) : (
+                                    <VisibilityOffIcon size={18} />
+                                  )}
+                                </Box>
+                              ),
+                            }}
                             onBlur={formik.handleBLur}
                             error={formik.touched.password && Boolean(formik.errors.password)}
                             helperText={formik.touched.password && formik.errors.password}

@@ -25,7 +25,7 @@ export default function FiberData() {
   const handleSearch = () => {
     setLoading(true);
     costingBillService
-      .getAllBills()
+      .searchBills()
       .then((e) => {
         setCostingBills(e);
       })
@@ -35,27 +35,34 @@ export default function FiberData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 200 },
-    { field: "name", headerName: "Name", width: 250 },
+    { field: "id", headerName: "ID", width: 150 },
+    { field: "name", headerName: "Name", width: 200 },
     {
       field: "importDate",
       headerName: "Time Created",
       renderCell: ({ row }) =>
         row?.importDate && <Moment format="MM/DD/YYYY hh:mm">{row?.importDate}</Moment>,
-      width: 300,
+      width: 200,
     },
     {
       field: "dueDate",
       headerName: "Due Date",
       renderCell: ({ row }) => row?.dueDate && <Moment format="MM/DD/YYYY">{row?.dueDate}</Moment>,
-      width: 270,
+      width: 200,
     },
-    { field: "type", headerName: "Type", width: 350 },
+    {
+      field: "paymentDate",
+      headerName: "Payment Date",
+      renderCell: ({ row }) =>
+        row?.paymentDate && <Moment format="MM/DD/YYYY">{row?.paymentDate}</Moment>,
+      width: 200,
+    },
+    { field: "type", headerName: "Type", width: 200 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 400,
+      width: 100,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
@@ -76,8 +83,10 @@ export default function FiberData() {
     },
   ]);
 
-  const handleSearchChange = (evt) => {
-    setSearch(evt.target.value);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   React.useEffect(() => {
@@ -114,7 +123,8 @@ export default function FiberData() {
               ),
             }}
             sx={{ my: 1, mx: 1 }}
-            onChange={handleSearchChange}
+            onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>
