@@ -31,20 +31,27 @@ export default function AccountData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "accountId", headerName: "ID", width: 230, textAlign: "center" },
-    { field: "username", headerName: "Username", width: 230 },
-    { field: "role", headerName: "Role", width: 230 },
+    { field: "accountId", headerName: "ID", width: 190, textAlign: "center" },
+    {
+      field: "empId",
+      headerName: "Employee ID",
+      width: 190,
+      textAlign: "center",
+      valueGetter: (params) => (params?.row?.empId === 0 ? "" : params?.row?.empId),
+    },
+    { field: "username", headerName: "Username", width: 190 },
+    { field: "role", headerName: "Role", width: 190 },
     {
       field: "status",
       headerName: "Status",
-      width: 230,
+      width: 190,
       valueGetter: (params) => ["Inactive", "Active", "Disabled"][params?.row?.status] || "Unknown",
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 230,
+      width: 190,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem

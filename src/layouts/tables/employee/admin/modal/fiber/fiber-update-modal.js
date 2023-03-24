@@ -1,6 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
@@ -20,8 +29,12 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
     setError("");
     setLoading(true);
     const newFiber = {
-      ...fiber,
+      referenceCode: fiber.referenceCode,
+      excellentFiberAmount: fiber.excellentFiberAmount,
+      goodFiberAmount: fiber.goodFiberAmount,
+      resecoFiberAmount: fiber.resecoFiberAmount,
     };
+
     fiberService
       .updateFiber(newFiber)
       .then(() => {
@@ -79,18 +92,114 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={0}>
-                      <Grid item xs={12}>
+                    <Grid container spacing={0} sx={{ mt: 4, ml: 4, width: "60%" }}>
+                      <Grid item xs={4} mb={4}>
+                        <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                          Excellent Fiber
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
                         <TextField
-                          id="outlined-basic"
-                          label="Name"
-                          name="name"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
+                          sx={{ width: "40%" }}
+                          disabled
+                          value={fiber?.excellentFiberKg}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <Typography component="span" sx={{ fontSize: "15px" }}>
+                                  kg
+                                </Typography>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <TextField
+                          label="Excellent Fiber Amount"
+                          name="excellentFiberAmount"
+                          variant="outlined"
+                          type="number"
+                          fullWidth
                           disabled={loading}
-                          defaultValue={fiber?.name}
-                          onChange={(evt) => setFiber({ ...fiber, name: evt.target.value })}
+                          defaultValue={fiber?.excellentFiberAmount}
+                          onChange={(evt) =>
+                            setFiber({ ...fiber, excellentFiberAmount: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <Typography variant="h3" component="h2" sx={{ mr: 4, fontSize: 17 }}>
+                          Good Fiber
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <TextField
+                          variant="outlined"
+                          fullWidth
+                          sx={{ width: "40%" }}
+                          disabled
+                          value={fiber?.goodFiberKg}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <Typography component="span" sx={{ fontSize: "15px" }}>
+                                  kg
+                                </Typography>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <TextField
+                          label="Good Fiber Amount"
+                          name="goodFiberAmount"
+                          variant="outlined"
+                          fullWidth
+                          disabled={loading}
+                          defaultValue={fiber?.goodFiberAmount}
+                          onChange={(evt) =>
+                            setFiber({ ...fiber, goodFiberAmount: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <Typography variant="h3" component="h2" sx={{ mr: 4, fontSize: 17 }}>
+                          Reseco Fiber
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <TextField
+                          variant="outlined"
+                          fullWidth
+                          sx={{ width: "40%" }}
+                          disabled
+                          value={fiber?.resecoFiberKg}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <Typography component="span" sx={{ fontSize: "15px" }}>
+                                  kg
+                                </Typography>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={4} mb={4}>
+                        <TextField
+                          label="Reseco Fiber Amount"
+                          name="resecoFiberAmount"
+                          variant="outlined"
+                          fullWidth
+                          disabled={loading}
+                          defaultValue={fiber?.resecoFiberAmount}
+                          onChange={(evt) =>
+                            setFiber({ ...fiber, resecoFiberAmount: evt.target.value })
+                          }
                         />
                       </Grid>
                     </Grid>

@@ -15,6 +15,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import StoreIcon from "@mui/icons-material/Store";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import PaidIcon from "@mui/icons-material/Paid";
 import WorkOffIcon from "@mui/icons-material/WorkOff";
 
@@ -22,6 +23,7 @@ import AccountTable from "layouts/tables/employee/admin/account-role";
 import BackupTable from "layouts/tables/employee/admin/backup";
 import CostingBillTable from "layouts/tables/employee/admin/costing-bill";
 import EmployeeTable from "layouts/tables/employee/admin/employee";
+import Empsalary from "layouts/tables/employee/admin/empsalary";
 import FarmerTable from "layouts/tables/employee/admin/farmer";
 import FiberTable from "layouts/tables/employee/admin/fiber";
 import GenerateBillTable from "layouts/generating-bills";
@@ -104,22 +106,6 @@ const registrationRoutes = [
     route: "/generate-bill",
     component: <GenerateBillTable />,
   },
-  {
-    type: "collapse",
-    name: "Backup Data",
-    key: "backup",
-    icon: <BackupIcon fontSize="small">table-view</BackupIcon>,
-    route: "/backup",
-    component: <BackupTable />,
-  },
-  {
-    type: "collapse",
-    name: "Reports",
-    key: "reports",
-    icon: <FileDownloadIcon fontSize="small">table-view</FileDownloadIcon>,
-    route: "/reports",
-    component: <Reports />,
-  },
 ];
 
 const storeRoutes = [
@@ -171,41 +157,6 @@ const dashboardRoutes = [
     route: "/dashboard",
     role: ["*"],
     component: <Dashboard />,
-  },
-];
-
-const userRoutes = [
-  {
-    type: "divider",
-    key: "user-divider",
-    role: ["*"],
-  },
-  {
-    type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    role: ["*"],
-    component: <Notifications />,
-  },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    role: ["*"],
-    component: <Profile />,
-  },
-  {
-    type: "collapse",
-    name: "Sign Out",
-    key: "sign-out",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/sign-out",
-    role: ["*"],
-    component: <SignOut />,
   },
 ];
 
@@ -263,6 +214,14 @@ const payrollRoutes = [
   },
   {
     type: "collapse",
+    name: "Employee Salary",
+    key: "empsalary",
+    icon: <RequestQuoteIcon fontSize="small">table-view</RequestQuoteIcon>,
+    route: "/empsalary",
+    component: <Empsalary />,
+  },
+  {
+    type: "collapse",
     name: "Holiday",
     key: "holiday",
     icon: <WorkOffIcon fontSize="small">table-view</WorkOffIcon>,
@@ -281,12 +240,77 @@ const payrollRoutes = [
   },
 ];
 
+const downloadsRoutes = [
+  {
+    type: "divider",
+    key: "registration-divider",
+  },
+  {
+    type: "title",
+    title: "Downloads",
+    key: "downloads",
+  },
+  {
+    type: "collapse",
+    name: "Backup Data",
+    key: "backup",
+    icon: <BackupIcon fontSize="small">table-view</BackupIcon>,
+    route: "/backup",
+    component: <BackupTable />,
+  },
+  {
+    type: "collapse",
+    name: "Reports",
+    key: "reports",
+    icon: <FileDownloadIcon fontSize="small">table-view</FileDownloadIcon>,
+    route: "/reports",
+    component: <Reports />,
+  },
+];
+
+const userRoutes = [
+  {
+    type: "divider",
+    key: "user-divider",
+    role: ["*"],
+  },
+
+  {
+    type: "collapse",
+    name: "Notifications",
+    key: "notifications",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/notifications",
+    role: ["*"],
+    component: <Notifications />,
+  },
+  {
+    type: "collapse",
+    name: "Profile",
+    key: "profile",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/profile",
+    role: ["*"],
+    component: <Profile />,
+  },
+  {
+    type: "collapse",
+    name: "Sign Out",
+    key: "sign-out",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/sign-out",
+    role: ["*"],
+    component: <SignOut />,
+  },
+];
+
 const routes = [
   ...dashboardRoutes,
   ...registrationRoutes,
   ...storeRoutes,
   ...posRoutes,
   ...payrollRoutes,
+  ...downloadsRoutes,
   ...userRoutes,
 ];
 

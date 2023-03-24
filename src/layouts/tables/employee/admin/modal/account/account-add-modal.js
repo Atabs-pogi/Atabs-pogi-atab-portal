@@ -45,6 +45,8 @@ export default function AccountModal({ selected, open, onClose, onSuccess }) {
     },
   });
 
+  console.log(formik.values);
+
   React.useEffect(() => {
     formik.values.empId = empId;
   }, []);

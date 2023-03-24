@@ -7,14 +7,14 @@ import Select from "@mui/material/Select";
 import employeeService from "../../../../../services/employee-service";
 
 export default function SelectEmpID(props) {
-  const [empID, setEmpID] = React.useState([]);
+  const [employees, setEmployees] = React.useState([]);
 
   const handleEmployee = () => {
     employeeService
       .searchEmployee()
-      .then((employees) => {
-        const employeeIds = employees.map((employee) => employee.id);
-        setEmpID(employeeIds);
+      .then((emps) => {
+        const empDetails = emps.map((employee) => employee);
+        setEmployees(empDetails);
       })
       .catch((error) => {
         console.error(error);
@@ -28,17 +28,17 @@ export default function SelectEmpID(props) {
   return (
     <Box>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Emp ID</InputLabel>
+        <InputLabel id="demo-simple-select-label">Employee ID</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          label="Emp ID"
+          label="Employee ID"
           {...props}
           sx={{ pt: 1, pb: 2 }}
         >
-          {empID.map((id) => (
-            <MenuItem key={id} value={id}>
-              {id}
+          {employees.map((emp) => (
+            <MenuItem key={emp.id} value={emp.id}>
+              ({emp.id}) - {emp.lastName}
             </MenuItem>
           ))}
         </Select>

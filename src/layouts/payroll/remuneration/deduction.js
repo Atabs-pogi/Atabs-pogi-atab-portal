@@ -13,7 +13,7 @@ function DeductionModule({ deductions, onDeductionsChange }) {
   }, [deductions]);
 
   const handleAddDeduction = () => {
-    const newDeductions = [...localDeductions, { description: "", value: "" }];
+    const newDeductions = [...localDeductions, { payrollId: 0, description: "", value: "" }];
     setLocalDeductions(newDeductions);
     onDeductionsChange(newDeductions);
   };

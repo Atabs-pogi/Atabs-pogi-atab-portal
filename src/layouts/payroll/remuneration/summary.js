@@ -39,7 +39,7 @@ export default function SummaryModal({ open, onClose, pay }) {
                 <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Hours :
+                      Total Work Hours :
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -51,12 +51,96 @@ export default function SummaryModal({ open, onClose, pay }) {
                 <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Overtime :
+                      Total OT Hours :
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalOTHours}
+                      {pay.totalOtHours}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Total Tardiness Hours :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.totalTardinessHours}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Total Vacation Days :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.totalVacationDays}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Total Sick Days :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.totalSickDays}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Regular Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.regularPay}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Overtime Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.overTimePay}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Vacation Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.vacationPay}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell>
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      Sick Pay :
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                      {pay.sickPay}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -75,19 +159,19 @@ export default function SummaryModal({ open, onClose, pay }) {
                 <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Withholding Tax :
+                      Total Benefit Contributions:
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.withholdingTax}
+                      {pay.totalBenefitContributions}
                     </Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Deduction :
+                      Total Deductions :
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -112,13 +196,7 @@ export default function SummaryModal({ open, onClose, pay }) {
             </Table>
           )}
           <MDBox m={3} align="center">
-            <MDButton
-              variant="contained"
-              color="success"
-              size="sm"
-              onClick={handleClose}
-              sx={{ mr: 2 }}
-            >
+            <MDButton variant="contained" color="success" size="sm" onClick={handleClose}>
               Exit
             </MDButton>
           </MDBox>

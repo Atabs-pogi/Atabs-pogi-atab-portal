@@ -56,11 +56,10 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
 
   function handleImage(e) {
     employeeService
-      .createImgPath("3", "Employee", e.target.files[0])
+      .createImgPath(empId, "Employee", e.target.files[0])
       .then((res) => {
-        formik.values.imageLocation = `http://localhost:8080/upload/${res}`;
+        formik.values.imageLocation = res;
         setImg(res);
-        // onSuccess?.();
       })
       .catch((err) => {
         setError(err?.message);

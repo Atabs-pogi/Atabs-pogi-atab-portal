@@ -4,7 +4,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 
 // @mui material components
-import { Card, Divider } from "@mui/material";
+import { Card, Divider, Grid } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Icon from "@mui/material/Icon";
 
@@ -15,20 +15,35 @@ import MDTypography from "components/MDTypography";
 
 import reportService from "services/generate-report-service";
 
+import StartDatePicker from "layouts/tables/employee/admin/textfields/start-date-picker";
+import EndDatePicker from "layouts/tables/employee/admin/textfields/end-date-picker";
 import SelectEmpID from "../../../../layouts/tables/employee/admin/textfields/select-empid";
 
 function PayslipCard({ color, title, apiFields, reportname, percentage, icon, FileType }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [empID, setEmpID] = React.useState("");
+  const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
 
   // eslint-disable-next-line no-param-reassign
   apiFields.format = FileType;
   // eslint-disable-next-line no-param-reassign
   apiFields.params.id = empID;
+  // eslint-disable-next-line no-param-reassign
+  apiFields.params.Date_From = startDate;
+  // eslint-disable-next-line no-param-reassign
+  apiFields.params.Date_End = endDate;
 
   const handleGenerateReport = () => {
-    if (FileType !== "") {
+    if (
+      FileType !== "" &&
+      empID !== "" &&
+      startDate !== "" &&
+      startDate !== null &&
+      endDate !== "" &&
+      endDate !== null
+    ) {
       setError("");
       setLoading(true);
       reportService
@@ -45,6 +60,32 @@ function PayslipCard({ color, title, apiFields, reportname, percentage, icon, Fi
     } else {
       alert("Please specify all fields.");
     }
+  };
+
+  const validateDateRange = (start, end) => {
+    if (start && end) {
+      if (new Date(start) >= new Date(end)) {
+        alert("Start date can't be equal or later than the End date.");
+        setStartDate(null);
+        setEndDate(null);
+      }
+    }
+  };
+
+  const handleStartDate = (evt) => {
+    const month = String(evt.$M + 1).padStart(2, "0");
+    const day = String(evt.$D).padStart(2, "0");
+    const date = `${evt.$y}/${month}/${day}`;
+    setStartDate(date);
+    validateDateRange(date, endDate);
+  };
+
+  const handleEndDate = (evt) => {
+    const month = String(evt.$M + 1).padStart(2, "0");
+    const day = String(evt.$D).padStart(2, "0");
+    const date = `${evt.$y}/${month}/${day}`;
+    setEndDate(date);
+    validateDateRange(startDate, date);
   };
 
   return (
@@ -100,18 +141,39 @@ function PayslipCard({ color, title, apiFields, reportname, percentage, icon, Fi
         </MDBox>
         <MDBox
           sx={{
-            pt: 8,
-            pb: 6,
-            px: 10,
+            pt: 2,
+            pb: 2,
+            px: 4,
           }}
         >
-          <SelectEmpID
-            id="outlined-basic"
-            name="empID"
-            value={empID}
-            onChange={(evt) => setEmpID(evt.target.value)}
-            fullWidth
-          />
+          <MDTypography sx={{ pl: 1.5, my: 1, fontSize: "13px", color: "black" }}>
+            Date Duration
+          </MDTypography>
+          <MDBox sx={{ mb: 4 }}>
+            <StartDatePicker
+              label="Start Date"
+              value={startDate}
+              onChange={handleStartDate}
+              format="MM/DD/YYYY"
+            />
+          </MDBox>
+          <MDBox>
+            <EndDatePicker
+              label="End Date"
+              value={endDate}
+              onChange={handleEndDate}
+              format="MM/DD/YYYY"
+            />
+          </MDBox>
+          <Grid sx={{ mt: 4, px: 8 }}>
+            <SelectEmpID
+              id="outlined-basic"
+              name="empID"
+              value={empID}
+              onChange={(evt) => setEmpID(evt.target.value)}
+              fullWidth
+            />
+          </Grid>
         </MDBox>
       </MDBox>
       <Divider sx={{ height: "2px" }} mb={-2} />
@@ -169,6 +231,8 @@ PayslipCard.propTypes = {
     filename: PropTypes.string.isRequired,
     params: PropTypes.shape({
       id: PropTypes.number.isRequired,
+      Date_From: PropTypes.string.isRequired,
+      Date_End: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 

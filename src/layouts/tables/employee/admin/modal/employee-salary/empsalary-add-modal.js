@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React from "react";
 import Modal from "@mui/material/Modal";
 import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
@@ -6,16 +7,12 @@ import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
 import CloseIcon from "@mui/icons-material/Close";
 import accountImg from "assets/images/small-logos/account.jpg";
-import employeeService from "services/employee-service";
+import empsalaryService from "services/empsalary-service";
+import { useFormik } from "formik";
 import TextFieldDatePicker from "../../textfields/date-picker";
+import EmpSalarySchema, { initialSalary } from "../schema/employee-salary-schema";
 
 export default function SalaryModal({ selected, open, onClose, onSuccess }) {
-  const [effectDate, setEffectDate] = React.useState({});
-  const [expireDate, setExpireDate] = React.useState({});
-  const [daily, setDailyBasic] = React.useState("");
-  const [monthly, setMonthlyBasic] = React.useState("");
-  const [bankAcctInfo, setBankAcctInfo] = React.useState("");
-  const [taxInformation, seTaxInfo] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
@@ -25,44 +22,52 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
 
   const { id: empId } = selected || {};
 
-  const handleSave = () => {
-    setError("");
-    setLoading(false);
-    const params = {
-      effDate: effectDate,
-      expDate: expireDate,
-      dailyBasic: daily,
-      monthlyBasic: monthly,
-      bankAccountInfo: bankAcctInfo,
-      taxInfo: taxInformation,
-      employeeId: empId,
-    };
+  const formik = useFormik({
+    initialValues: initialSalary,
 
-    employeeService
-      .addSalary(params)
-      .then(() => {
-        onSuccess?.();
-      })
-      .catch((err) => {
-        setError(err?.message);
-        alert("Salary for employee not configured successfully");
-      })
-      .finally(() => {
-        setLoading(false);
-        alert("Salary for employee configured successfully");
-      });
+    validationSchema: EmpSalarySchema,
+    onSubmit: () => {
+      if (
+        formik.values.effDate !== "" &&
+        formik.values.effDate !== null &&
+        formik.values.expDate !== "" &&
+        formik.values.expDate !== null
+      ) {
+        setError("");
+        setLoading(true);
+        empsalaryService
+          .addSalary(formik.values)
+          .then(() => {
+            formik?.resetForm();
+            onSuccess?.();
+          })
+          .catch((err) => {
+            setError(err?.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        alert("Some fields may not be specified yet");
+      }
+    },
+  });
+
+  const validateDateRange = (start, end) => {
+    if (start && end) {
+      if (new Date(start) >= new Date(end)) {
+        alert("Effective date cannot be equal or later than the Expiry date.");
+        formik.values.effDate = null;
+        formik.values.expDate = null;
+      }
+    }
   };
 
-  const handleEffDate = (evt) => {
-    setEffectDate(evt.toJSON());
-  };
+  formik.values.employeeId = empId;
 
-  const handleExpDate = (evt) => {
-    setExpireDate(evt.toJSON());
-  };
-
-  console.log(effectDate);
-  console.log(expireDate);
+  React.useEffect(() => {
+    validateDateRange(formik.values.effDate, formik.values.expDate);
+  }, [formik.values.effDate, formik.values.expDate]);
 
   return (
     <Modal
@@ -72,7 +77,7 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
       sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <MDBox>
-        <form autoComplete="off">
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
           <Grid
             container
             spacing={0}
@@ -104,7 +109,7 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                        Salary Information ({empId})
+                        Employee Salary Configuration ({empId})
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -114,9 +119,12 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
                             <TextFieldDatePicker
                               label="Effective Date"
                               disabled={loading}
-                              value={effectDate}
-                              onChange={handleEffDate}
-                              fullWidth
+                              value={formik.values.effDate}
+                              onChange={(evt) =>
+                                formik?.setFieldValue("effDate", evt?.toISOString(), true)
+                              }
+                              error={formik.touched.effDate && Boolean(formik.errors.effDate)}
+                              helperText={formik.touched.effDate && formik.errors.effDate}
                             />
                           </Grid>
                         </Grid>
@@ -125,58 +133,80 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
                             <TextFieldDatePicker
                               label="Expiry Date"
                               disabled={loading}
-                              value={expireDate}
-                              onChange={handleExpDate}
-                              fullWidth
+                              value={formik.values.expDate}
+                              onChange={(evt) =>
+                                formik?.setFieldValue("expDate", evt?.toISOString(), true)
+                              }
+                              error={formik.touched.expDate && Boolean(formik.errors.expDate)}
+                              helperText={formik.touched.expDate && formik.errors.expDate}
                             />
                           </Grid>
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
-                            name="daily"
+                            type="number"
                             label="Daily Basic"
-                            type="number"
+                            name="dailyBasic"
                             disabled={loading}
-                            value={daily}
-                            onChange={(evt) => setDailyBasic(evt.target.value)}
                             variant="outlined"
                             sx={{ mb: 4, width: "60%" }}
+                            value={formik.values?.dailyBasic}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched?.dailyBasic && Boolean(formik.errors?.dailyBasic)}
+                            helperText={formik.touched?.dailyBasic && formik.errors?.dailyBasic}
                           />
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
-                            name="monthly"
+                            type="number"
                             label="Monthly Basic"
-                            type="number"
+                            name="monthlyBasic"
                             disabled={loading}
-                            value={monthly}
-                            onChange={(evt) => setMonthlyBasic(evt.target.value)}
                             variant="outlined"
                             sx={{ mb: 4, width: "60%" }}
+                            value={formik.values?.monthlyBasic}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched?.monthlyBasic && Boolean(formik.errors?.monthlyBasic)
+                            }
+                            helperText={formik.touched?.monthlyBasic && formik.errors?.monthlyBasic}
                           />
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
-                            name="bankAcctInfo"
+                            type="number"
+                            name="bankAccountInfo"
                             label="Bank Account Information"
-                            type="number"
                             disabled={loading}
-                            value={bankAcctInfo}
-                            onChange={(evt) => setBankAcctInfo(evt.target.value)}
                             variant="outlined"
                             sx={{ mb: 4, width: "60%" }}
+                            value={formik.values?.bankAccountInfo}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched?.bankAccountInfo &&
+                              Boolean(formik.errors?.bankAccountInfo)
+                            }
+                            helperText={
+                              formik.touched?.bankAccountInfo && formik.errors?.bankAccountInfo
+                            }
                           />
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
-                            name="taxInformation"
-                            label="Tax Information"
                             type="number"
+                            name="taxInfo"
+                            label="Tax Information"
                             disabled={loading}
-                            value={taxInformation}
-                            onChange={(evt) => seTaxInfo(evt.target.value)}
                             variant="outlined"
                             sx={{ mb: 4, width: "60%" }}
+                            value={formik.values?.taxInfo}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched?.taxInfo && Boolean(formik.errors?.taxInfo)}
+                            helperText={formik.touched?.taxInfo && formik.errors?.taxInfo}
                           />
                         </Grid>
                       </Grid>
@@ -186,7 +216,7 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
                     {open && (
                       <MDBox className="modal-action" sx={{ textAlign: "right", height: 100 }}>
                         <MDButton
-                          onClick={handleSave}
+                          type="submit"
                           variant="contained"
                           color="success"
                           sx={{ mr: 2, mt: 5, width: 80 }}

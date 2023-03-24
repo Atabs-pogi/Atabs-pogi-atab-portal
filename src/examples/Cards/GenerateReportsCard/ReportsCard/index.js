@@ -155,7 +155,6 @@ function GenerateReportsCard({ color, title, apiFields, reportname, percentage, 
               label="Start Date"
               value={startDate}
               onChange={handleStartDate}
-              maxDate={new Date()}
               format="MM/DD/YYYY"
             />
           </MDBox>
@@ -164,7 +163,6 @@ function GenerateReportsCard({ color, title, apiFields, reportname, percentage, 
               label="End Date"
               value={endDate}
               onChange={handleEndDate}
-              maxDate={new Date()}
               format="MM/DD/YYYY"
             />
           </MDBox>

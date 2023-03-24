@@ -5,14 +5,15 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import AccountModal from "../modal/account/account-add-modal";
-import SalaryModal from "../modal/employee/employee-salary";
-import EmployeeUpdateModal from "../modal/employee/employee-update-modal";
+import empsalaryService from "services/empsalary-service";
 import employeeService from "../../../../../services/employee-service";
+import AccountModal from "../modal/account/account-add-modal";
+import EmployeeUpdateModal from "../modal/employee/employee-update-modal";
 import EmployeeModal from "../modal/employee/employee-add-modal";
+import SalaryModal from "../modal/employee-salary/empsalary-add-modal";
 
 export default function EmployeeData() {
   const [employees, setEmployees] = React.useState([]);
@@ -23,9 +24,9 @@ export default function EmployeeData() {
   const handleClose = () => setOpen(false);
 
   const [selected, setSelected] = React.useState(null);
+  const [SalaryModalOpen, setSalaryModalOpen] = React.useState(false);
   const [updateModalOpen, setUpdateModalOpen] = React.useState(false);
   const [accountModalOpen, setAccountModalOpen] = React.useState(false);
-  const [SalaryModalOpen, setSalaryModalOpen] = React.useState(false);
 
   const handleSearch = () => {
     setLoading(true);
@@ -44,24 +45,35 @@ export default function EmployeeData() {
     setUpdateModalOpen(true);
   };
 
-  const handleAccountClick = (params) => {
-    setSelected(params.row);
-    setAccountModalOpen(true);
-  };
-
-  const handleSalaryClick = (params) => {
-    setSelected(params.row);
-    setSalaryModalOpen(true);
-  };
-
   const handleUpdateClose = () => {
     setUpdateModalOpen(false);
     setSelected(null);
   };
 
+  const handleAccountClick = (params) => {
+    setSelected(params.row);
+    setAccountModalOpen(true);
+  };
+
   const handleAccountClose = () => {
     setAccountModalOpen(false);
     setSelected(null);
+  };
+
+  const handleSalaryClick = (params) => {
+    empsalaryService.getSalary().then((res) => {
+      const ids = res.map((salary) => salary.employee.id);
+      const exists = ids.some((id) => id === params.row.id);
+      if (exists) {
+        // eslint-disable-next-line no-alert
+        alert("Note: This employee already has previous salary records.");
+        setSelected(params.row);
+        setSalaryModalOpen(true);
+      } else {
+        setSelected(params.row);
+        setSalaryModalOpen(true);
+      }
+    });
   };
 
   const handleSalaryClose = () => {
@@ -117,9 +129,9 @@ export default function EmployeeData() {
           }}
         />,
         <GridActionsCellItem
-          icon={<MonetizationOnIcon />}
+          icon={<RequestQuoteIcon />}
           onClick={() => handleSalaryClick(params)}
-          label="Add Salary"
+          label="Configure Salary"
         />,
         <SalaryModal
           open={params.id === selected?.id && SalaryModalOpen}
@@ -133,6 +145,12 @@ export default function EmployeeData() {
       ],
     },
   ]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   React.useEffect(() => {
     handleSearch();
@@ -169,6 +187,7 @@ export default function EmployeeData() {
             }}
             sx={{ my: 1, mx: 1 }}
             onChange={(evt) => setSearch(evt.target.value)}
+            onKeyDown={handleKeyDown}
             value={search}
           />
         </Grid>

@@ -27,11 +27,11 @@ function searchFiber(search = "") {
 }
 
 function addFiber(fiber) {
-  return axios.post(`${BASE_URL}/fiber/addFiber`, fiber);
+  return axios.post(`${BASE_URL}/fiber/generateFiber`, fiber);
 }
 
 function updateFiber(fiber) {
-  return axios.put(`${BASE_URL}/fiber/updateFiber`, fiber);
+  return axios.post(`${BASE_URL}/fiber/UpdateFiber`, fiber);
 }
 
 export default { getFiber, getAllFibers, searchFiber, addFiber, updateFiber };

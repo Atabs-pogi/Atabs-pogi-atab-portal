@@ -1,6 +1,14 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Card, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import MDButton from "components/MDButton";
 import MDBox from "components/MDBox";
@@ -10,8 +18,6 @@ import fiberImg from "assets/images/small-logos/fiber.jpg";
 import fiberService from "services/fiber-service";
 import { useFormik } from "formik";
 import FibSchema, { initialFiber } from "../schema/fiber-schema";
-import SelectGrade from "../../textfields/select-grade";
-import SelectStrip from "../../textfields/select-strip";
 
 export default function FiberModal({ open, onClose, onSuccess }) {
   const [fiber, setFiber] = React.useState({});
@@ -83,7 +89,7 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                     </MDBox>
                     <MDBox>
                       <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3, mb: 5 }}>
-                        Fiber Name
+                        Fiber Information
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
@@ -91,100 +97,91 @@ export default function FiberModal({ open, onClose, onSuccess }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            label="Name"
+                            label="Excellent Fiber"
                             variant="outlined"
-                            name="name"
+                            name="excellentFiberKg"
+                            type="number"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.name}
-                            defaultValue={fiber?.name}
+                            value={formik.values.excellentFiberKg}
+                            defaultValue={fiber?.excellentFiberKg}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
-                            sx={{ mb: 4, width: "27.8%" }}
+                            error={
+                              formik.touched.excellentFiberKg &&
+                              Boolean(formik.errors.excellentFiberKg)
+                            }
+                            helperText={
+                              formik.touched.excellentFiberKg && formik.errors.excellentFiberKg
+                            }
+                            sx={{ mb: 4, width: "25%" }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <Typography component="span" sx={{ fontSize: "15px" }}>
+                                    kg
+                                  </Typography>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
                         <Grid item xs={12}>
-                          <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                            Fiber Information
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <SelectGrade
-                            id="outlined-basic"
-                            label="Grade"
-                            name="grade"
-                            variant="outlined"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.grade}
-                            defaultValue={fiber?.grade}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.grade && Boolean(formik.errors.grade)}
-                            helperText={formik.touched.grade && formik.errors.grade}
-                            sx={{ pr: 7, py: 1.5 }}
-                          />
-                        </Grid>
-                        <Grid item xs={3}>
-                          <SelectStrip
-                            id="outlined-basic"
-                            label="Stripping Cleaning"
-                            variant="outlined"
-                            name="stripping"
-                            fullWidth
-                            disabled={loading}
-                            value={formik.values.stripping}
-                            defaultValue={fiber?.stripping}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={formik.touched.stripping && Boolean(formik.errors.stripping)}
-                            helperText={formik.touched.stripping && formik.errors.stripping}
-                            sx={{ pr: 7, py: 1.5 }}
-                          />
-                        </Grid>
-                        <Grid item xs={3}>
                           <TextField
                             id="outlined-basic"
-                            label="Knife Used"
-                            name="knifeUsed"
+                            label="Good Fiber"
                             variant="outlined"
+                            name="goodFiberKg"
+                            type="number"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.knifeUsed}
-                            defaultValue={fiber?.knifeUsed}
+                            value={formik.values.goodFiberKg}
+                            defaultValue={fiber?.goodFiberKg}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.knifeUsed && Boolean(formik.errors.knifeUsed)}
-                            helperText={formik.touched.knifeUsed && formik.errors.knifeUsed}
-                            type="number"
-                            sx={{ pr: 2 }}
+                            error={formik.touched.goodFiberKg && Boolean(formik.errors.goodFiberKg)}
+                            helperText={formik.touched.goodFiberKg && formik.errors.goodFiberKg}
+                            sx={{ mb: 4, width: "25%" }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <Typography component="span" sx={{ fontSize: "15px" }}>
+                                    kg
+                                  </Typography>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            label="Price"
-                            name="price"
+                            label="Reseco Fiber"
                             variant="outlined"
+                            name="resecoFiberKg"
+                            type="number"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.price}
-                            defaultValue={fiber?.price}
+                            value={formik.values.resecoFiberKg}
+                            defaultValue={fiber?.resecoFiberKg}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.price && Boolean(formik.errors.price)}
-                            helperText={formik.touched.price && formik.errors.price}
-                            type="number"
-                            sx={{ pr: 3 }}
+                            error={
+                              formik.touched.resecoFiberKg && Boolean(formik.errors.resecoFiberKg)
+                            }
+                            helperText={formik.touched.resecoFiberKg && formik.errors.resecoFiberKg}
+                            sx={{ mb: 4, width: "25%" }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <Typography component="span" sx={{ fontSize: "15px" }}>
+                                    kg
+                                  </Typography>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
-                        {/* <Grid item xs={1}>
-                          <IconButton>
-                            <DeleteIcon color="error" sx={{ cursor: "pointer" }} />
-                          </IconButton>
-                        </Grid> */}
                       </Grid>
                     </MDBox>
                   </MDBox>

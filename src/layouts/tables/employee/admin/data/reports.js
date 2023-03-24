@@ -116,13 +116,25 @@ export default function GenerateReports() {
     filename: "Payslip_Info",
     params: {
       id: "0",
+      Date_From: "",
+      Date_End: "",
     },
   };
+
+  // const PayrollsFields = {
+  //   format: "",
+  //   module: "Payslip",
+  //   filename: "Payslip",
+  //   params: {
+  //     Date_From: "",
+  //     Date_End: "",
+  //   },
+  // };
 
   const PayrollsFields = {
     format: "",
     module: "Payslip",
-    filename: "Payslip",
+    filename: "PayslipForReports",
     params: {
       Date_From: "",
       Date_End: "",

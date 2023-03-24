@@ -19,12 +19,16 @@ function addHoliday(info) {
     });
 }
 
+function getHoliday(id) {
+  return axios.get(`${BASE_URL}/holiday/${id}`).then((res) => res.data);
+}
+
 function getHolidays() {
   return axios.get(`${BASE_URL}/holiday/`).then((res) => res.data);
 }
 
-function updateHoliday(id) {
-  return axios.put(`${BASE_URL}/holiday/${id}`).then((res) => res.data);
+function updateHoliday(holiday) {
+  return axios.put(`${BASE_URL}/holiday/`, holiday).then((res) => res.data);
 }
 
 function deleteHoliday(id) {
@@ -35,4 +39,4 @@ function clear() {
   return axios.delete(`${BASE_URL}/holiday/clear`).then((res) => res.data);
 }
 
-export default { addHoliday, getHolidays, updateHoliday, deleteHoliday, clear };
+export default { addHoliday, getHoliday, getHolidays, updateHoliday, deleteHoliday, clear };

@@ -1,47 +1,67 @@
-import React from "react";
+import * as React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import MDButton from "components/MDButton";
 import EditIcon from "@mui/icons-material/Edit";
-import fiberService from "services/fiber-service";
-import FiberModal from "../modal/fiber/fiber-add-modal";
-import FiberUpdateModal from "../modal/fiber/fiber-update-modal";
+import empsalaryService from "services/empsalary-service";
+import EmployeeModal from "../modal/employee/employee-add-modal";
+import SalaryUpdateModal from "../modal/employee-salary/empsalary-update-modal";
 
-export default function FiberData() {
-  const [fibers, setFibers] = React.useState([]);
+export default function EmployeeSalary() {
+  const [empSalary, setSalary] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [selected, setSelected] = React.useState(null);
+  const [SalaryUpdateOpen, setSalaryUpdateOpen] = React.useState(false);
 
-  const UpdateHandleClose = () => setSelected(null);
-  const handleSearch = () => {
+  const handleSalary = () => {
     setLoading(true);
-    fiberService
-      .searchFiber(search)
-      .then((e) => {
-        setFibers(e);
+    empsalaryService
+      .getSalary()
+      .then((res) => {
+        setSalary(res);
       })
       .finally(() => {
         setLoading(false);
       });
   };
 
+  const handleSalaryUpdateClick = (params) => {
+    setSalaryUpdateOpen(true);
+    setSelected(params.row);
+  };
+
+  const handleSalaryUpdateClose = () => {
+    setSalaryUpdateOpen(false);
+    setSelected(null);
+  };
+
   const columns = React.useMemo(() => [
-    { field: "referenceCode", headerName: "Reference Code", width: 200 },
-    { field: "dateTime", headerName: "Date & Time", width: 200 },
+    { field: "id", headerName: "ID", width: 100 },
     {
-      field: "status",
-      headerName: "Status",
-      width: 200,
-      valueGetter: (params) => ["Created", "Updated"][params?.row?.status] || "Unknown",
+      field: "employeeId",
+      headerName: "Employee ID",
+      type: "string",
+      width: 150,
+      valueGetter: (params) => params.row.employee?.id || "N/A",
     },
+    { field: "effDate", headerName: "Effective Date", width: 150 },
+    { field: "expDate", headerName: "Expiry Date", width: 150 },
+    { field: "dailyBasic", headerName: "Daily Basic", width: 150 },
+    { field: "monthlyBasic", headerName: "Monthly Basic", type: "string", width: 150 },
+    { field: "bankAccountInfo", headerName: "Bank Account Info", type: "string", width: 150 },
+    { field: "taxInfo", headerName: "Tax Info", type: "string", width: 150 },
+
+    // {
+    //   field: "status",
+    //   headerName: "Status",
+    //   width: 100,
+    //   valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
+    // },
     {
       field: "actions",
       type: "actions",
@@ -51,16 +71,16 @@ export default function FiberData() {
       getActions: (params) => [
         <GridActionsCellItem
           icon={<EditIcon />}
-          onClick={() => setSelected(params.row)}
-          label="Update"
+          onClick={() => handleSalaryUpdateClick(params)}
+          label="Update Salary"
         />,
-        <FiberUpdateModal
-          open={params.id === selected?.fiberId}
-          onClose={UpdateHandleClose}
+        <SalaryUpdateModal
+          open={params.id === selected?.id && SalaryUpdateOpen}
+          onClose={handleSalaryUpdateClose}
           selected={params.row}
           onSuccess={() => {
             setSelected(null);
-            handleSearch();
+            handleSalary();
           }}
         />,
       ],
@@ -69,38 +89,32 @@ export default function FiberData() {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      handleSearch();
+      handleSalary();
     }
   };
 
   React.useEffect(() => {
-    handleSearch();
+    handleSalary();
   }, []);
 
   return (
     <MDBox>
-      <FiberModal
+      <EmployeeModal
         open={open}
         onClose={handleClose}
         onSuccess={() => {
           setOpen(false);
-          handleSearch();
+          handleSalary();
         }}
       />
       <Grid container>
-        <Grid item xs={6} sx={{ p: 1 }}>
-          <MDButton variant="contained" onClick={handleOpen} color="success" sx={{ ml: 2 }}>
-            <AddIcon sx={{ mr: 1 }} />
-            Add Fiber
-          </MDButton>
-        </Grid>
-        <Grid item xs={6} sx={{ textAlign: "right" }}>
+        <Grid item xs={12} sx={{ textAlign: "right" }}>
           <TextField
             label="Search"
             InputProps={{
               endAdornment: (
                 <InputAdornment>
-                  <IconButton onClick={handleSearch}>
+                  <IconButton onClick={handleSalary}>
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>
@@ -115,8 +129,7 @@ export default function FiberData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          getRowId={(row) => row?.fiberId}
-          rows={fibers}
+          rows={empSalary}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[1]}
