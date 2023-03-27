@@ -140,7 +140,7 @@ export default function Payroll() {
   const handleSearch = () => {
     setLoading(true);
     payrollService
-      .getEmployeesByPeriod(start, end)
+      .getEmployeesByPeriod(start, end, search)
       .then((e) => {
         setEmployees(e);
       })

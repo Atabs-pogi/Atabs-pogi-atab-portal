@@ -52,7 +52,7 @@ export default function EmployeeSalary() {
     { field: "effDate", headerName: "Effective Date", width: 150 },
     { field: "expDate", headerName: "Expiry Date", width: 150 },
     { field: "dailyBasic", headerName: "Daily Basic", width: 150 },
-    { field: "monthlyBasic", headerName: "Monthly Basic", type: "string", width: 150 },
+    { field: "position", headerName: "Position", type: "string", width: 150 },
     { field: "bankAccountInfo", headerName: "Bank Account Info", type: "string", width: 150 },
     { field: "taxInfo", headerName: "Tax Info", type: "string", width: 150 },
 

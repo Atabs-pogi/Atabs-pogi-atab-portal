@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import accountImg from "assets/images/small-logos/account.jpg";
 import empsalaryService from "services/empsalary-service";
 import { useFormik } from "formik";
+import dayjs from "dayjs";
 import TextFieldDatePicker from "../../textfields/date-picker";
 import EmpSalarySchema from "../schema/employee-salary-schema";
 
@@ -120,7 +121,11 @@ export default function SalaryUpdateModal({ selected, open, onClose, onSuccess }
                               disabled={loading}
                               value={formik.values.effDate}
                               onChange={(evt) =>
-                                formik?.setFieldValue("effDate", evt?.toISOString(), true)
+                                formik?.setFieldValue(
+                                  "effDate",
+                                  dayjs(evt).format("YYYY-MM-DD"),
+                                  true
+                                )
                               }
                               error={formik.touched.effDate && Boolean(formik.errors.effDate)}
                               helperText={formik.touched.effDate && formik.errors.effDate}
@@ -134,12 +139,31 @@ export default function SalaryUpdateModal({ selected, open, onClose, onSuccess }
                               disabled={loading}
                               value={formik.values.expDate}
                               onChange={(evt) =>
-                                formik?.setFieldValue("expDate", evt?.toISOString(), true)
+                                formik?.setFieldValue(
+                                  "expDate",
+                                  dayjs(evt).format("YYYY-MM-DD"),
+                                  true
+                                )
                               }
                               error={formik.touched.expDate && Boolean(formik.errors.expDate)}
                               helperText={formik.touched.expDate && formik.errors.expDate}
                             />
                           </Grid>
+                        </Grid>
+                        <Grid item xs={6} mt={2}>
+                          <TextField
+                            type="text"
+                            label="Position"
+                            name="position"
+                            disabled={loading}
+                            variant="outlined"
+                            sx={{ mb: 4, width: "60%" }}
+                            value={formik.values?.position}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched?.position && Boolean(formik.errors?.position)}
+                            helperText={formik.touched?.position && formik.errors?.position}
+                          />
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
@@ -154,23 +178,6 @@ export default function SalaryUpdateModal({ selected, open, onClose, onSuccess }
                             onBlur={formik.handleBLur}
                             error={formik.touched?.dailyBasic && Boolean(formik.errors?.dailyBasic)}
                             helperText={formik.touched?.dailyBasic && formik.errors?.dailyBasic}
-                          />
-                        </Grid>
-                        <Grid item xs={6} mt={2}>
-                          <TextField
-                            type="number"
-                            label="Monthly Basic"
-                            name="monthlyBasic"
-                            disabled={loading}
-                            variant="outlined"
-                            sx={{ mb: 4, width: "60%" }}
-                            value={formik.values?.monthlyBasic}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBLur}
-                            error={
-                              formik.touched?.monthlyBasic && Boolean(formik.errors?.monthlyBasic)
-                            }
-                            helperText={formik.touched?.monthlyBasic && formik.errors?.monthlyBasic}
                           />
                         </Grid>
                         <Grid item xs={6} mt={2}>

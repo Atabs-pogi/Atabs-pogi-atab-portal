@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import employeeImg from "assets/images/small-logos/employee1.jpg";
 import employeeService from "services/employee-service";
 import { useFormik } from "formik";
+import dayjs from "dayjs";
 import TextFieldDatePicker from "../../textfields/date-picker";
 import SelectSex from "../../textfields/select-sex";
 import EmpSchema from "../schema/employee-schema";
@@ -76,7 +77,7 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
 
   // console.log(image);
   // console.log(employee.imageLocation);
-  // console.log(formik.values.imageLocation);
+  console.log(formik.values.dateHired);
 
   return (
     <Modal
@@ -284,11 +285,32 @@ export default function EmployeeUpdateModal({ selected, open, onClose, onSuccess
                               disabled={loading}
                               value={formik.values.birthday}
                               onChange={(evt) =>
-                                formik?.setFieldValue("birthday", evt?.toISOString(), true)
+                                formik?.setFieldValue(
+                                  "birthday",
+                                  dayjs(evt).format("YYYY-MM-DD"),
+                                  true
+                                )
                               }
                               maxDate={new Date()}
                               error={formik.touched.birthday && Boolean(formik.errors.birthday)}
                               helperText={formik.touched.birthday && formik.errors.birthday}
+                            />
+                          </Grid>
+                          <Grid item xs={4} mt={2} pr={7}>
+                            <TextFieldDatePicker
+                              label="Date Hired"
+                              disabled={loading}
+                              value={formik.values.dateHired}
+                              onChange={(evt) =>
+                                formik?.setFieldValue(
+                                  "dateHired",
+                                  dayjs(evt).format("YYYY-MM-DD"),
+                                  true
+                                )
+                              }
+                              maxDate={new Date()}
+                              error={formik.touched.dateHired && Boolean(formik.errors.dateHired)}
+                              helperText={formik.touched.dateHired && formik.errors.dateHired}
                             />
                           </Grid>
                         </Grid>

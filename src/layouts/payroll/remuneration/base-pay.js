@@ -13,7 +13,8 @@ import payrollService from "services/payroll-service";
 import MDButton from "components/MDButton";
 import DatePicker from "layouts/tables/employee/admin/textfields/date-picker";
 import Payday from "./payday";
-import Deductions from "./deduction";
+import OtherDeductions from "./deductions/other-deductions";
+import MandatoryDeductions from "./deductions/mandatory-deductions";
 import Benefits from "./benefits";
 import SelectPayMethod from "../../tables/employee/admin/textfields/select-paymethod";
 
@@ -26,6 +27,7 @@ export default function RemunerationModal({
   onSuccess,
 }) {
   const [value, setValue] = React.useState("1");
+  const [tabValue, setTabValue] = React.useState("1");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [days, setDays] = React.useState([]);
@@ -35,10 +37,10 @@ export default function RemunerationModal({
   const [end, setEnd] = React.useState(new Date());
   const [grossPay, setGrossPay] = React.useState(new Date());
   const [benefits, setBenefits] = React.useState([]);
-  const [deductions, setDeductions] = React.useState([]);
+  const [mandatoryDeductions, setMandatoryDeductions] = React.useState([]);
+  const [otherDeductions, setOtherDeductions] = React.useState([]);
   const [isEmpty, setIsEmpty] = React.useState(false);
-
-  console.log(selected);
+  const [hideSave, setHideSave] = React.useState(false);
 
   React.useEffect(() => {
     if (open) {
@@ -67,31 +69,25 @@ export default function RemunerationModal({
       setDays(dts);
       setStart(st1);
       setEnd(ed1);
-
-      payrollService.getEmployee(selected?.row.id, selected?.start, selected?.end).then((e) => {
-        console.log(e);
-        setIsEmpty(e === "");
-        setGrossPay(e.grossPay);
-        setBenefits([
-          {
-            payrollId: e.id,
-            benefitType: "SSS",
-            contributionAmount: 0,
-          },
-          {
-            payrollId: e.id,
-            benefitType: "PhilHealth",
-            contributionAmount: 0,
-          },
-          {
-            payrollId: e.id,
-            benefitType: "HDMF",
-            contributionAmount: 0,
-          },
-        ]);
-      });
     }
   }, [open]);
+
+  React.useEffect(() => {
+    payrollService.getEmployee(selected?.row.id, selected?.start, selected?.end).then((e) => {
+      setIsEmpty(e === "");
+      setGrossPay(e.grossPay);
+    });
+
+    if (value === "1") {
+      setHideSave(true);
+    } else if (value === "2") {
+      setHideSave(false);
+    } else if (value === "3") {
+      setHideSave(false);
+    } else {
+      setHideSave(true);
+    }
+  }, [value]);
 
   const handleClose = () => {
     onClose?.();
@@ -107,6 +103,7 @@ export default function RemunerationModal({
       paymentMethod: payMethod,
       employeeId: selected?.row.id,
       items: days.map((day) => ({ ...day, date: day.date.toJSON() })),
+      benefits,
     };
     if (payMethod !== "") {
       console.log(params);
@@ -114,7 +111,8 @@ export default function RemunerationModal({
         .payday(params)
         .then((e) => {
           alert("Payroll Configuration for Employee Records Successful");
-          setDeductions([]);
+          setMandatoryDeductions([]);
+          setOtherDeductions([]);
           setValue(1);
           onSuccess();
         })
@@ -130,48 +128,41 @@ export default function RemunerationModal({
     }
   };
 
-  const handleSaveBenefit = () => {
-    setError("");
-    setLoading(false);
-
-    payrollService
-      .benefit(benefits)
-      .then((e) => {
-        alert("Payroll Configuration for Benefits Successful");
-        setDeductions([]);
-        setValue(1);
-        onSuccess();
-      })
-      .catch((err) => {
-        setError(err?.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   const handleSaveDeductions = () => {
     setError("");
     setLoading(false);
 
-    payrollService
-      .deduction(deductions)
-      .then((e) => {
-        alert("Payroll Configuration for Deductions Successful");
-        setDeductions([]);
-        setValue(1);
-        onSuccess();
-      })
-      .catch((err) => {
-        setError(err?.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    payrollService.getEmployee(selected?.row.id, selected?.start, selected?.end).then((e) => {
+      const params = {
+        payrollId: e.id,
+        mandatoryDeductions,
+        otherDeductions,
+      };
+
+      payrollService
+        .deduction(params)
+        .then(() => {
+          alert("Payroll Configuration for Deductions Successful");
+          setMandatoryDeductions([]);
+          setOtherDeductions([]);
+          setValue(1);
+          onSuccess();
+        })
+        .catch((err) => {
+          setError(err?.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    });
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleChangeTab = (event, newValue) => {
+    setTabValue(newValue);
   };
 
   const handlePayChange = (index) => (day) => {
@@ -180,29 +171,22 @@ export default function RemunerationModal({
     setDays(dts);
   };
 
-  const handleBenefitsChange = (index) => (evt) => {
-    const bfs = [...benefits];
-    bfs[index].contributionAmount = parseFloat(evt.target.value) || 0;
-    setBenefits(bfs);
+  const handleBenefitsChange = (newBenefits) => {
+    setBenefits(newBenefits);
   };
 
-  const handleDeductionsChange = (newDeductions) => {
-    payrollService.getEmployee(selected?.row.id, selected?.start, selected?.end).then((e) => {
-      const updatedDeductions = newDeductions.map((deduction) => ({
-        ...deduction,
-        payrollId: e.id,
-      }));
-      setDeductions(updatedDeductions);
-    });
+  const handleMandatoryDeductionsChange = (newDeductions) => {
+    setMandatoryDeductions(newDeductions);
+  };
+
+  const handleOtherDeductionsChange = (newDeductions) => {
+    setOtherDeductions(newDeductions);
   };
 
   const handleSave = () => {
     switch (value) {
-      case "1":
-        handleSavePayDay();
-        break;
       case "2":
-        handleSaveBenefit();
+        handleSavePayDay();
         break;
       case "3":
         handleSaveDeductions();
@@ -212,6 +196,9 @@ export default function RemunerationModal({
     }
   };
 
+  console.log(mandatoryDeductions);
+  console.log(otherDeductions);
+
   return (
     <Modal
       open={open}
@@ -220,6 +207,7 @@ export default function RemunerationModal({
       title=""
       disabled={false}
       picture={tuxyImg}
+      noSuccess={hideSave}
       noCancel
       saveText="Save"
     >
@@ -236,7 +224,7 @@ export default function RemunerationModal({
             {open && (
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 <Tab label="Records" value="1" />
-                <Tab label="Benefits" value="2" disabled={isEmpty} />
+                <Tab label="Benefits" value="2" />
                 <Tab label="Deductions" value="3" disabled={isEmpty} />
               </TabList>
             )}
@@ -303,14 +291,32 @@ export default function RemunerationModal({
           </TabPanel>
           <TabPanel value="2">
             <Grid container spacing={0}>
-              <Grid
+              <Grid item xs={12}>
+                <MDBox className="month" sx={{ overflow: "auto", maxHeight: "50vh", pt: 2 }}>
+                  <Benefits
+                    benefits={benefits}
+                    onBenefitsChange={handleBenefitsChange}
+                    loading={loading}
+                  />
+                </MDBox>
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel value="3">
+            <TabContext value={tabValue}>
+              <MDBox sx={{ width: 400 }}>
+                <TabList onChange={handleChangeTab} aria-label="lab API tabs example">
+                  <Tab label="Mandatory Deductions" value="1" />
+                  <Tab label="Other Deductions" value="2" />
+                </TabList>
+              </MDBox>
+              <MDBox
                 item
                 xs={12}
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "end",
-                  pb: 4,
                   pr: 5,
                 }}
               >
@@ -318,33 +324,38 @@ export default function RemunerationModal({
                   Gross Pay:
                 </Typography>
                 <TextField value={grossPay} />
-              </Grid>
-              <Grid item xs={12}>
-                {benefits.map?.((b, index) => (
-                  <Benefits
-                    key={b.benefitType}
-                    label={b.benefitType}
-                    value={b.contributionAmount}
-                    onChange={handleBenefitsChange(index)}
-                    loading={loading}
-                    fullWidth
-                  />
-                ))}
-              </Grid>
-            </Grid>
-          </TabPanel>
-          <TabPanel value="3">
-            <Grid container spacing={0}>
-              <Grid item xs={12}>
-                <MDBox className="month" sx={{ overflow: "auto", maxHeight: "50vh", pt: 2 }}>
-                  <Deductions
-                    deductions={deductions}
-                    onDeductionsChange={handleDeductionsChange}
+              </MDBox>
+              <TabPanel value="1">
+                <MDBox
+                  className="month"
+                  sx={{
+                    overflow: "auto",
+                    maxHeight: "40vh",
+                  }}
+                >
+                  <MandatoryDeductions
+                    deductions={mandatoryDeductions}
+                    onDeductionsChange={handleMandatoryDeductionsChange}
                     loading={loading}
                   />
                 </MDBox>
-              </Grid>
-            </Grid>
+              </TabPanel>
+              <TabPanel value="2">
+                <MDBox
+                  className="month"
+                  sx={{
+                    overflow: "auto",
+                    maxHeight: "40vh",
+                  }}
+                >
+                  <OtherDeductions
+                    deductions={otherDeductions}
+                    onDeductionsChange={handleOtherDeductionsChange}
+                    loading={loading}
+                  />
+                </MDBox>
+              </TabPanel>
+            </TabContext>
           </TabPanel>
         </TabContext>
       </form>

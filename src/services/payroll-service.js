@@ -16,16 +16,17 @@ function benefit(benefitInfo) {
 }
 
 function deduction(deductionInfo) {
-  return axios.post(`${BASE_URL}/payroll/deduction`, deductionInfo).then((res) => res.data);
+  return axios.post(`${BASE_URL}/payroll/deductibles`, deductionInfo).then((res) => res.data);
 }
 
-function getEmployeesByPeriod(start, end) {
+function getEmployeesByPeriod(start, end, name) {
   return axios
     .get(`${BASE_URL}/payroll/review`, {
       // dating period
       params: {
         start: moment(start).format("YYYY-MM-DD"),
         end: moment(end).format("YYYY-MM-DD"),
+        name,
       },
     })
     .then((res) => res.data);

@@ -19,6 +19,9 @@ import fiberService from "services/fiber-service";
 
 export default function FiberUpdateModal({ selected, open, onClose, onSuccess }) {
   const [fiber, setFiber] = React.useState({ ...selected });
+  const [excellentInputAmount, setExcellentInputAmount] = React.useState("");
+  const [resecoInputAmount, setResecoInputAmount] = React.useState("");
+  const [goodInputAmount, setGoodInputAmount] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const handleClose = () => {
@@ -47,6 +50,24 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const handleExcellentInputAmount = (evt) => {
+    setExcellentInputAmount(evt.target.value);
+    const value = fiber.excellentFiberKg * evt.target.value;
+    setFiber({ ...fiber, excellentFiberAmount: value });
+  };
+
+  const handleGoodInputAmount = (evt) => {
+    setGoodInputAmount(evt.target.value);
+    const value = fiber.goodFiberKg * evt.target.value;
+    setFiber({ ...fiber, goodFiberAmount: value });
+  };
+
+  const handleResecoInputAmount = (evt) => {
+    setResecoInputAmount(evt.target.value);
+    const value = fiber.resecoFiberKg * evt.target.value;
+    setFiber({ ...fiber, resecoFiberAmount: value });
   };
 
   return (
@@ -92,19 +113,19 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={0} sx={{ mt: 4, ml: 4, width: "60%" }}>
-                      <Grid item xs={4} mb={4}>
+                    <Grid container spacing={0} sx={{ mt: 4 }}>
+                      <Grid item xs={2} mb={4} sx={{ display: "flex", alignItems: "center" }}>
                         <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
                           Excellent Fiber
                         </Typography>
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={1.5} mb={4}>
                         <TextField
                           variant="outlined"
                           fullWidth
-                          sx={{ width: "40%" }}
                           disabled
                           value={fiber?.excellentFiberKg}
+                          sx={{ width: "80%" }}
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
@@ -116,30 +137,49 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                           }}
                         />
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={2.5} mb={4}>
+                        <TextField
+                          label="Price"
+                          name="excellentInputAmount"
+                          variant="outlined"
+                          type="number"
+                          sx={{ width: "80%" }}
+                          disabled={loading}
+                          value={excellentInputAmount}
+                          onChange={handleExcellentInputAmount}
+                        />
+                      </Grid>
+                      <Grid item xs={3} mb={4}>
                         <TextField
                           label="Excellent Fiber Amount"
                           name="excellentFiberAmount"
                           variant="outlined"
                           type="number"
-                          fullWidth
-                          disabled={loading}
-                          defaultValue={fiber?.excellentFiberAmount}
-                          onChange={(evt) =>
-                            setFiber({ ...fiber, excellentFiberAmount: evt.target.value })
-                          }
+                          sx={{ width: "80%" }}
+                          disabled
+                          value={fiber?.excellentFiberAmount}
                         />
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={3} mb={4}>
+                        <TextField
+                          label="OR Code"
+                          name="excellentORCode"
+                          variant="outlined"
+                          type="number"
+                          sx={{ width: "80%" }}
+                          disabled={loading}
+                        />
+                      </Grid>
+                      <Grid item xs={2} mb={4} sx={{ display: "flex", alignItems: "center" }}>
                         <Typography variant="h3" component="h2" sx={{ mr: 4, fontSize: 17 }}>
                           Good Fiber
                         </Typography>
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={1.5} mb={4}>
                         <TextField
                           variant="outlined"
                           fullWidth
-                          sx={{ width: "40%" }}
+                          sx={{ width: "80%" }}
                           disabled
                           value={fiber?.goodFiberKg}
                           InputProps={{
@@ -153,29 +193,46 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                           }}
                         />
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={2.5} mb={4}>
+                        <TextField
+                          label="Price"
+                          name="goodInputAmount"
+                          variant="outlined"
+                          sx={{ width: "80%" }}
+                          disabled={loading}
+                          value={goodInputAmount}
+                          onChange={handleGoodInputAmount}
+                        />
+                      </Grid>
+                      <Grid item xs={3} mb={4}>
                         <TextField
                           label="Good Fiber Amount"
                           name="goodFiberAmount"
                           variant="outlined"
-                          fullWidth
-                          disabled={loading}
-                          defaultValue={fiber?.goodFiberAmount}
-                          onChange={(evt) =>
-                            setFiber({ ...fiber, goodFiberAmount: evt.target.value })
-                          }
+                          sx={{ width: "80%" }}
+                          disabled
+                          value={fiber?.goodFiberAmount}
                         />
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={3} mb={4}>
+                        <TextField
+                          label="OR Code"
+                          name="goodORCode"
+                          variant="outlined"
+                          sx={{ width: "80%" }}
+                          disabled={loading}
+                        />
+                      </Grid>
+                      <Grid item xs={2} mb={4} sx={{ display: "flex", alignItems: "center" }}>
                         <Typography variant="h3" component="h2" sx={{ mr: 4, fontSize: 17 }}>
                           Reseco Fiber
                         </Typography>
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={1.5} mb={4}>
                         <TextField
                           variant="outlined"
                           fullWidth
-                          sx={{ width: "40%" }}
+                          sx={{ width: "80%" }}
                           disabled
                           value={fiber?.resecoFiberKg}
                           InputProps={{
@@ -189,17 +246,34 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                           }}
                         />
                       </Grid>
-                      <Grid item xs={4} mb={4}>
+                      <Grid item xs={2.5} mb={4}>
+                        <TextField
+                          label="Price"
+                          name="resecoInputAmount"
+                          variant="outlined"
+                          sx={{ width: "80%" }}
+                          disabled={loading}
+                          defaultValue={resecoInputAmount}
+                          onChange={handleResecoInputAmount}
+                        />
+                      </Grid>
+                      <Grid item xs={3} mb={4}>
                         <TextField
                           label="Reseco Fiber Amount"
                           name="resecoFiberAmount"
                           variant="outlined"
-                          fullWidth
+                          sx={{ width: "80%" }}
+                          disabled
+                          value={fiber?.resecoFiberAmount}
+                        />
+                      </Grid>
+                      <Grid item xs={3} mb={4}>
+                        <TextField
+                          label="OR Code"
+                          name="resecoORCode"
+                          variant="outlined"
+                          sx={{ width: "80%" }}
                           disabled={loading}
-                          defaultValue={fiber?.resecoFiberAmount}
-                          onChange={(evt) =>
-                            setFiber({ ...fiber, resecoFiberAmount: evt.target.value })
-                          }
                         />
                       </Grid>
                     </Grid>

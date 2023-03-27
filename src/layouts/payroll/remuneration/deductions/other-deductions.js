@@ -5,7 +5,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 
-function DeductionModule({ deductions, onDeductionsChange }) {
+function OtherDeductionModule({ deductions, onDeductionsChange }) {
   const [localDeductions, setLocalDeductions] = useState(deductions);
 
   React.useEffect(() => {
@@ -13,7 +13,7 @@ function DeductionModule({ deductions, onDeductionsChange }) {
   }, [deductions]);
 
   const handleAddDeduction = () => {
-    const newDeductions = [...localDeductions, { payrollId: 0, description: "", value: "" }];
+    const newDeductions = [...localDeductions, { description: "", value: "" }];
     setLocalDeductions(newDeductions);
     onDeductionsChange(newDeductions);
   };
@@ -62,7 +62,7 @@ function DeductionModule({ deductions, onDeductionsChange }) {
             <Grid sx={{ textAlign: "center", width: "15vw" }}>
               <TextField
                 type="text"
-                label="Deduction Name"
+                label="Deduction Type"
                 value={deduction.description}
                 onChange={(event) => handleChangeDeductionType(index, event)}
                 fullWidth
@@ -88,14 +88,14 @@ function DeductionModule({ deductions, onDeductionsChange }) {
   );
 }
 
-export default DeductionModule;
+export default OtherDeductionModule;
 
-DeductionModule.defaultProps = {
+OtherDeductionModule.defaultProps = {
   deductions: [],
   onDeductionsChange: () => {},
 };
 
-DeductionModule.propTypes = {
+OtherDeductionModule.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   deductions: PropTypes.array,
   onDeductionsChange: PropTypes.func,
