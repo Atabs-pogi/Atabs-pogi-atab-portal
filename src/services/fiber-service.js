@@ -31,7 +31,7 @@ function addFiber(fiber) {
 }
 
 function updateFiber(fiber) {
-  return axios.post(`${BASE_URL}/fiber/UpdateFiber`, fiber);
+  return axios.put(`${BASE_URL}/fiber/UpdateFiber`, fiber);
 }
 
 export default { getFiber, getAllFibers, searchFiber, addFiber, updateFiber };

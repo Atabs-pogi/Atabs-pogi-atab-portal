@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
 import fiberService from "services/fiber-service";
 import { useFormik } from "formik";
+import reportService from "services/generate-report-service";
 import FibSchema, { initialFiber } from "../schema/fiber-schema";
 
 export default function FiberModal({ open, onClose, onSuccess }) {
@@ -39,6 +40,27 @@ export default function FiberModal({ open, onClose, onSuccess }) {
         .then(() => {
           setFiber({});
           onSuccess?.();
+        })
+        .catch((err) => {
+          setError(err?.message);
+        });
+
+      const FiberFields = {
+        format: "pdf",
+        module: "Fibers",
+        filename: "FiberReceipt",
+        params: {
+          id: 0,
+        },
+      };
+
+      const dateToday = new Date().getTime() + 8 * 60 * 60 * 1000; // add 8 hours in milliseconds
+      const formattedDate = new Date(dateToday).toISOString();
+
+      reportService
+        .generateReport(FiberFields, `${formattedDate}Receipt`, "pdf")
+        .then(() => {
+          setLoading(false);
         })
         .catch((err) => {
           setError(err?.message);

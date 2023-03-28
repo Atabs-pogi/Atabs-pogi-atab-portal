@@ -34,8 +34,8 @@ export default function FiberData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "referenceCode", headerName: "Reference Code", width: 200 },
-    { field: "dateTime", headerName: "Date & Time", width: 200 },
+    { field: "referenceCode", headerName: "Reference Code", width: 250 },
+    { field: "dateTime", headerName: "Date & Time", width: 250 },
     {
       field: "status",
       headerName: "Status",
