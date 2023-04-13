@@ -22,8 +22,8 @@ export default function RemunerationModal({
   open,
   onClose,
   selected,
+  periodType,
   period,
-  onFinish,
   onSuccess,
 }) {
   const [value, setValue] = React.useState("1");
@@ -43,34 +43,84 @@ export default function RemunerationModal({
   const [hideSave, setHideSave] = React.useState(false);
 
   React.useEffect(() => {
-    if (open) {
+    if (open && selected) {
       const now = new Date(period);
-      const st = now.getDate() > 15 ? 16 : 1;
-      const ed =
-        now.getDate() < 16 ? 15 : new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
       const dts = [];
-      // eslint-disable-next-line no-plusplus
-      for (let i = st; i <= ed; i++) {
-        const date = new Date(period);
-        date.setDate(i);
-        dts.push({
-          date,
-          regular: 0,
-          ot: 0,
-          tardiness: 0,
-          vacation: 0,
-          sick: 0,
-        });
+
+      if (periodType === "weekly") {
+        const weekStart = new Date(period);
+        weekStart.setDate(now.getDate() - now.getDay());
+        const weekEnd = new Date(period);
+        weekEnd.setDate(weekEnd.getDate());
+        // eslint-disable-next-line no-plusplus
+        for (let i = weekStart.getDay(); i <= weekEnd.getDay(); i++) {
+          const date = new Date(weekStart);
+          date.setDate(date.getDate() + i);
+          dts.push({
+            date,
+            regular: 0,
+            ot: 0,
+            tardiness: 0,
+            vacation: 0,
+            sick: 0,
+          });
+        }
+        setDays(dts);
+        setStart(weekStart);
+        setEnd(weekEnd);
+      } else if (periodType === "semi-monthly") {
+        console.log(periodType);
+        const st = now.getDate() > 15 ? 16 : 1;
+        const ed =
+          now.getDate() < 16 ? 15 : new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        // eslint-disable-next-line no-plusplus
+        for (let i = st; i <= ed; i++) {
+          const date = new Date(period);
+          date.setDate(i);
+          dts.push({
+            date,
+            regular: 0,
+            ot: 0,
+            tardiness: 0,
+            vacation: 0,
+            sick: 0,
+          });
+        }
+        const st1 = new Date(period);
+        st1.setDate(st);
+        const ed1 = new Date(period);
+        ed1.setDate(ed);
+        setDays(dts);
+        setStart(st1);
+        setEnd(ed1);
+      } else if (periodType === "monthly") {
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        // eslint-disable-next-line no-plusplus
+        for (let i = 1; i <= monthEnd.getDate(); i++) {
+          const date = new Date(monthStart);
+          date.setDate(i);
+          dts.push({
+            date,
+            regular: 0,
+            ot: 0,
+            tardiness: 0,
+            vacation: 0,
+            sick: 0,
+          });
+        }
+        const st1 = new Date(period);
+        st1.setDate(monthStart.getDate());
+        const ed1 = new Date(period);
+        ed1.setDate(monthEnd.getDate());
+        setDays(dts);
+        setStart(st1);
+        setEnd(ed1);
       }
-      const st1 = new Date(period);
-      st1.setDate(st);
-      const ed1 = new Date(period);
-      ed1.setDate(ed);
+
       setDays(dts);
-      setStart(st1);
-      setEnd(ed1);
     }
-  }, [open]);
+  }, [open, selected, period]);
 
   React.useEffect(() => {
     payrollService.getEmployee(selected?.row.id, selected?.start, selected?.end).then((e) => {
@@ -106,7 +156,6 @@ export default function RemunerationModal({
       benefits,
     };
     if (payMethod !== "") {
-      console.log(params);
       payrollService
         .payday(params)
         .then((e) => {
@@ -123,6 +172,7 @@ export default function RemunerationModal({
           setLoading(false);
         });
     } else {
+      console.log(params);
       alert("Payment Method not specified");
       setLoading(false);
     }
@@ -369,7 +419,7 @@ RemunerationModal.defaultProps = {
   onClose: () => {},
   selected: null,
   period: new Date(),
-  onFinish: () => {},
+  periodType: "",
   onSuccess: () => {},
 };
 
@@ -379,6 +429,6 @@ RemunerationModal.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   selected: PropTypes.object,
   period: PropTypes.instanceOf(Date),
-  onFinish: PropTypes.func,
+  periodType: PropTypes.string,
   onSuccess: PropTypes.func,
 };

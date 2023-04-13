@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-// import apiUrl from "env";
+// import BASE_URL from "env";
 
 const DEFAULT_DELAY = 1000;
 

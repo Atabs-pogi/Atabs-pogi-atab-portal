@@ -22,7 +22,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MDButton from "components/MDButton";
 import generatingBills from "services/generating-bills";
-import TextFieldDatePicker from "layouts/tables/employee/admin/textfields/date-picker";
+// import TextFieldDatePicker from "layouts/tables/employee/admin/textfields/date-picker";
 
 const monthNames = [
   "Jan",
@@ -104,11 +104,11 @@ export default function BillsModal({ open, onClose, onSuccess }) {
     setItems(nItems);
   };
 
-  const handleReferenceChange = (i) => (evt) => {
-    const nItems = [...items];
-    nItems[i].reference = evt.target.value;
-    setItems(nItems);
-  };
+  // const handleReferenceChange = (i) => (evt) => {
+  //   const nItems = [...items];
+  //   nItems[i].reference = evt.target.value;
+  //   setItems(nItems);
+  // };
 
   const handleBillChange = (i) => (evt) => {
     const nItems = [...items];
@@ -222,7 +222,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                         value={item?.id}
                         onChange={handleBillChange(index)}
                       />
-                      <TextFieldDatePicker
+                      {/* <TextFieldDatePicker
                         label="Date of Payment"
                         txprops={{ sx: { width: 200, mx: 2 } }}
                       />
@@ -231,7 +231,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                         value={item?.reference}
                         onChange={handleReferenceChange(index)}
                         disabled={saving}
-                      />
+                      /> */}
                     </TableCell>
                     <TableCell align="right">
                       <TextField

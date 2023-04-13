@@ -16,8 +16,10 @@ export default function SelectReport(props) {
           label="Select Report to Generate"
           {...props}
         >
-          <MenuItem value="employee">Employee</MenuItem>
+          <MenuItem value="employee">Employees</MenuItem>
+          <MenuItem value="employeeSummary">Employee Summary</MenuItem>
           <MenuItem value="farmer">Farmer</MenuItem>
+          <MenuItem value="farmerSummary">Farmer Summary</MenuItem>
           <MenuItem value="fiber">Fiber</MenuItem>
           <MenuItem value="account">Account</MenuItem>
           <MenuItem value="tuxy">Tuxy</MenuItem>

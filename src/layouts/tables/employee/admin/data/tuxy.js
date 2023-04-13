@@ -5,7 +5,7 @@ import MDBox from "components/MDBox";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
 import tuxyService from "services/tuxy-service";
 import Moment from "react-moment";
 import TuxyModal from "../modal/tuxy/tuxy-add-modal";
@@ -70,7 +70,7 @@ export default function TuxyData() {
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<VisibilityIcon />}
+          icon={<EditIcon />}
           onClick={() => setSelected(params?.row)}
           label="Update"
         />,

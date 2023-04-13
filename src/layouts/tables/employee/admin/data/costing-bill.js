@@ -50,13 +50,6 @@ export default function FiberData() {
       renderCell: ({ row }) => row?.dueDate && <Moment format="MM/DD/YYYY">{row?.dueDate}</Moment>,
       width: 200,
     },
-    {
-      field: "paymentDate",
-      headerName: "Payment Date",
-      renderCell: ({ row }) =>
-        row?.paymentDate && <Moment format="MM/DD/YYYY">{row?.paymentDate}</Moment>,
-      width: 200,
-    },
     { field: "type", headerName: "Type", width: 200 },
     {
       field: "actions",

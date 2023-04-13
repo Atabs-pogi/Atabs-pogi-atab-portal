@@ -43,8 +43,8 @@ export default function EmployeeData() {
       valueGetter: (params) => params?.row?.items.length || 0,
     },
     {
-      field: "importDate",
-      headerName: "Import Date",
+      field: "paymentDate",
+      headerName: "Payment Date",
       renderCell: ({ row }) =>
         row?.importDate && <Moment format="MM/DD/YYYY">{row?.importDate}</Moment>,
       width: 300,

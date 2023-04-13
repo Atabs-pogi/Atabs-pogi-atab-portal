@@ -139,21 +139,21 @@ export default function TuxyViewModal({ open, onClose, onSuccess, selected }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            label="Discarte Price"
-                            name="discartePrice"
+                            label="Discarded Price"
+                            name="discardedPrice"
                             variant="outlined"
                             fullWidth
                             type="number"
                             disabled={loading || readOnly}
-                            value={formik?.values?.discartePrice}
+                            value={formik?.values?.discardedPrice}
                             onChange={formik.handleChange}
                             onBlur={formik?.handleBLur}
                             error={
-                              formik?.touched?.discartePrice &&
-                              Boolean(formik?.errors?.discartePrice)
+                              formik?.touched?.discardedPrice &&
+                              Boolean(formik?.errors?.discardedPrice)
                             }
                             helperText={
-                              formik?.touched?.discartePrice && formik?.errors?.discartePrice
+                              formik?.touched?.discardedPrice && formik?.errors?.discardedPrice
                             }
                             sx={{ pr: 7, width: "33.27%", mb: 3 }}
                           />

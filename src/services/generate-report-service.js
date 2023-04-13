@@ -10,7 +10,7 @@ function generateReport(report, filename, fileType) {
   return new Promise((resolve, reject) => {
     axios({
       method: "post",
-      url: "http://localhost:8080/report/generate",
+      url: `${BASE_URL}/report/generate`,
       responseType: "blob",
       data: report,
     })

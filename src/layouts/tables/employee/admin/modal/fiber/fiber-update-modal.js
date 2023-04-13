@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import fiberImg from "assets/images/small-logos/fiber.jpg";
 import fiberService from "services/fiber-service";
 import { useFormik } from "formik";
+import reportService from "services/generate-report-service";
 import FibSchema from "../schema/fiber-amount-schema";
 
 export default function FiberUpdateModal({ selected, open, onClose, onSuccess }) {
@@ -55,6 +56,30 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
         .updateFiber(newFiber)
         .then(() => {
           onSuccess?.();
+        })
+        .catch((err) => {
+          setError(err?.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+
+      const FiberFields = {
+        format: "pdf",
+        module: "Fibers",
+        filename: "FiberReceiptUpdate",
+        params: {
+          id: formik.values.fiberId,
+        },
+      };
+
+      const dateToday = new Date().getTime() + 8 * 60 * 60 * 1000; // add 8 hours in milliseconds
+      const formattedDate = new Date(dateToday).toISOString();
+
+      reportService
+        .generateReport(FiberFields, `${formattedDate}ReceiptUpdate`, "pdf")
+        .then(() => {
+          setLoading(false);
         })
         .catch((err) => {
           setError(err?.message);
@@ -337,18 +362,31 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
                           item
                           xs={12}
                           mt={8}
-                          sx={{ display: "flex", alignItems: "center", justifyContent: "end" }}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "end",
+                          }}
                         >
-                          <Typography variant="h3" component="h2" sx={{ mr: 4, fontSize: 17 }}>
-                            Fiber Total Amount
-                          </Typography>
-                          <TextField
-                            variant="outlined"
-                            fullWidth
-                            sx={{ mr: 15, width: "80%" }}
-                            disabled
-                            value={fiberTotalAmount}
-                          />
+                          <Grid
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "end",
+                              width: "40vw",
+                              mr: 8,
+                            }}
+                          >
+                            <Typography variant="h3" component="h2" sx={{ mr: 4, fontSize: 17 }}>
+                              Fiber Total Amount
+                            </Typography>
+                            <TextField
+                              variant="outlined"
+                              fullWidth
+                              sx={{ width: "15vw" }}
+                              disabled
+                              value={fiberTotalAmount}
+                            />
+                          </Grid>
                         </Grid>
                       </Grid>
                     </MDBox>

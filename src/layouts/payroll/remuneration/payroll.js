@@ -12,6 +12,7 @@ import payrollService from "services/payroll-service";
 import empsalaryService from "services/empsalary-service";
 import reportService from "services/generate-report-service";
 import SelectFileType from "layouts/tables/employee/admin/textfields/select-fileType";
+import SelectPeriod from "layouts/tables/employee/admin/textfields/select-period";
 import Moment from "react-moment";
 import SummaryModal from "./summary";
 import BasePay from "./base-pay";
@@ -25,17 +26,36 @@ export default function Payroll() {
   const [selected, setSelected] = React.useState(null);
   const [date, setDate] = React.useState(new Date());
   const [transaction, setTransaction] = React.useState(null);
+  const [period, setPeriod] = React.useState("monthly");
 
   const [start, end] = React.useMemo(() => {
-    const st = date.getDate() > 15 ? 16 : 1;
-    const ed =
-      date.getDate() < 16 ? 15 : new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    const st1 = new Date(date);
-    st1.setDate(st);
-    const ed1 = new Date(date);
-    ed1.setDate(ed);
+    let st1;
+    let ed1;
+    if (period === "weekly") {
+      const st = date.getDate() - date.getDay();
+      const ed = date.getDate();
+      st1 = new Date(date);
+      st1.setDate(st);
+      ed1 = new Date(date);
+      ed1.setDate(ed);
+    } else if (period === "semi-monthly") {
+      const st = date.getDate() > 15 ? 16 : 1;
+      const ed =
+        date.getDate() < 16 ? 15 : new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+      st1 = new Date(date);
+      st1.setDate(st);
+      ed1 = new Date(date);
+      ed1.setDate(ed);
+    } else if (period === "monthly") {
+      const st = 1;
+      const ed = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+      st1 = new Date(date);
+      st1.setDate(st);
+      ed1 = new Date(date);
+      ed1.setDate(ed);
+    }
     return [st1, ed1];
-  }, [date]);
+  }, [date, period]);
 
   const SalaryExists = (params) => {
     const StartDate = start.toISOString().substr(0, 10).replace(/-/g, "/");
@@ -219,22 +239,36 @@ export default function Payroll() {
 
   const handleNextPeriod = () => {
     const st = new Date(date);
-    if (st.getDate() > 15) {
+    if (period === "weekly") {
+      st.setDate(st.getDate() + 7);
+    } else if (period === "semi-monthly") {
+      if (st.getDate() > 15) {
+        st.setMonth(st.getMonth() + 1);
+        st.setDate(1);
+      } else {
+        st.setDate(16);
+      }
+    } else if (period === "monthly") {
       st.setMonth(st.getMonth() + 1);
       st.setDate(1);
-    } else {
-      st.setDate(16);
     }
     setDate(st);
   };
 
   const handlePrevPeriod = () => {
     const st = new Date(date);
-    if (st.getDate() > 15) {
-      st.setDate(1);
-    } else {
+    if (period === "weekly") {
+      st.setDate(st.getDate() - 7);
+    } else if (period === "semi-monthly") {
+      if (st.getDate() > 15) {
+        st.setDate(1);
+      } else {
+        st.setMonth(st.getMonth() - 1);
+        st.setDate(16);
+      }
+    } else if (period === "monthly") {
       st.setMonth(st.getMonth() - 1);
-      st.setDate(16);
+      st.setDate(1);
     }
     setDate(st);
   };
@@ -243,12 +277,10 @@ export default function Payroll() {
     <MDBox>
       <BasePay
         open={selected?.row?.id}
+        periodType={period}
         period={date}
         onClose={UpdateHandleClose}
         selected={selected}
-        onFinish={() => {
-          handleSearch();
-        }}
         onSuccess={() => {
           setSelected(null);
           handleSearch();
@@ -257,7 +289,53 @@ export default function Payroll() {
       <Grid container>
         <Grid
           item
-          xs={4}
+          xs={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            py: 1,
+            px: 2,
+          }}
+        >
+          <SelectPeriod
+            fullWidth
+            name="period"
+            value={period}
+            onChange={(evt) => setPeriod(evt.target.value)}
+            sx={{ width: "15vw", height: "2.3vw" }}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            alignItems: "center",
+            py: 1,
+            px: 2,
+          }}
+        >
+          <MDButton
+            variant="contained"
+            color="dark"
+            size="small"
+            onClick={handleGenerateReportForAll}
+            sx={{ padding: 1.5, mr: 4 }}
+          >
+            Generate Payslips
+          </MDButton>
+          <SelectFileType
+            fullWidth
+            name="fileType"
+            value={FileType}
+            onChange={(evt) => setFileType(evt.target.value)}
+            sx={{ width: "15vw", height: "2.3vw" }}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={6}
           sx={{
             display: "flex",
             justifyContent: "start",
@@ -278,27 +356,10 @@ export default function Payroll() {
             <ChevronRightIcon />
           </IconButton>
         </Grid>
+
         <Grid
           item
-          xs={4}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            py: 1,
-          }}
-        >
-          <SelectFileType
-            fullWidth
-            name="fileType"
-            value={FileType}
-            onChange={(evt) => setFileType(evt.target.value)}
-            sx={{ width: "15vw", height: "2.3vw" }}
-          />
-        </Grid>
-        <Grid
-          item
-          xs={4}
+          xs={6}
           sx={{
             display: "flex",
             justifyContent: "end",
@@ -306,15 +367,6 @@ export default function Payroll() {
             pr: 2,
           }}
         >
-          <MDButton
-            variant="contained"
-            color="dark"
-            size="small"
-            onClick={handleGenerateReportForAll}
-            sx={{ padding: 1.5 }}
-          >
-            Generate Payslips
-          </MDButton>
           <TextField
             label="Search"
             InputProps={{

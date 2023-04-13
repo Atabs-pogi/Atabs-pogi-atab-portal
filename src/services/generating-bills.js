@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import apiUrl from "env";
+// import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
+
+const BASE_URL = "http://localhost:8080";
 
 function getBillList() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/bills/getList`)
+        .get(`${BASE_URL}/bills/getList`)
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -21,7 +23,7 @@ function getGeneratedBills() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/bills/all`)
+        .get(`${BASE_URL}/bills/all`)
         .then((res) => resolve(res.data))
         .catch((err) => {
           reject(err);
@@ -31,7 +33,7 @@ function getGeneratedBills() {
 }
 
 function addBill(bills) {
-  return axios.post(`${apiUrl}/bills/save`, bills);
+  return axios.post(`${BASE_URL}/bills/save`, bills);
 }
 
 export default { addBill, getBillList, getGeneratedBills };

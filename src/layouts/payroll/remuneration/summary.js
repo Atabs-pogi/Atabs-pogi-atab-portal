@@ -30,170 +30,222 @@ export default function SummaryModal({ open, onClose, pay }) {
               <CloseIcon color="error" sx={{ cursor: "pointer" }} />
             </IconButton>
           </MDBox>
+          <MDBox className="modal-header" sx={{ textAlign: "left", fontSize: "25px" }}>
+            <Typography variant="h3" component="h2" sx={{ fontSize: 17, ml: 2, mb: 2 }}>
+              Summary
+            </Typography>
+          </MDBox>
           {open && (
-            <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
-              <TableBody>
-                <Typography variant="h3" component="h2" sx={{ fontSize: 17, ml: 2, mb: 2 }}>
-                  Summary
-                </Typography>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Work Hours :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalWorkHours}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total OT Hours :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalOtHours}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Tardiness Hours :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalTardinessHours}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Vacation Days :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalVacationDays}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Sick Days :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalSickDays}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Regular Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.regularPay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Overtime Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.overTimePay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Vacation Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.vacationPay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Sick Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.sickPay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Gross Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.grossPay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Benefits:
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalBenefit}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Total Deductions :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.totalDeductions}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell>
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      Net Pay :
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
-                      {pay.netPay}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div style={{ height: "50vh", overflowY: "scroll" }}>
+              <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
+                <TableBody>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Total Work Hours :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.totalWorkHours}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Total OT Hours :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.totalOtHours}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Total Tardiness Hours :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.totalTardinessHours}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Total Vacation Days :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.totalVacationDays}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Total Sick Days :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.totalSickDays}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Regular Pay :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.regularPay}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Overtime Pay :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.overTimePay}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Vacation Pay :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.vacationPay}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Sick Pay :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.sickPay}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Tardiness Deduction :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.tardinessDeduction}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Total Benefits:
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.totalBenefit}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Gross Pay :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.grossPay}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Mandatory Deductions :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.mandatoryDeductions}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Taxable Income :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.taxableIncome}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Withholding Tax :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.withholdingTax}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Other Deductions :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.otherDeductions}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                    <TableCell>
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        Net Pay :
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h3" component="h2" sx={{ fontSize: 17 }}>
+                        {pay.netPay}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           )}
           <MDBox m={3} align="center">
             <MDButton variant="contained" color="success" size="sm" onClick={handleClose}>

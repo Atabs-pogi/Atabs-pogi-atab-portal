@@ -16,7 +16,18 @@ export default function GenerateReports() {
   const EmployeeFields = {
     format: "",
     module: "Employees",
-    filename: "Employees_Information",
+    filename: "Employee_Info",
+    params: {
+      ID: 0,
+      Date_From: "",
+      Date_End: "",
+    },
+  };
+
+  const EmployeesSummaryFields = {
+    format: "",
+    module: "Employees",
+    filename: "Employees_Information_Summary",
     params: {
       ID: 0,
       Date_From: "",
@@ -28,6 +39,17 @@ export default function GenerateReports() {
     format: "",
     module: "farmer",
     filename: "FarmersInformations",
+    params: {
+      ID: 0,
+      Date_From: "",
+      Date_End: "",
+    },
+  };
+
+  const FarmerSummaryFields = {
+    format: "",
+    module: "farmer",
+    filename: "FarmerSummary",
     params: {
       ID: 0,
       Date_From: "",
@@ -184,6 +206,20 @@ export default function GenerateReports() {
               />
             </Grid>
           )}
+          {selectedReport === "employeeSummary" && (
+            <Grid item>
+              <ReportsCard
+                icon="badge"
+                title="Employee Summary"
+                apiFields={EmployeesSummaryFields}
+                reportname="EmployeeSummaryReport"
+                FileType={FileType}
+                percentage={{
+                  color: "dark",
+                }}
+              />
+            </Grid>
+          )}
           {selectedReport === "farmer" && (
             <Grid item>
               <ReportsCard
@@ -191,6 +227,20 @@ export default function GenerateReports() {
                 title="Farmer"
                 apiFields={FarmerFields}
                 reportname="FarmerReport"
+                FileType={FileType}
+                percentage={{
+                  color: "dark",
+                }}
+              />
+            </Grid>
+          )}
+          {selectedReport === "farmerSummary" && (
+            <Grid item>
+              <ReportsCard
+                icon="grass"
+                title="Farmer Summary"
+                apiFields={FarmerSummaryFields}
+                reportname="FarmerSummaryReport"
                 FileType={FileType}
                 percentage={{
                   color: "dark",

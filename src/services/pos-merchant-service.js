@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import apiUrl from "env";
+// import apiUrl from "env";
 
 const DEFAULT_DELAY = 1000;
 
-// const BASE_URL = "http://localhost:8080";
+const apiUrl = "http://localhost:8080";
 
 function getPos(id) {
   return axios.get(`${apiUrl}/merchant/getPos/${id}`);
