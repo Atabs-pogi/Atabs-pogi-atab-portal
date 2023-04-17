@@ -183,7 +183,7 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
-                            type="number"
+                            type="text"
                             name="bankAccountInfo"
                             label="Bank Account Information"
                             disabled={loading}
@@ -203,7 +203,7 @@ export default function SalaryModal({ selected, open, onClose, onSuccess }) {
                         </Grid>
                         <Grid item xs={6} mt={2}>
                           <TextField
-                            type="number"
+                            type="text"
                             name="taxInfo"
                             label="Tax Information"
                             disabled={loading}
