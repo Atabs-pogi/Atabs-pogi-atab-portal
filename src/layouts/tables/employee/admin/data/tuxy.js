@@ -51,7 +51,7 @@ export default function TuxyData() {
       type: "number",
     },
     {
-      field: "discartePrice",
+      field: "discardedPrice",
       headerName: "Outer Fiber",
       width: 150,
       type: "number",

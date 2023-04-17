@@ -39,54 +39,63 @@ export default function FiberUpdateModal({ selected, open, onClose, onSuccess })
 
     validationSchema: FibSchema,
     onSubmit: () => {
-      const newFiber = {
-        referenceCode: formik.values.referenceCode,
-        excellentFiberAmount: formik.values.excellentFiberAmount,
-        goodFiberAmount: formik.values.goodFiberAmount,
-        resecoFiberAmount: formik.values.resecoFiberAmount,
-        excellentOrCode: formik.values.excellentOrCode,
-        goodOrCode: formik.values.goodOrCode,
-        resecoOrCode: formik.values.resecoOrCode,
-        fiberTotalAmount,
-      };
+      if (
+        formik.values.excellentFiberAmount !== 0 &&
+        formik.values.goodFiberAmount !== 0 &&
+        formik.values.resecoFiberAmount !== 0
+      ) {
+        const newFiber = {
+          referenceCode: formik.values.referenceCode,
+          excellentFiberAmount: formik.values.excellentFiberAmount,
+          goodFiberAmount: formik.values.goodFiberAmount,
+          resecoFiberAmount: formik.values.resecoFiberAmount,
+          excellentOrCode: formik.values.excellentOrCode,
+          goodOrCode: formik.values.goodOrCode,
+          resecoOrCode: formik.values.resecoOrCode,
+          fiberTotalAmount,
+        };
 
-      setError("");
-      setLoading(true);
-      fiberService
-        .updateFiber(newFiber)
-        .then(() => {
-          onSuccess?.();
-        })
-        .catch((err) => {
-          setError(err?.message);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        setError("");
+        setLoading(true);
+        fiberService
+          .updateFiber(newFiber)
+          .then(() => {
+            onSuccess?.();
+          })
+          .catch((err) => {
+            setError(err?.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
 
-      const FiberFields = {
-        format: "pdf",
-        module: "Fibers",
-        filename: "FiberReceiptUpdate",
-        params: {
-          id: formik.values.fiberId,
-        },
-      };
+        const FiberFields = {
+          format: "pdf",
+          module: "Fibers",
+          filename: "FiberReceiptUpdate",
+          params: {
+            id: formik.values.fiberId,
+          },
+        };
 
-      const dateToday = new Date().getTime() + 8 * 60 * 60 * 1000; // add 8 hours in milliseconds
-      const formattedDate = new Date(dateToday).toISOString();
+        const dateToday = new Date().getTime() + 8 * 60 * 60 * 1000; // add 8 hours in milliseconds
+        const formattedDate = new Date(dateToday).toISOString();
 
-      reportService
-        .generateReport(FiberFields, `${formattedDate}ReceiptUpdate`, "pdf")
-        .then(() => {
-          setLoading(false);
-        })
-        .catch((err) => {
-          setError(err?.message);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        reportService
+          .generateReport(FiberFields, `${formattedDate}ReceiptUpdate`, "pdf")
+          .then(() => {
+            setLoading(false);
+          })
+          .catch((err) => {
+            setError(err?.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        // eslint-disable-next-line no-alert
+        alert("Some fields are empty");
+      }
     },
   });
 
