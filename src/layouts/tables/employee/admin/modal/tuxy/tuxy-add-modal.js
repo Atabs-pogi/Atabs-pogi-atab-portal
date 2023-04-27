@@ -130,7 +130,7 @@ export default function TuxyModal({ open, onClose, onSuccess }) {
                         <Grid item xs={12}>
                           <TextField
                             id="outlined-basic"
-                            label="Discarded Price"
+                            label="Discarded/Outer Fiber Price"
                             name="discardedPrice"
                             variant="outlined"
                             fullWidth

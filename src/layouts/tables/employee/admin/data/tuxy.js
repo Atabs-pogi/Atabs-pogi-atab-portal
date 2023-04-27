@@ -42,18 +42,18 @@ export default function TuxyData() {
       headerName: "Date Created",
       renderCell: ({ row }) =>
         row?.createDate && <Moment format="MM/DD/YYYY">{row?.createDate}</Moment>,
-      width: 300,
+      width: 200,
     },
     {
       field: "goodPrice",
-      headerName: "Good Quality",
+      headerName: "Good",
       width: 150,
       type: "number",
     },
     {
       field: "discardedPrice",
-      headerName: "Outer Fiber",
-      width: 150,
+      headerName: "Discarded/Outer Fiber",
+      width: 200,
       type: "number",
     },
     {

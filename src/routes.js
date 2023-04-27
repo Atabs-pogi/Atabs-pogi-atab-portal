@@ -39,6 +39,18 @@ import SignOut from "layouts/authentication/sign-out";
 import TuxyTable from "layouts/tables/employee/admin/tuxy";
 import TransactionPage from "layouts/pos/transaction";
 
+const dashboardRoutes = [
+  {
+    type: "collapse",
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    role: ["*"],
+    component: <Dashboard />,
+  },
+];
+
 const registrationRoutes = [
   {
     type: "divider",
@@ -65,6 +77,28 @@ const registrationRoutes = [
     route: "/fiber",
     component: <FiberTable />,
   },
+];
+
+const employeeRoutes = [
+  {
+    type: "divider",
+    key: "hr-divider",
+    role: ["cashier", "pos"],
+  },
+  {
+    type: "title",
+    title: "Emloyee Details",
+    role: ["hr"],
+    key: "hr",
+  },
+  {
+    type: "collapse",
+    name: "Employee",
+    key: "employee",
+    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
+    route: "/employee",
+    component: <EmployeeTable />,
+  },
   {
     type: "collapse",
     name: "Account - Role",
@@ -75,21 +109,26 @@ const registrationRoutes = [
   },
   {
     type: "collapse",
-    name: "Tuxy",
-    key: "tuxy",
-    icon: <ForestIcon fontSize="small">table-view</ForestIcon>,
-    route: "/tuxy",
-    component: <TuxyTable />,
+    name: "Employee Salary",
+    key: "empsalary",
+    icon: <RequestQuoteIcon fontSize="small">table-view</RequestQuoteIcon>,
+    route: "/empsalary",
+    component: <Empsalary />,
+  },
+];
+
+const expensesRoutes = [
+  {
+    type: "divider",
+    key: "store-divider",
+    role: ["cashier"],
   },
   {
-    type: "collapse",
-    name: "Price Logs",
-    key: "pricelogs",
-    icon: <HistoryIcon fontSize="small">table-view</HistoryIcon>,
-    route: "/pricelogs",
-    component: <PriceLogsTable />,
+    type: "title",
+    title: "Expenses",
+    key: "cashier",
+    role: ["cashier"],
   },
-
   {
     type: "collapse",
     name: "Costing Bill",
@@ -108,7 +147,34 @@ const registrationRoutes = [
   },
 ];
 
-const storeRoutes = [
+const sellablesRoutes = [
+  {
+    type: "divider",
+    key: "store-divider",
+    role: ["cashier"],
+  },
+  {
+    type: "title",
+    title: "Tuxy Products",
+    key: "cashier",
+    role: ["cashier"],
+  },
+  {
+    type: "collapse",
+    name: "Tuxy",
+    key: "tuxy",
+    icon: <ForestIcon fontSize="small">table-view</ForestIcon>,
+    route: "/tuxy",
+    component: <TuxyTable />,
+  },
+  {
+    type: "collapse",
+    name: "Price Logs",
+    key: "pricelogs",
+    icon: <HistoryIcon fontSize="small">table-view</HistoryIcon>,
+    route: "/pricelogs",
+    component: <PriceLogsTable />,
+  },
   {
     type: "collapse",
     name: "Merchant Product",
@@ -117,6 +183,9 @@ const storeRoutes = [
     route: "/merchantProduct",
     component: <MerchantProdTable />,
   },
+];
+
+const storeRoutes = [
   {
     type: "divider",
     key: "store-divider",
@@ -124,7 +193,7 @@ const storeRoutes = [
   },
   {
     type: "title",
-    title: "Store",
+    title: "Merchant Store",
     key: "cashier",
     role: ["cashier"],
   },
@@ -148,18 +217,6 @@ const storeRoutes = [
   },
 ];
 
-const dashboardRoutes = [
-  {
-    type: "collapse",
-    name: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    role: ["*"],
-    component: <Dashboard />,
-  },
-];
-
 const posRoutes = [
   {
     type: "divider",
@@ -168,7 +225,7 @@ const posRoutes = [
   },
   {
     type: "title",
-    title: "Tuxy Sales",
+    title: "Tuxy POS",
     role: ["cashier", "pos"],
     key: "pos",
   },
@@ -203,22 +260,6 @@ const payrollRoutes = [
     title: "Payroll",
     role: ["hr"],
     key: "hr",
-  },
-  {
-    type: "collapse",
-    name: "Employee",
-    key: "employee",
-    icon: <BadgeIcon fontSize="small">table-view</BadgeIcon>,
-    route: "/employee",
-    component: <EmployeeTable />,
-  },
-  {
-    type: "collapse",
-    name: "Employee Salary",
-    key: "empsalary",
-    icon: <RequestQuoteIcon fontSize="small">table-view</RequestQuoteIcon>,
-    route: "/empsalary",
-    component: <Empsalary />,
   },
   {
     type: "collapse",
@@ -274,7 +315,6 @@ const userRoutes = [
     key: "user-divider",
     role: ["*"],
   },
-
   {
     type: "collapse",
     name: "Notifications",
@@ -307,8 +347,11 @@ const userRoutes = [
 const routes = [
   ...dashboardRoutes,
   ...registrationRoutes,
+  ...employeeRoutes,
+  ...expensesRoutes,
   ...storeRoutes,
   ...posRoutes,
+  ...sellablesRoutes,
   ...payrollRoutes,
   ...downloadsRoutes,
   ...userRoutes,
