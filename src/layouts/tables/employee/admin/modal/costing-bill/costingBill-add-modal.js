@@ -10,7 +10,6 @@ import costingBillService from "services/costing-bill-service";
 import { useFormik } from "formik";
 
 import CostingBillSchema, { initialCostingBill } from "../schema/costing-bill-schema";
-import TextFieldDatePicker from "../../textfields/date-picker";
 
 export default function CostingBillModal({ open, onClose, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
@@ -85,44 +84,18 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                      <Grid container spacing={0} sx={{ mt: 2, width: "70%" }}>
-                        <Grid item xs={6} pr={7} mb={6}>
-                          <TextFieldDatePicker
-                            label="Due Date"
-                            name="dueDate"
-                            disabled={loading}
-                            value={formik.values.dueDate}
-                            onChange={(evt) =>
-                              formik?.setFieldValue("dueDate", evt?.toISOString(), true)
-                            }
-                            error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
-                            helperText={formik.touched.dueDate && formik.errors.dueDate}
-                          />
-                        </Grid>
-                        <Grid item xs={6} pr={7} mb={6}>
-                          <TextFieldDatePicker
-                            label="Payment Date"
-                            name="paymentDate"
-                            disabled={loading}
-                            value={formik.values.paymentDate}
-                            onChange={(evt) =>
-                              formik?.setFieldValue("paymentDate", evt?.toISOString(), true)
-                            }
-                            error={formik.touched.paymentDate && Boolean(formik.errors.paymentDate)}
-                            helperText={formik.touched.paymentDate && formik.errors.paymentDate}
-                          />
-                        </Grid>
+                      <Grid container spacing={0} sx={{ mt: 2, width: "80%" }}>
                         <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
-                            name="name"
+                            name="vendorName"
                             label="Name"
                             disabled={loading}
-                            value={formik.values.name}
+                            value={formik.values.vendorName}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
+                            error={formik.touched.vendorName && Boolean(formik.errors.vendorName)}
+                            helperText={formik.touched.vendorName && formik.errors.vendorName}
                             variant="outlined"
                             sx={{ pr: 7, mb: 6 }}
                             fullWidth
@@ -131,21 +104,38 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                         <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
-                            name="type"
-                            label="Type"
-                            variant="outlined"
-                            fullWidth
+                            name="billType"
+                            label="Bill Type"
                             disabled={loading}
-                            value={formik.values.type}
+                            value={formik.values.billType}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.type && Boolean(formik.errors.type)}
-                            helperText={formik.touched.type && formik.errors.type}
+                            error={formik.touched.billType && Boolean(formik.errors.billType)}
+                            helperText={formik.touched.billType && formik.errors.billType}
+                            variant="outlined"
                             sx={{ pr: 7, mb: 6 }}
+                            fullWidth
                           />
                         </Grid>
-
-                        <Grid item xs={6} pr={7} mb={6}>
+                        <Grid item xs={6}>
+                          <TextField
+                            id="outlined-basic"
+                            name="accountNumber"
+                            label="Account Number"
+                            disabled={loading}
+                            value={formik.values.accountNumber}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.accountNumber && Boolean(formik.errors.accountNumber)
+                            }
+                            helperText={formik.touched.accountNumber && formik.errors.accountNumber}
+                            variant="outlined"
+                            sx={{ pr: 7, mb: 6 }}
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
                             name="referenceCode"
@@ -160,6 +150,7 @@ export default function CostingBillModal({ open, onClose, onSuccess }) {
                               formik.touched.referenceCode && Boolean(formik.errors.referenceCode)
                             }
                             helperText={formik.touched.referenceCode && formik.errors.referenceCode}
+                            sx={{ pr: 7, mb: 6 }}
                           />
                         </Grid>
                       </Grid>

@@ -35,22 +35,15 @@ export default function FiberData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "id", headerName: "ID", width: 150 },
-    { field: "name", headerName: "Name", width: 200 },
+    { field: "vendorName", headerName: "Name", width: 200 },
+    { field: "billType", headerName: "Type", width: 200 },
     {
-      field: "importDate",
+      field: "timeCreated",
       headerName: "Time Created",
       renderCell: ({ row }) =>
-        row?.importDate && <Moment format="MM/DD/YYYY hh:mm">{row?.importDate}</Moment>,
+        row?.timeCreated && <Moment format="MM/DD/YYYY hh:mm">{row?.timeCreated}</Moment>,
       width: 200,
     },
-    {
-      field: "dueDate",
-      headerName: "Due Date",
-      renderCell: ({ row }) => row?.dueDate && <Moment format="MM/DD/YYYY">{row?.dueDate}</Moment>,
-      width: 200,
-    },
-    { field: "type", headerName: "Type", width: 200 },
     {
       field: "actions",
       type: "actions",
@@ -124,7 +117,6 @@ export default function FiberData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          getRowId={(row) => row.id}
           rows={costingBills}
           columns={columns}
           pageSize={10}
