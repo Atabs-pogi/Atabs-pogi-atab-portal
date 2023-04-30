@@ -56,9 +56,8 @@ export default function BillsModal({ open, onClose, onSuccess }) {
   const [bills, setBills] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
-  const [saving, setSaving] = React.useState(false);
-  const [encodeDate, setEncodeDate] = React.useState(new Date());
-  const [paymentDate, setPaymentDate] = React.useState(new Date());
+  const [encodeDate, setEncodeDate] = React.useState(null);
+  const [paymentDate, setPaymentDate] = React.useState(null);
 
   React.useEffect(() => {
     setLoading(true);
@@ -87,57 +86,50 @@ export default function BillsModal({ open, onClose, onSuccess }) {
     setItems(items?.filter((item) => item !== i));
   };
 
-  const handleAmountChange = (i) => (evt) => {
-    const nItems = [...items];
-    nItems[i].amount = evt.target.value;
-    setItems(nItems);
-  };
-
-  const handleEncodeDateChange = () => (evt) => {
-    setEncodeDate(evt.target.value);
-  };
-
-  const handlePaymentDateChange = () => (evt) => {
-    setPaymentDate(evt.target.value);
-  };
-
-  const handleIssuedDateChange = (i) => (evt) => {
-    const nItems = [...items];
-    nItems[i].dateIssued = evt.target.value;
-    setItems(nItems);
-  };
-  const handleDueDateChange = (i) => (evt) => {
-    const nItems = [...items];
-    nItems[i].dateDue = evt.target.value;
-    setItems(nItems);
-  };
-  const handleReceiptDateChange = (i) => (evt) => {
-    const nItems = [...items];
-    nItems[i].dateReceived = evt.target.value;
-    setItems(nItems);
-  };
-  const handleDeliveryDateChange = (i) => (evt) => {
-    const nItems = [...items];
-    nItems[i].dateDelivered = evt.target.value;
-    setItems(nItems);
-  };
   const handleBillChange = (i) => (evt) => {
     const nItems = [...items];
     nItems[i].id = evt.target.value;
     setItems(nItems);
   };
 
+  const handleIssuedDateChange = (i) => (date) => {
+    const nItems = [...items];
+    nItems[i].dateIssued = new Date(date);
+    setItems(nItems);
+  };
+  const handleDueDateChange = (i) => (date) => {
+    const nItems = [...items];
+    nItems[i].dateDue = new Date(date);
+    setItems(nItems);
+  };
+  const handleReceiptDateChange = (i) => (date) => {
+    const nItems = [...items];
+    nItems[i].dateReceived = new Date(date);
+    setItems(nItems);
+  };
+  const handleDeliveryDateChange = (i) => (date) => {
+    const nItems = [...items];
+    nItems[i].dateDelivered = new Date(date);
+    setItems(nItems);
+  };
+
+  const handleAmountChange = (i) => (evt) => {
+    const nItems = [...items];
+    nItems[i].amount = evt.target.value;
+    setItems(nItems);
+  };
+
   const total = items?.reduce((val, curr) => parseFloat(curr?.amount || 0) + val, 0);
 
   const handleSave = () => {
-    setSaving(true);
+    setLoading(true);
     generatingBills
       .addBill({
         paymentDate,
         encodeDate,
         totalBillAmount: total,
         items: items?.map(({ id, amount, dateIssued, dateDue, dateReceived, dateDelivered }) => ({
-          category: bills?.find((b) => b.id === id).vendorName,
+          vendorName: bills?.find((b) => b.id === id).vendorName,
           issuanceDate: dateIssued,
           dueDate: dateDue,
           receiptDate: dateReceived,
@@ -150,22 +142,14 @@ export default function BillsModal({ open, onClose, onSuccess }) {
         onSuccess?.();
       })
       .catch((err) => setError(err?.message))
-      .finally(() => setSaving(false));
+      .finally(() => setLoading(false));
   };
-
-  if (loading) {
-    return (
-      <MDBox>
-        <MDBox p={2} style={{ height: 530, width: "100%", position: "relative" }}>
-          Loading
-        </MDBox>
-      </MDBox>
-    );
-  }
 
   const handleClose = () => {
     onClose?.();
   };
+
+  console.log(items);
 
   return (
     <Modal
@@ -192,17 +176,17 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                 label="Encode Date"
                 txprops={{ sx: { width: 200, mx: 2 } }}
                 value={encodeDate}
-                onChange={handleEncodeDateChange}
+                onChange={(date) => setEncodeDate(new Date(date))}
                 format="MM/DD/YYYY"
-                disabled={saving}
+                disabled={loading}
               />
               <TextFieldDatePicker
                 label="Payment Date"
                 txprops={{ sx: { width: 200, mx: 2 } }}
                 value={paymentDate}
-                onChange={handlePaymentDateChange}
+                onChange={(date) => setPaymentDate(new Date(date))}
                 format="MM/DD/YYYY"
-                disabled={saving}
+                disabled={loading}
               />
             </MDBox>
 
@@ -210,9 +194,9 @@ export default function BillsModal({ open, onClose, onSuccess }) {
               <TableHead sx={{ display: "table-header-group" }}>
                 <TableRow>
                   <TableCell>
-                    Costing Bill
+                    Generate Bill
                     <IconButton
-                      disabled={saving}
+                      disabled={loading}
                       variant="contained"
                       color="info"
                       onClick={handleAdd}
@@ -235,7 +219,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                       sx={{ display: "flex", flexDirection: "row" }}
                     >
                       <IconButton
-                        disabled={saving}
+                        disabled={loading}
                         variant="contained"
                         color="info"
                         onClick={handleDelete(item)}
@@ -244,7 +228,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                         <DeleteIcon color="error" />
                       </IconButton>
                       <BillSelect
-                        disabled={saving}
+                        disabled={loading}
                         items={bills}
                         value={item?.id}
                         onChange={handleBillChange(index)}
@@ -253,33 +237,33 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                         label="Issuance Date"
                         txprops={{ sx: { width: 200, mx: 2 } }}
                         value={item?.dateIssued}
-                        onChange={handleIssuedDateChange}
+                        onChange={handleIssuedDateChange(index)}
                         format="MM/DD/YYYY"
-                        disabled={saving}
+                        disabled={loading}
                       />
                       <TextFieldDatePicker
                         label="Due Date"
                         txprops={{ sx: { width: 200, mx: 2 } }}
                         value={item?.dateDue}
-                        onChange={handleDueDateChange}
+                        onChange={handleDueDateChange(index)}
                         format="MM/DD/YYYY"
-                        disabled={saving}
+                        disabled={loading}
                       />
                       <TextFieldDatePicker
                         label="Receipt Date"
                         txprops={{ sx: { width: 200, mx: 2 } }}
                         value={item?.dateReceived}
-                        onChange={handleReceiptDateChange}
+                        onChange={handleReceiptDateChange(index)}
                         format="MM/DD/YYYY"
-                        disabled={saving}
+                        disabled={loading}
                       />
                       <TextFieldDatePicker
                         label="Delivery Date"
                         txprops={{ sx: { width: 200, mx: 2 } }}
                         value={item?.dateDelivered}
-                        onChange={handleDeliveryDateChange}
+                        onChange={handleDeliveryDateChange(index)}
                         format="MM/DD/YYYY"
-                        disabled={saving}
+                        disabled={loading}
                       />
                     </TableCell>
                     <TableCell align="right">
@@ -288,7 +272,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                         value={item?.amount}
                         onChange={handleAmountChange(index)}
                         type="number"
-                        disabled={saving}
+                        disabled={loading}
                       />
                     </TableCell>
                   </TableRow>
@@ -310,7 +294,7 @@ export default function BillsModal({ open, onClose, onSuccess }) {
                     // !item?.dateDue ||
                     // !item?.dateReceived ||
                     // !item?.dateDelivered ||
-                    saving
+                    loading
                   }
                   variant="contained"
                   onClick={handleSave}

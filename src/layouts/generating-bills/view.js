@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
+import TextFieldDatePicker from "layouts/tables/employee/admin/textfields/date-picker";
 
 function BillSelect({ items, ...props }) {
   return (
@@ -49,6 +50,8 @@ export default function BillsViewModal({ selected, open, onClose }) {
     onClose?.();
   };
 
+  console.log(selected);
+
   return (
     <Modal
       keepMounted
@@ -70,12 +73,26 @@ export default function BillsViewModal({ selected, open, onClose }) {
               </IconButton>
             </MDBox>
             <MDBox mb={1}>
-              <TextField value={selected?.monthYear} readOnly />
+              <TextFieldDatePicker
+                label="Encode Date"
+                txprops={{ sx: { width: 200, mx: 2 } }}
+                value={selected?.encodeDate}
+                format="MM/DD/YYYY"
+                readOnly
+              />
+              <TextFieldDatePicker
+                label="Payment Date"
+                txprops={{ sx: { width: 200, mx: 2 } }}
+                value={selected?.paymentDate}
+                format="MM/DD/YYYY"
+                readOnly
+              />
             </MDBox>
             <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
               <TableHead sx={{ display: "table-header-group" }}>
                 <TableRow>
-                  <TableCell>Costing Bill</TableCell>
+                  <TableCell>Bill Report</TableCell>
+                  <TableCell />
                   <TableCell align="right">Amount</TableCell>
                 </TableRow>
               </TableHead>
@@ -83,24 +100,58 @@ export default function BillsViewModal({ selected, open, onClose }) {
                 {selected?.items?.map?.((item) => (
                   <TableRow
                     key={item?.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
                   >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{ display: "flex", flexDirection: "row" }}
-                    >
-                      {item?.category}
+                    <TableCell component="th" scope="row">
+                      {item?.vendorName}
                     </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      <TextFieldDatePicker
+                        label="Issuance Date"
+                        txprops={{ sx: { width: 200, mx: 2 } }}
+                        value={item?.issuanceDate}
+                        format="MM/DD/YYYY"
+                        readOnly
+                      />
+                      <TextFieldDatePicker
+                        label="Due Date"
+                        txprops={{ sx: { width: 200, mx: 2 } }}
+                        value={item?.dueDate}
+                        format="MM/DD/YYYY"
+                        readOnly
+                      />
+                      <TextFieldDatePicker
+                        label="Receipt Date"
+                        txprops={{ sx: { width: 200, mx: 2 } }}
+                        value={item?.receiptDate}
+                        format="MM/DD/YYYY"
+                        readOnly
+                      />
+                      <TextFieldDatePicker
+                        label="Delivery Date"
+                        txprops={{ sx: { width: 200, mx: 2 } }}
+                        value={item?.deliveryDate}
+                        format="MM/DD/YYYY"
+                        readOnly
+                      />
+                    </TableCell>
+
                     <TableCell align="right">
-                      <TextField value={item?.amount} type="number" readOnly />
+                      <TextField value={item?.billAmount} type="number" readOnly />
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
             <MDBox p={2} textAlign="right">
-              <TextField value={selected?.totalAmount || 0} label="Total" readOnly type="number" />
+              <TextField
+                value={selected?.totalBillAmount || 0}
+                label="Total"
+                readOnly
+                type="number"
+              />
             </MDBox>
           </TableContainer>
         </MDBox>

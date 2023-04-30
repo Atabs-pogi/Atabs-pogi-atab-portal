@@ -34,26 +34,32 @@ export default function EmployeeData() {
 
   const columns = React.useMemo(() => [
     { field: "id", headerName: "ID", width: 100 },
-    { field: "monthYear", headerName: "Date", width: 200 },
-    { field: "totalAmount", headerName: "Total Amount", width: 200 },
     {
-      field: "items",
-      headerName: "Total Items",
-      width: 150,
-      valueGetter: (params) => params?.row?.items.length || 0,
+      field: "encodeDate",
+      headerName: "Encode Date",
+      renderCell: ({ row }) =>
+        row?.encodeDate && <Moment format="MM/DD/YYYY">{row?.encodeDate}</Moment>,
+      width: 300,
     },
     {
       field: "paymentDate",
       headerName: "Payment Date",
       renderCell: ({ row }) =>
-        row?.importDate && <Moment format="MM/DD/YYYY">{row?.importDate}</Moment>,
+        row?.paymentDate && <Moment format="MM/DD/YYYY">{row?.paymentDate}</Moment>,
       width: 300,
     },
+    {
+      field: "items",
+      headerName: "Total Items",
+      width: 300,
+      valueGetter: (params) => params?.row?.items.length || 0,
+    },
+    { field: "totalBillAmount", headerName: "Total Amount", width: 200 },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 150,
+      width: 300,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem

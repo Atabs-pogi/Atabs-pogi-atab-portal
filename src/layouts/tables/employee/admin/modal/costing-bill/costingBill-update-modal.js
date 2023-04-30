@@ -86,43 +86,17 @@ export default function CostingBillUpdateModal({ selected, open, onClose, onSucc
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
                       <Grid container spacing={0} sx={{ mt: 2 }}>
-                        {/* <Grid item xs={6} pr={7} mb={6}>
-                          <TextFieldDatePicker
-                            label="Due Date"
-                            name="dueDate"
-                            disabled={loading}
-                            value={formik.values.dueDate}
-                            onChange={(evt) =>
-                              formik?.setFieldValue("dueDate", evt?.toISOString(), true)
-                            }
-                            error={formik.touched.dueDate && Boolean(formik.errors.dueDate)}
-                            helperText={formik.touched.dueDate && formik.errors.dueDate}
-                          />
-                        </Grid>
-                        <Grid item xs={6} pr={7} mb={6}>
-                          <TextFieldDatePicker
-                            label="Payment Date"
-                            name="paymentDate"
-                            disabled={loading}
-                            value={formik.values.paymentDate}
-                            onChange={(evt) =>
-                              formik?.setFieldValue("paymentDate", evt?.toISOString(), true)
-                            }
-                            error={formik.touched.paymentDate && Boolean(formik.errors.paymentDate)}
-                            helperText={formik.touched.paymentDate && formik.errors.paymentDate}
-                          />
-                        </Grid> */}
                         <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
-                            name="name"
+                            name="vendorName"
                             label="Name"
                             disabled={loading}
-                            value={formik.values.name}
+                            value={formik.values.vendorName}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
+                            error={formik.touched.vendorName && Boolean(formik.errors.vendorName)}
+                            helperText={formik.touched.vendorName && formik.errors.vendorName}
                             variant="outlined"
                             sx={{ pr: 7, mb: 6 }}
                             fullWidth
@@ -131,16 +105,16 @@ export default function CostingBillUpdateModal({ selected, open, onClose, onSucc
                         <Grid item xs={6}>
                           <TextField
                             id="outlined-basic"
-                            name="type"
+                            name="billType"
                             label="Type"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.type}
+                            value={formik.values.billType}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.type && Boolean(formik.errors.type)}
-                            helperText={formik.touched.type && formik.errors.type}
+                            error={formik.touched.billType && Boolean(formik.errors.billType)}
+                            helperText={formik.touched.billType && formik.errors.billType}
                             sx={{ pr: 7, mb: 6 }}
                           />
                         </Grid>
