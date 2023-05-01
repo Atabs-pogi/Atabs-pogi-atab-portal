@@ -1,22 +1,26 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { Card, CardActions, Grid, TextField } from "@mui/material";
+import { Card, CardActions, Grid, TextField, Typography } from "@mui/material";
 import MDBox from "components/MDBox";
 import AddIcon from "@mui/icons-material/Add";
 import MDButton from "components/MDButton";
 import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import SearchIcon from "@mui/icons-material/Search";
 import TransactionCart from "./cart";
 import ItemModal from "./item-add-modal";
 import CheckoutModal from "./checkout-modal";
 import SummaryModal from "./summary-modal";
+import FarmerModal from "./select-farmer-modal";
 
 export default function TransactionPage() {
   const [itemOpen, setItemOpen] = React.useState(false);
   const [items, setItems] = React.useState([]);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [transId, setTransId] = React.useState(null);
+  const [farmerOpen, setFarmerOpen] = React.useState(false);
+  const [farmer, setFarmer] = React.useState(null);
 
   const handleChange = (item) => {
     const index = items?.findIndex((p) => p?.id === item?.id);
@@ -77,6 +81,18 @@ export default function TransactionPage() {
     setItems(items?.filter((i) => i?.id !== item?.id));
   };
 
+  const handleSelectFarmer = () => {
+    setFarmerOpen(true);
+  };
+
+  const handleCloseFarmer = () => {
+    setFarmerOpen(false);
+  };
+
+  const handleFarmer = (f) => {
+    setFarmer(f);
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -93,6 +109,12 @@ export default function TransactionPage() {
         items={items}
         onSuccess={onSuccessConfirm}
       />
+      <FarmerModal
+        open={farmerOpen}
+        onClose={handleCloseFarmer}
+        farmer={farmer}
+        onFarmerSelect={handleFarmer}
+      />
       <SummaryModal open={!!transId} onClose={handleCloseSummary} transId={transId} />
       <MDBox pb={1}>
         <Grid container spacing={6}>
@@ -107,6 +129,25 @@ export default function TransactionPage() {
               <AddIcon sx={{ mr: 1 }} />
               Add Item
             </MDButton>
+            <MDButton
+              variant="contained"
+              color="success"
+              size="sm"
+              onClick={handleSelectFarmer}
+              sx={{ mr: 2 }}
+            >
+              <SearchIcon sx={{ mr: 1 }} />
+              Select Farmer
+            </MDButton>
+            <TextField
+              label={<Typography color="red">*</Typography> || ""}
+              value={
+                farmer?.farmerId
+                  ? `${farmer?.firstName} ${farmer?.middleName} ${farmer?.lastName}`
+                  : "Farmer Name"
+              }
+              readOnly
+            />
           </Grid>
           <Grid item xs={12} sx={{ marginTop: "-40px" }}>
             <Card>
@@ -132,7 +173,7 @@ export default function TransactionPage() {
                     variant="contained"
                     color="info"
                     size="sm"
-                    disabled={totalPrice === 0}
+                    disabled={!(totalPrice > 0 && farmer?.farmerId)}
                     onClick={handleConfirmAdd}
                   >
                     Checkout
