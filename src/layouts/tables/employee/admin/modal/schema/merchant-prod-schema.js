@@ -1,15 +1,25 @@
 import { string, object } from "yup";
 
 export const MerchantProdSchema = object().shape({
-  item: string().required("Required"),
-  price: string().required("Required"),
+  productCategory: string().required("Required"),
+  productName: string().required("Required"),
+  unit: string().required("Required"),
+  unitPrice: string().required("Required"),
+  costPrice: string().required("Required"),
+  originalPrice: string().required("Required"),
   quantity: string().required("Required"),
+  minimumStock: string().required("Required"),
 });
 
 export const initialMerchantProd = {
-  item: "",
-  price: "",
+  productCategory: "",
+  productName: "",
+  unit: "",
+  unitPrice: "",
+  costPrice: "",
+  originalPrice: "",
   quantity: "",
+  minimumStock: "",
 };
 
 export default MerchantProdSchema;

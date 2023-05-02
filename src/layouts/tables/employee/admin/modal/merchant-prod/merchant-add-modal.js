@@ -27,6 +27,7 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
       merchantService
         .addMerchProd(formik.values)
         .then(() => {
+          formik?.resetForm();
           onSuccess?.();
         })
         .catch((err) => {
@@ -82,41 +83,78 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
                       </Typography>
                     </MDBox>
                     <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                      <Grid container spacing={0}>
-                        <Grid item xs={12}>
+                      <Grid container sx={{ width: "90%" }}>
+                        <Grid item xs={6} mt={2}>
                           <TextField
                             id="outlined-basic"
-                            name="item"
-                            label="Item"
+                            name="productCategory"
+                            label="Category"
                             disabled={loading}
-                            value={formik.values.item}
+                            value={formik.values.productCategory}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.item && Boolean(formik.errors.item)}
-                            helperText={formik.touched.item && formik.errors.item}
+                            error={
+                              formik.touched.productCategory &&
+                              Boolean(formik.errors.productCategory)
+                            }
+                            helperText={
+                              formik.touched.productCategory && formik.errors.productCategory
+                            }
                             variant="outlined"
-                            sx={{ mb: 4, width: "25%" }}
+                            sx={{ mb: 4, width: "70%" }}
                             fullWidth
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={6} mt={2}>
                           <TextField
                             id="outlined-basic"
-                            name="price"
-                            label="Price"
+                            name="productName"
+                            label="Name"
+                            disabled={loading}
+                            value={formik.values.productName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.productName && Boolean(formik.errors.productName)}
+                            helperText={formik.touched.productName && formik.errors.productName}
+                            variant="outlined"
+                            sx={{ mb: 4, width: "70%" }}
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            name="unit"
+                            label="Unit"
+                            disabled={loading}
+                            value={formik.values.unit}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.unit && Boolean(formik.errors.unit)}
+                            helperText={formik.touched.unit && formik.errors.unit}
+                            variant="outlined"
+                            sx={{ mb: 4, width: "70%" }}
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            name="unitPrice"
+                            label="Unit Price"
                             type="number"
                             variant="outlined"
                             fullWidth
                             disabled={loading}
-                            value={formik.values.price}
+                            value={formik.values.unitPrice}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBLur}
-                            error={formik.touched.price && Boolean(formik.errors.price)}
-                            helperText={formik.touched.price && formik.errors.price}
-                            sx={{ mb: 4, width: "25%" }}
+                            error={formik.touched.unitPrice && Boolean(formik.errors.unitPrice)}
+                            helperText={formik.touched.unitPrice && formik.errors.unitPrice}
+                            sx={{ mb: 4, width: "70%" }}
                           />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={6} mt={2}>
                           <TextField
                             id="outlined-basic"
                             name="quantity"
@@ -130,7 +168,59 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
                             onBlur={formik.handleBLur}
                             error={formik.touched.quantity && Boolean(formik.errors.quantity)}
                             helperText={formik.touched.quantity && formik.errors.quantity}
-                            sx={{ mb: 4, width: "25%" }}
+                            sx={{ mb: 4, width: "70%" }}
+                          />
+                        </Grid>
+                        <Grid item xs={6} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            name="costPrice"
+                            label="Cost Price"
+                            type="number"
+                            disabled={loading}
+                            value={formik.values.costPrice}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.costPrice && Boolean(formik.errors.costPrice)}
+                            helperText={formik.touched.costPrice && formik.errors.costPrice}
+                            variant="outlined"
+                            sx={{ mb: 4, width: "70%" }}
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            name="minimumStock"
+                            label="Minimum Stock"
+                            type="number"
+                            disabled={loading}
+                            value={formik.values.minimumStock}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBLur}
+                            error={
+                              formik.touched.minimumStock && Boolean(formik.errors.minimumStock)
+                            }
+                            helperText={formik.touched.minimumStock && formik.errors.minimumStock}
+                            variant="outlined"
+                            sx={{ mb: 4, width: "70%" }}
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6} mt={2}>
+                          <TextField
+                            id="outlined-basic"
+                            name="originalPrice"
+                            label="Original Price"
+                            type="number"
+                            value={formik.values.unitPrice}
+                            onBlur={formik.handleBLur}
+                            error={formik.touched.unitPrice && Boolean(formik.errors.unitPrice)}
+                            helperText={formik.touched.unitPrice && formik.errors.unitPrice}
+                            variant="outlined"
+                            sx={{ mb: 4, width: "70%" }}
+                            fullWidth
+                            disabled
                           />
                         </Grid>
                       </Grid>

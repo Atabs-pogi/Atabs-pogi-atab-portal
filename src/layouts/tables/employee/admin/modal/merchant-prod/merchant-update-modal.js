@@ -75,53 +75,128 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
                   </MDBox>
                   <MDBox>
                     <Typography variant="h3" component="h2" sx={{ fontSize: 18, my: 3 }}>
-                      Merchant Product Information ({merchantProd?.productId})
+                      Merchant Product Information ({merchantProd?.id})
                     </Typography>
                   </MDBox>
                   <MDBox className="modal-content" sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={0}>
-                      <Grid item xs={12}>
+                    <Grid container sx={{ width: "90%" }}>
+                      <Grid item xs={6} mt={2}>
                         <TextField
                           id="outlined-basic"
-                          label="Item"
-                          name="item"
+                          label="Category"
+                          name="productCategory"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
+                          sx={{ mb: 4, width: "70%" }}
                           disabled={loading}
-                          defaultValue={merchantProd?.item}
+                          defaultValue={merchantProd?.productCategory}
                           onChange={(evt) =>
-                            setMerchantProd({ ...merchantProd, item: evt.target.value })
+                            setMerchantProd({ ...merchantProd, productCategory: evt.target.value })
                           }
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={6} mt={2}>
                         <TextField
                           id="outlined-basic"
-                          label="Price"
-                          name="price"
+                          label="Name"
+                          name="productName"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
-                          defaultValue={merchantProd?.price}
+                          sx={{ mb: 4, width: "70%" }}
+                          disabled={loading}
+                          defaultValue={merchantProd?.productName}
                           onChange={(evt) =>
-                            setMerchantProd({ ...merchantProd, price: evt.target.value })
+                            setMerchantProd({ ...merchantProd, productName: evt.target.value })
                           }
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={6} mt={2}>
+                        <TextField
+                          id="outlined-basic"
+                          label="Unit"
+                          name="unit"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mb: 4, width: "70%" }}
+                          disabled={loading}
+                          defaultValue={merchantProd?.unit}
+                          onChange={(evt) =>
+                            setMerchantProd({ ...merchantProd, unit: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={6} mt={2}>
+                        <TextField
+                          id="outlined-basic"
+                          label="Unit Price"
+                          name="unitPrice"
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mb: 4, width: "70%" }}
+                          defaultValue={merchantProd?.unitPrice}
+                          onChange={(evt) =>
+                            setMerchantProd({ ...merchantProd, unitPrice: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={6} mt={2}>
                         <TextField
                           id="outlined-basic"
                           label="Quantity"
                           name="quantity"
+                          type="number"
                           variant="outlined"
                           fullWidth
-                          sx={{ mb: 4, width: "25%" }}
+                          sx={{ mb: 4, width: "70%" }}
                           disabled={loading}
                           defaultValue={merchantProd?.quantity}
                           onChange={(evt) =>
                             setMerchantProd({ ...merchantProd, quantity: evt.target.value })
                           }
+                        />
+                      </Grid>
+                      <Grid item xs={6} mt={2}>
+                        <TextField
+                          id="outlined-basic"
+                          label="Cost Price"
+                          name="costPrice"
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mb: 4, width: "70%" }}
+                          defaultValue={merchantProd?.costPrice}
+                          onChange={(evt) =>
+                            setMerchantProd({ ...merchantProd, costPrice: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={6} mt={2}>
+                        <TextField
+                          id="outlined-basic"
+                          label="Minimum Stock"
+                          name="minimumStock"
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mb: 4, width: "70%" }}
+                          defaultValue={merchantProd?.minimumStock}
+                          onChange={(evt) =>
+                            setMerchantProd({ ...merchantProd, minimumStock: evt.target.value })
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={6} mt={2}>
+                        <TextField
+                          id="outlined-basic"
+                          label="Original Price"
+                          name="originalPrice"
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ mb: 4, width: "70%" }}
+                          value={merchantProd?.originalPrice}
+                          disabled
                         />
                       </Grid>
                     </Grid>

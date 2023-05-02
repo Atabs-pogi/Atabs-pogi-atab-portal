@@ -34,21 +34,24 @@ export default function MerchantData() {
   };
 
   const columns = React.useMemo(() => [
-    { field: "productId", headerName: "ID", width: 150 },
-    { field: "item", headerName: "Item", width: 150 },
-    { field: "price", headerName: "Price", width: 200, type: "number" },
-    { field: "quantity", headerName: "Quantity", width: 200 },
+    { field: "id", headerName: "ID", width: 150 },
+    { field: "productCategory", headerName: "Category", width: 150 },
+    { field: "productName", headerName: "Name", width: 150 },
+    { field: "unitPrice", headerName: "Unit Price", width: 150, type: "number" },
+    { field: "costPrice", headerName: "Cost Price", width: 150, type: "number" },
+    { field: "originalPrice", headerName: "Original Price", width: 150 },
+    { field: "quantity", headerName: "Quantity", width: 150 },
     {
       field: "status",
       headerName: "Status",
-      width: 200,
+      width: 150,
       valueGetter: (params) => ["Inactive", "Active"][params?.row?.status] || "Unknown",
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 200,
+      width: 150,
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params) => [
         <GridActionsCellItem
@@ -57,7 +60,7 @@ export default function MerchantData() {
           label="Update"
         />,
         <MerchantProdUpdateModal
-          open={params.id === selected?.productId}
+          open={params.id === selected?.id}
           onClose={UpdateHandleClose}
           selected={params.row}
           onSuccess={() => {
@@ -117,7 +120,6 @@ export default function MerchantData() {
       </Grid>
       <div style={{ height: 530, width: "100%", position: "relative" }}>
         <DataGrid
-          getRowId={(row) => row.productId}
           rows={merchantProd}
           columns={columns}
           pageSize={10}
