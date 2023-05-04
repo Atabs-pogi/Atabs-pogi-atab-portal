@@ -57,9 +57,9 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
                     {item?.name}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
-                  <TableCell align="right">{item?.price}</TableCell>
+                  <TableCell align="right">{item?.costPrice}</TableCell>
                   <TableCell align="right">
-                    {parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0)}
+                    {parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0)}
                   </TableCell>
                 </TableRow>
               ))}

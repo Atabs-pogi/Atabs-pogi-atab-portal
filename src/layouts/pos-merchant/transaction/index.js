@@ -31,7 +31,7 @@ export default function TransactionPage() {
 
   const totalPrice =
     items?.reduce(
-      (val, item) => val + parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0),
+      (val, item) => val + parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0),
       0
     ) || 0;
 

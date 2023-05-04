@@ -36,6 +36,14 @@ export default function MerchantProdUpdateModal({ selected, open, onClose, onSuc
       });
   };
 
+  React.useEffect(() => {
+    if (merchantProd?.quantity < merchantProd?.minimumStock) {
+      alert("Minimum Stock shouldn't be larger than quantity");
+      merchantProd.quantity = "";
+      merchantProd.minimumStock = "";
+    }
+  }, [merchantProd?.quantity, merchantProd?.minimumStock]);
+
   return (
     <Modal
       keepMounted

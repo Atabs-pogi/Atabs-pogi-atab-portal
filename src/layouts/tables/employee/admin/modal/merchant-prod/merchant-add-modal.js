@@ -39,6 +39,14 @@ export default function MerchantProdModal({ open, onClose, onSuccess }) {
     },
   });
 
+  React.useEffect(() => {
+    if (formik.values.quantity < formik.values.minimumStock) {
+      alert("Minimum Stock shouldn't be larger than quantity");
+      formik.values.quantity = "";
+      formik.values.minimumStock = "";
+    }
+  }, [formik.values.quantity, formik.values.minimumStock]);
+
   return (
     <Modal
       keepMounted

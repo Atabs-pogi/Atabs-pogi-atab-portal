@@ -33,7 +33,7 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
     posMerchantService
       .save({
         items: items?.map?.((item) => ({
-          productId: item?.productId,
+          id: item?.id,
           quantity: item?.quantity,
         })),
         payment,
@@ -57,7 +57,7 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
 
   const totalPrice =
     items?.reduce((val, item) => {
-      const subTotal = parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0);
+      const subTotal = parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0);
       return val + subTotal;
     }, 0) || 0;
 
@@ -87,17 +87,14 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
             </TableHead>
             <TableBody>
               {items?.map?.((item) => (
-                <TableRow
-                  key={item?.productId}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
+                <TableRow key={item?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell component="th" scope="row">
-                    {item?.item}
+                    {item?.productName}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
-                  <TableCell align="right">{parseFloat(item?.price)}</TableCell>
+                  <TableCell align="right">{parseFloat(item?.costPrice)}</TableCell>
                   <TableCell align="right">
-                    {parseFloat(item?.price || 0) * parseFloat(item?.quantity || 0)}
+                    {parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0)}
                   </TableCell>
                 </TableRow>
               ))}

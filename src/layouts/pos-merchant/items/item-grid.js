@@ -9,6 +9,8 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
     if (row?.count < 1) onItemAdd?.(row);
   };
 
+  console.log(onItemAdd);
+
   const columns = React.useMemo(() => [
     {
       field: "actions",
@@ -34,15 +36,14 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
         />,
       ],
     },
-    { field: "item", headerName: "Item", width: 200 },
-    { field: "price", headerName: "Price", width: 200 },
+    { field: "productName", headerName: "Item", width: 200 },
+    { field: "costPrice", headerName: "Price", width: 200 },
     { field: "quantity", headerName: "Quantity", width: 200 },
     { field: "status", headerName: "Status", width: 200 },
   ]);
 
   return (
     <DataGrid
-      getRowId={(row) => row.productId}
       rows={items}
       columns={columns}
       pageSize={10}

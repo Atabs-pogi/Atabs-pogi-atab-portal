@@ -37,7 +37,7 @@ export default function ItemModal({ open, onClose, items: selectedItems, onItemA
   }, []);
 
   const addCount = React.useCallback(
-    (item) => selectedItems?.filter((s) => s?.productId === item?.productId)?.length || 0,
+    (item) => selectedItems?.filter((s) => s?.id === item?.id)?.length || 0,
     [selectedItems]
   );
 

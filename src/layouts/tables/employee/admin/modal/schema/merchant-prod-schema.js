@@ -6,7 +6,6 @@ export const MerchantProdSchema = object().shape({
   unit: string().required("Required"),
   unitPrice: string().required("Required"),
   costPrice: string().required("Required"),
-  originalPrice: string().required("Required"),
   quantity: string().required("Required"),
   minimumStock: string().required("Required"),
 });
@@ -17,7 +16,6 @@ export const initialMerchantProd = {
   unit: "",
   unitPrice: "",
   costPrice: "",
-  originalPrice: "",
   quantity: "",
   minimumStock: "",
 };
