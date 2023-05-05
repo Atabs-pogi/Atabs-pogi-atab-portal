@@ -26,17 +26,21 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
     } else if (!Number.isNaN(evt?.target?.value)) setPayment(parseFloat(evt?.target?.value));
   };
 
+  console.log(items);
+
   const handleSave = () => {
     setError("");
     setLoading(true);
     setPayment(0);
     posMerchantService
       .save({
-        items: items?.map?.((item) => ({
-          id: item?.id,
-          quantity: item?.quantity,
-        })),
-        payment,
+        items: items?.map?.((item) => [
+          {
+            productId: item?.id,
+            quantity: item?.quantity,
+          },
+        ]),
+        paid: payment,
       })
       .then((t) => {
         onSuccess?.(t?.transMerchantId || t);

@@ -41,7 +41,7 @@ export default function ItemModal({ open, onClose, items: selectedItems, onItemA
     [selectedItems]
   );
 
-  const listItems = items?.map?.((item) => ({
+  const listItems = items?.map((item) => ({
     ...item,
     count: addCount(item),
   }));

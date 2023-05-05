@@ -9,8 +9,6 @@ export default function ItemGrid({ items, loading, onItemAdd }) {
     if (row?.count < 1) onItemAdd?.(row);
   };
 
-  console.log(onItemAdd);
-
   const columns = React.useMemo(() => [
     {
       field: "actions",

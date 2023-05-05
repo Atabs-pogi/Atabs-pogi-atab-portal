@@ -1,5 +1,5 @@
 import React from "react";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import { Card, CardActions, Grid, TextField, Typography } from "@mui/material";
 import MDBox from "components/MDBox";
 import AddIcon from "@mui/icons-material/Add";
@@ -53,7 +53,6 @@ export default function TransactionPage() {
       ...items,
       {
         ...item,
-        id: uuid(),
         quantity: 1,
       },
     ]);
