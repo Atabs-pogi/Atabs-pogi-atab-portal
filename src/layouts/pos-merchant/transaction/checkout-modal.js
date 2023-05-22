@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import posMerchantService from "services/pos-merchant-service";
 
-export default function CheckoutModal({ open, onClose, items, onSuccess }) {
+export default function CheckoutModal({ open, onClose, items, onSuccess, farmer }) {
   const [payment, setPayment] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -28,19 +28,31 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
 
   console.log(items);
 
+  const totalPrice =
+    items?.reduce((val, item) => {
+      const subTotal = parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0);
+      return val + subTotal;
+    }, 0) || 0;
+
   const handleSave = () => {
     setError("");
     setLoading(true);
     setPayment(0);
     posMerchantService
       .save({
-        items: items?.map?.((item) => [
-          {
-            productId: item?.id,
-            quantity: item?.quantity,
-          },
-        ]),
-        paid: payment,
+        farmerId: farmer?.farmerId,
+        cashierId: farmer?.farmerId,
+        totalAmount: parseFloat(totalPrice),
+        totalItem: items.length,
+        amountChange: parseFloat(payment || 0) - parseFloat(totalPrice || 0),
+        payment: parseFloat(payment),
+        items: items?.map?.((item) => ({
+          productId: item?.id,
+          name: item?.productName,
+          quantity: item?.quantity,
+          price: item?.costPrice,
+          subAmount: parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0),
+        })),
       })
       .then((t) => {
         onSuccess?.(t?.transMerchantId || t);
@@ -53,17 +65,27 @@ export default function CheckoutModal({ open, onClose, items, onSuccess }) {
       });
   };
 
+  console.log({
+    farmerId: farmer?.farmerId,
+    cashierId: farmer?.farmerId,
+    totalAmount: parseFloat(totalPrice),
+    totalItem: parseFloat(items.length),
+    amountChange: parseFloat(payment || 0) - parseFloat(totalPrice || 0),
+    payment: parseFloat(payment),
+    items: items?.map?.((item) => ({
+      productId: item?.id,
+      name: item?.productName,
+      quantity: item?.quantity,
+      price: item?.costPrice,
+      subAmount: parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0),
+    })),
+  });
+
   const handleClose = () => {
     setError("");
     setLoading(false);
     onClose?.();
   };
-
-  const totalPrice =
-    items?.reduce((val, item) => {
-      const subTotal = parseFloat(item?.costPrice || 0) * parseFloat(item?.quantity || 0);
-      return val + subTotal;
-    }, 0) || 0;
 
   return (
     <Modal
@@ -144,6 +166,7 @@ CheckoutModal.defaultProps = {
   onClose: () => {},
   items: [],
   onSuccess: () => {},
+  farmer: null,
 };
 
 CheckoutModal.propTypes = {
@@ -153,4 +176,5 @@ CheckoutModal.propTypes = {
   items: PropTypes.array,
   onSuccess: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
+  farmer: PropTypes.object,
 };

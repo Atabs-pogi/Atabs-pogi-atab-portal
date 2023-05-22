@@ -54,7 +54,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {item?.name}
+                    {item?.productName}
                   </TableCell>
                   <TableCell align="right">{item?.quantity}</TableCell>
                   <TableCell align="right">{item?.costPrice}</TableCell>
@@ -71,7 +71,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
         <MDBox sx={{ display: "inline-block" }}>
           <TextField
             label="Payment"
-            value={selected?.paid || 0}
+            value={selected?.payment || 0}
             readOnly
             variant="outlined"
             sx={{ m: 1 }}
@@ -89,7 +89,7 @@ export default function ConfirmModal({ open, onClose, onSuccess, selected }) {
         <MDBox sx={{ display: "inline-block" }}>
           <TextField
             label="Change"
-            value={selected?.changed || 0}
+            value={selected?.amountChange || 0}
             readOnly
             variant="outlined"
             sx={{ m: 1 }}

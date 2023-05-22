@@ -107,6 +107,7 @@ export default function TransactionPage() {
         onClose={handleConfirmClose}
         items={items}
         onSuccess={onSuccessConfirm}
+        farmer={farmer}
       />
       <FarmerModal
         open={farmerOpen}
